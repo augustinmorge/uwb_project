@@ -1,6 +1,7 @@
+#!/usr/bin/python3
 from roblib import array, cos, sin, inv, sawtooth, scatter, norm, plot, arctan2, vstack, diag, mvnrnd1, sqrtm, eig
 from roblib import Ellipse, eye, log, init_figure, draw_tank, pause, clear, plt
-from roblib import pi, linspace, zeros, sqrt, arange
+from roblib import pi, linspace, zeros, sqrt, arange, eulermat, eulerderivative
 from numpy import linalg, random
 import numpy as np
 
@@ -47,7 +48,7 @@ def g_old(x, Xhat):
     wp_detected = False
     H = zeros((1,5))
     y = zeros((1,1))
-    Beta = [] 
+    Beta = []
     global col
     for i in range(Wps.shape[1]):
         a=Wps[:,i].flatten() #wps(i) in (xi,yi)
@@ -62,8 +63,8 @@ def g_old(x, Xhat):
             if not wp_detected:
                     H = Hi; y = yi
             else:
-                H = vstack((H,Hi)); y = vstack((y,yi))   
-            Beta.append(0.011)  
+                H = vstack((H,Hi)); y = vstack((y,yi))
+            Beta.append(0.011)
 
             wp_detected = True
 
@@ -72,5 +73,5 @@ def g_old(x, Xhat):
     Γβ = diag(Beta)
     if len(Beta) != 0:
         y = y + mvnrnd1(Γβ)
-    
+
     return H, y, Γβ, wp_detected

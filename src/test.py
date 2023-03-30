@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from roblib import *  # available at https://www.ensta-bretagne.fr/jaulin/roblib.py
 
 def draw(x,u,ax):

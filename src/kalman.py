@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import toolbox_kalman as tool
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,8 +16,8 @@ def f(X, u):
                       [u1],
                     #   [u2],
                     #   [u3]])
-                      [u2*np.cos(θ) + u3*np.sin(θ)],
-                      [u2*np.sin(θ) - u3*np.cos(θ)]])
+                      [u2*np.sin(θ) - u3*np.cos(θ)],
+                      [u2*np.cos(θ) + u3*np.sin(θ)]])
     return x_dot
 
 # sawtooth = lambda x : (2*arctan(tan(x/2)))
@@ -35,8 +36,8 @@ def control(x,t,nb=3,display=True):
     dw=L*np.array([[-f*np.sin(f*t)],[nb*f*np.cos(f*nb*t)]])  
     ddw=L*np.array([[-f**2*np.cos(f*t)],[-nb**2*f**2*np.sin(f*nb*t)]])
     
-    Ax = np.array([[np.cos(x3), np.sin(x3)],
-                [np.sin(x3), -np.cos(x3)]])
+    Ax = np.array([[np.sin(x3), -np.cos(x3)],
+                [np.cos(x3), np.sin(x3)]])
     
     y = np.array([[x1],
                [x2]])
@@ -194,14 +195,14 @@ if __name__ == "__main__":
         Fk = np.eye(5) + dt * np.array([[0, 0, 0, 1, 0],
                                         [0, 0, 0, 0, 1],
                                         [0, 0, 0, 0, 0],
-                                        [0, 0, -u2*np.sin(θ) + u3*np.cos(θ), 0, 0],
-                                        [0, 0, u2*np.cos(θ) + u3*np.sin(θ), 0, 0]])
+                                        [0, 0, u2*np.cos(θ) + u3*np.sin(θ), 0, 0],
+                                        [0, 0, -u2*np.sin(θ) + u3*np.cos(θ), 0, 0]])
         
         Gk = dt * np.array([[0, 0, 0],
                             [0, 0, 0],
                             [1, 0, 0],
-                            [0, np.cos(θ), np.sin(θ)],
-                            [0, np.sin(θ), -np.cos(θ)]])
+                            [0, np.sin(θ), -np.cos(θ)],
+                            [0, np.cos(θ), np.sin(θ)]])
 
         if UWB :
             Hk,Y,R,wp_detected = g(X, Xhat)
