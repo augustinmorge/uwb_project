@@ -6,6 +6,7 @@ import os
 
 # Add the threading module
 import threading
+mutex = threading.Lock()
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
@@ -63,8 +64,6 @@ class Anchor:
             self.anchors[id] = {'Time':time, 'Range':range}
 
 def main(anchors, data):
-    t0 = time.time()
-
     while True:
 
         list = read_data(data)
@@ -74,26 +73,41 @@ def main(anchors, data):
             if one["A"] == "1780":
                 time_anchor1 = uwb_range_offset(float(one["T"]));
                 data_anchor1 = uwb_range_offset(float(one["R"]));
+                mutex.acquire()
                 anchors.update_anchor(1780, time_anchor1, data_anchor1)
+                mutex.release()
 
             if one["A"] == "1781":
                 time_anchor2 = uwb_range_offset(float(one["T"]));
                 data_anchor2 = uwb_range_offset(float(one["R"]));
+                mutex.acquire()
                 anchors.update_anchor(1781, time_anchor2, data_anchor2)
+                mutex.release()
 
             if one["A"] == "1782":
                 time_anchor3 = uwb_range_offset(float(one["T"]));
                 data_anchor3 = uwb_range_offset(float(one["R"]));
+                mutex.acquire()
                 anchors.update_anchor(1782, time_anchor3, data_anchor3)
+                mutex.release()
 
             if one["A"] == "1783":
                 time_anchor4 = uwb_range_offset(float(one["T"]));
                 data_anchor4 = uwb_range_offset(float(one["R"]));
+                mutex.acquire()
                 anchors.update_anchor(1783, time_anchor4, data_anchor4)
+                mutex.release()
 
 
 anchors = Anchor()
 data, addr = connect_to_tag()
+
+# # Create a thread that runs the main function
+# main_thread = lambda : main(anchors, data)
+# t_main = threading.Thread(target=main)
+
+# # Start the thread
+# t_main.start()
 
 # Create a thread that runs the main function
 main_thread = threading.Thread(target=main, args=(anchors,data,))

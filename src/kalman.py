@@ -24,15 +24,17 @@ def g(anchors, x):
     H = np.zeros((1,5))
     y = np.zeros((1,1))
     Beta = []
+    mutex.acquire()
     for id in anchors.keys():
         time, dist = anchors[id]['Time'], anchors[id]['Range']
         a = anchors[id]['Coords']
+        mutex.release()
         wp_detected = True
         plt.plot(np.array([a[0],x[0]]),np.array([a[1],x[1]]),"red",1)
 
         dist_hat = np.linalg.norm(a - (x[0:2]).flatten())**2
-        Hi = np.array([[-2*(a[0] - Xhat[0,0]), -2*(a[1] - Xhat[1,0]), 0, 0, 0]])
-        yi = dist - dist_hat + Hi@Xhat
+        Hi = np.array([[-2*(a[0] - x[0,0]), -2*(a[1] - x[1,0]), 0, 0, 0]])
+        yi = dist - dist_hat + Hi@x
 
         if not wp_detected:
             H = Hi; y = yi; 

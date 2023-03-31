@@ -116,11 +116,11 @@ void loop()
         send_udp(&all_json);
         runtime = millis();
         i ++;
-        // if (i == 30 or i < 10)
-        // {
-        //   client.connect(host, 8080);
-        //   i = 10;
-        // }
+        if (i == 30000 or i < 10)
+        {
+          client.connect(host, 8080);
+          i = 10;
+        }
 
 
         // same data displayed on 128x32 OLED
