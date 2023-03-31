@@ -13,19 +13,9 @@ Cela nous donne le résulat suivant :
 
 <div style="text-align:center">
 <p align="center">
-  <img src="https://git.ixblue.com/users/augustin.morge/repos/uwb_project/raw/src/log_cali/Test1_deg1.png?at=refs%2Fheads%2FUWB_Project" width="750" title="Résultat de la calibration">
+  <img src="https://raw.githubusercontent.com/augustinmorge/uwb_project/main/src/log_cali/Test_on_2023_03_30_09_35_46.png?token=GHSAT0AAAAAACACEXIPZNQK2LB54N4QQZEWZBGUKXQ" width="750" title="Résultat de la calibration">
 </p>
 </div>
-
-Pour le degrès 1 ou encore 
-
-<div style="text-align:center">
-<p align="center">
-  <img src="https://git.ixblue.com/users/augustin.morge/repos/uwb_project/raw/src/log_cali/Test1_deg2.png?at=refs%2Fheads%2FUWB_Project" width="750" title="Résultat de la calibration">
-</p>
-</div>
-
-Pour le degrès 2.
 
 ## Simulation du Kalman
 Pour estimer la position, un filtre de Kalman est utilisé.
