@@ -8,6 +8,7 @@ For ESP32 UWB or ESP32 UWB Pro
 #include <DW1000Ranging.h>
 
 #include <WiFi.h>
+
 #include "link.h"
 
 #include <Wire.h>
@@ -29,7 +30,7 @@ For ESP32 UWB or ESP32 UWB Pro
 
 const char *ssid = "iXGuest";
 const char *password = "URWelcome";
-const char *host = "10.123.0.132"; //10.123.0.114
+const char *host = "10.123.0.194"; //"SG_72BVTL3";
 WiFiClient client;
 
 struct MyLink *uwb_data;
@@ -115,11 +116,11 @@ void loop()
         send_udp(&all_json);
         runtime = millis();
         i ++;
-        if (i == 30000 or i < 10)
-        {
-          client.connect(host, 80);
-          i = 10;
-        }
+        // if (i == 30 or i < 10)
+        // {
+        //   client.connect(host, 8080);
+        //   i = 10;
+        // }
 
 
         // same data displayed on 128x32 OLED
