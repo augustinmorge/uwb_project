@@ -96,7 +96,7 @@ print(f"sigma = {sigma}")
 dbb = sigma*np.sqrt(3)/T
 q = sigma/(2*T)
 bb = sigma/np.sqrt(T)
-tau = 400
+tau = 1000
 bc = 2*tau*sigma**2/T*(1-tau/(2*T)*(3-4*np.exp(-T/tau) + np.exp(-2*T/tau)))
 rw = sigma*np.sqrt(T/3)
 derive = sigma*T/np.sqrt(2)
@@ -106,15 +106,17 @@ ax2.loglog(T, data, label = "allan deviation")
 
 
 ax2.loglog(T, bb, label = "gaussian noise")
-# ax2.loglog(T, 2*bc, label = "gaussian noise")
+ax2.loglog(T, 5*bc, label = "bruit corélé")
 # ax2.loglog(T, derive, label = "derive")
-ax2.loglog(T, 0.001*rw, label = "random walk")
+ax2.loglog(T, 0.0013*rw, label = "random walk")
 # ax2.loglog(T, q, label = "quantification")
 # ax2.loglog(T, dbb, label = "dérivée bruit blanc")
 
-total = bb + 0.001*rw
-ax2.loglog(T, total, label = "total")
+total = np.sqrt(bb**2 + (0.0013*rw)**2 + (5*bc)**2)
+# total = np.sqrt(bb**2 + (0.0013*rw)**2)
+ax2.loglog(T, total, label = "total", linewidth = 3, color = 'red')
 ax2.set_xlabel('h')
+
 ax2.set_ylabel('m')
 ax2.set_title('Allan Deviation')
 
