@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+import os, sys
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(1, os.path.join(THIS_FOLDER, '.'))
 from roblib import array, cos, sin, inv, sawtooth, scatter, norm, plot, arctan2, vstack, diag, mvnrnd1, sqrtm, eig
 from roblib import Ellipse, eye, log, init_figure, draw_tank, pause, clear, plt
 from roblib import pi, linspace, zeros, sqrt, arange, eulermat, eulerderivative
