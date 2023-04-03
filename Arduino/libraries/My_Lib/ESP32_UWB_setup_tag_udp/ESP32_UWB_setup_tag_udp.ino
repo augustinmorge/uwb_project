@@ -116,7 +116,7 @@ void loop()
         send_udp(&all_json);
         runtime = millis();
         i ++;
-        if (i == 30000 or i < 10)
+        if (i == 300000 or i < 10)
         {
           client.connect(host, 8080);
           i = 10;

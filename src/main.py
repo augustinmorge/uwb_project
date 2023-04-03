@@ -1,6 +1,8 @@
 from kalman import *
 
 def main(X,u):
+    global anchors
+    anchors = anchors.anchors
     global dt, P, Q
     u1, u2, u3 = u.flatten() ## TODO : Récupérer les données de la centrale pour wz, ax, ay
     x, y, θ, vx, vy = X.flatten()
@@ -18,8 +20,9 @@ def main(X,u):
                         [0, np.cos(θ), np.sin(θ)]])
 
     Hk,Y,R,wp_detected = g(anchors, X)
+    
     if wp_detected:
-        X, P, ytilde, inv_norm_S = Kalman(X, P, u, Y, Q, R, Fk, Gk, Hk)
+        X, P, ytilde, inv_norm_S = Kalman(X, P, u, Y, Q, R, Fk, Gk, Hk, dt)
     else:
         X = X + dt*f(X,u) #+ tool.mvnrnd1(Gk @ Q @ Gk.T) #Fk @ X + Gk @ u
         P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
@@ -32,7 +35,10 @@ def main(X,u):
         ax.legend()
 
         for id in anchors.keys():
-            ax.scatter(anchors[id]['Coords'][0], anchors['Coords'][1], label = 'anchors UWB')
+            try:
+                ax.scatter(anchors[id]['Coords'][0], anchors['Coords'][1], label = 'anchors UWB')
+            except:
+                pass
 
         plt.pause(0.001)
 
@@ -57,13 +63,18 @@ if __name__ == "__main__":
     global dt
     dt = t0
 
-    sigm_equation = dt*0.1
-    Q = np.diag([sigm_equation, sigm_equation, sigm_equation])
+    
 
-    anchors = Anchor().anchors
-
+    print("Everything working.. Starting the main program in 5.."); time.sleep(1)
+    print("..4.."); time.sleep(1); print("..3..");time.sleep(1); print("..2..");time.sleep(1)
+    print("..1");time.sleep(1)
     while True:
+        sigm_equation = dt*0.1
+        Q = np.diag([sigm_equation, sigm_equation, sigm_equation])
         # Change time step
         t0 = time.time()
+        mutex.acquire()
         main(X,u)
+        mutex.release()
         dt = time.time() - t0
+        time.sleep(0.5)

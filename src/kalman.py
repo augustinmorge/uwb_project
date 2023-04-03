@@ -24,13 +24,12 @@ def g(anchors, x):
     H = np.zeros((1,5))
     y = np.zeros((1,1))
     Beta = []
-    mutex.acquire()
     for id in anchors.keys():
         time, dist = anchors[id]['Time'], anchors[id]['Range']
         a = anchors[id]['Coords']
-        mutex.release()
+        
         wp_detected = True
-        plt.plot(np.array([a[0],x[0]]),np.array([a[1],x[1]]),"red",1)
+        plt.plot(np.array([a[0],x[0,0]]),np.array([a[1],x[1,0]]),"red",1)
 
         dist_hat = np.linalg.norm(a - (x[0:2]).flatten())**2
         Hi = np.array([[-2*(a[0] - x[0,0]), -2*(a[1] - x[1,0]), 0, 0, 0]])
@@ -42,14 +41,13 @@ def g(anchors, x):
             H = np.vstack((H,Hi)); y = np.vstack((y,yi))
 
         Beta.append(0.1)
-
     R = np.diag(Beta)
     if len(Beta) != 0:
         y = y + tool.mvnrnd1(R)
     
     return H, y, R, wp_detected
 
-def Kalman(xbar, P, u, y, Q, R, F, G, H):
+def Kalman(xbar, P, u, y, Q, R, F, G, H, dt=0.1):
     # Prédiction
     xbar = xbar + dt*f(xbar,u) #F @ xbar + G @ u
     P = F @ P @ F.T + G @ Q @ G.T

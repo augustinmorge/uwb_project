@@ -5,45 +5,80 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-LOGS_FOLDER = THIS_FOLDER #os.path.join(THIS_FOLDER, 'log_long')
+LOGS_FOLDER = os.path.join(THIS_FOLDER, 'old')
 
 multiple_files = False
 if multiple_files:
     time = np.array([])
     dist = np.array([])
+    ids = np.array([])
     # Parcourir tous les fichiers CSV dans le dossier "logs"
     for filename in os.listdir(LOGS_FOLDER):
-        if filename.endswith('.csv'):
+        # if filename.endswith('.csv'):
+        if filename.startswith('Long_log_01_04') or filename.startswith('Long_log_02_04') or filename.startswith('Long_log_03_04'):
             filepath = os.path.join(LOGS_FOLDER, filename)
             
             # Charger le fichier CSV
             data = np.genfromtxt(filepath, delimiter=';', skip_header=1)
 
             # Extraire les colonnes ID, temps et distance
-            ids = data[:, 0]
+            ids_temp = data[:, 0]
             times_ms = data[:, 1]
             distances = data[:, 2]
 
-            # Convertir les temps en secondes et soustraire le temps de départ
-            times_s = times_ms / 1000.0  / 60. /60.
+            mask_zeros = distances <= 0
+            time = np.hstack((times_ms[~mask_zeros], time))
+            ids = np.hstack((ids_temp[~mask_zeros], ids))
+            dist = np.hstack((distances[~mask_zeros], dist))
 
-            time = np.hstack((times_s, time))
-            dist = np.hstack((distances, dist))
+    # Obtenir les index triés en fonction de la valeur de temps
+    sorted_indices = np.argsort(time)
 
-# Charger le fichier CSV
-filename = os.path.join(LOGS_FOLDER, "Long_log_24_03_2023_16_44_05.csv")
+    # Réorganiser les tableaux time et dist selon les index triés
+    time = time[sorted_indices]/1000
+    dist = dist[sorted_indices]
+    ids = ids[sorted_indices]
 
-data = np.genfromtxt(filename, delimiter=';', skip_header=1)
+    tab = np.vstack((ids,time,dist))
+    header = "n°Anchor, Time (s), Distance (m)"
+    np.savetxt(f"{THIS_FOLDER}/Long_log_01_04_2023_3j.csv", tab.T, delimiter=";", header=header)
 
-# Extraire les colonnes ID, temps et distance
-ids = data[:, 0]
-times_ms = data[:, 1]
-distances = data[:, 2]
+    print(np.max(np.diff(time)))
+    
 
-# Convertir les temps en secondes et soustraire le temps de départ
-time = times_ms / 1000.0  #/ 60. /60.
-dist = distances
-time = time - np.min(time)
+    # Charger le fichier CSV
+    filename = os.path.join(THIS_FOLDER, "Long_log_01_04_2023_3j.csv")
+
+    data = np.genfromtxt(filename, delimiter=';', skip_header=1)
+    print(data)
+
+    # import sys
+    # sys.exit()
+
+
+else:
+    # Charger le fichier CSV
+    filename = os.path.join(THIS_FOLDER, "Long_log_28_03_2023_17_25_20.csv")
+    # filename = os.path.join(LOGS_FOLDER, "Long_log_02_04_2023_21_37_56.csv")
+
+    data = np.genfromtxt(filename, delimiter=';', skip_header=1)
+
+    # Extraire les colonnes ID, temps et distance
+    ids = data[:, 0]
+    times_ms = data[:, 1]
+    distances = data[:, 2]
+
+    # Convertir les temps en secondes et soustraire le temps de départ
+    time = times_ms / 1000.0  #/ 60. /60.
+    dist = distances
+    time = time - np.min(time)
+
+    masked = True
+    if masked:
+        mask = np.abs(dist - np.mean(dist)) > 3*np.std(dist)
+        time = time[~mask]
+        dist = dist[~mask]
+        ids = ids[~mask]
 
 # Tracer la distance en fonction du temps sans mask
 idx_start = np.argmax(time.flatten() > 12000) #9540
@@ -60,7 +95,9 @@ fig, axs = plt.subplots(1,2)
 fig.suptitle(f"Déviation d'Allan")
 
 ax = axs[0]
-ax.scatter(time/60/60, dist, s=0.1)
+print(f"----> {(1/np.mean(np.diff(time)))}")
+print(f"----> {time.shape[0]/(time[-1] - time[0])}")
+ax.plot(time/60/60, dist)#, s=0.1)
 ax.set_xlabel("Time [h]")
 ax.set_ylabel("Measurements [m]")
 ax.set_title("Measurements")
@@ -71,18 +108,8 @@ ax.grid()
 import qrunch
 from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
 
-T, data, std = qrunch.allan_deviation(dist, 1/np.mean(np.diff(time)))
-
-def create_basic_plot_allan(ax, T, data, title="Allan Deviation"):
-    ax.loglog(T, data, label='allan')
-    ax.set_title(f"{title}")
-    ax.set_xlabel("Time [log(s)]")
-    ax.set_ylabel("m")
-    #Limiter les chiffres significatifs
-    ax.yaxis.set_major_formatter(ScalarFormatter(useMathText=True))
-    ax.yaxis.get_major_formatter().set_powerlimits((0, 0))
-    ax.grid()
-    ax.legend()
+Frequency = 1/np.mean(np.diff(time))
+T, data, std = qrunch.allan_deviation(dist,Frequency)
 
 ax1 = axs[1]
 ax1.plot((T), (std), label = 'std')
@@ -104,15 +131,15 @@ derive = sigma*T/np.sqrt(2)
 T= T/60/60 # s->h
 ax2.loglog(T, data, label = "allan deviation")
 
-
+bc = 10*bc; rw = 0.0020*rw
 ax2.loglog(T, bb, label = "gaussian noise")
-ax2.loglog(T, 5*bc, label = "bruit corélé")
+# ax2.loglog(T, bc, label = "bruit corélé")
 # ax2.loglog(T, derive, label = "derive")
-ax2.loglog(T, 0.0013*rw, label = "random walk")
+ax2.loglog(T, rw, label = "random walk")
 # ax2.loglog(T, q, label = "quantification")
 # ax2.loglog(T, dbb, label = "dérivée bruit blanc")
 
-total = np.sqrt(bb**2 + (0.0013*rw)**2 + (5*bc)**2)
+total = np.sqrt(bb**2 + (rw)**2) # + (bc)**2)
 # total = np.sqrt(bb**2 + (0.0013*rw)**2)
 ax2.loglog(T, total, label = "total", linewidth = 3, color = 'red')
 ax2.set_xlabel('h')
