@@ -7,11 +7,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-# Modules pour l'interpolation
-from scipy import stats
-from scipy.interpolate import interp1d
-from sklearn.metrics import r2_score
-
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 def connect_to_tag():
@@ -28,24 +23,6 @@ def connect_to_tag():
 
     return data, addr
 
-# def read_data():
-#     line = data.recv(1024).decode('UTF-8')
-#     uwb_list = []
-
-#     try:
-#         uwb_data = json.loads(line)
-#         print(uwb_data)
-
-#         uwb_list = uwb_data["links"]
-#         # for uwb_archor in uwb_list:
-#         #     print(uwb_archor)
-
-#     except:
-#         print(line)
-#     print("")
-
-# #     return uwb_list
-    
 def read_data():
     data.setblocking(False)
     try:
@@ -93,7 +70,7 @@ def main():
     date_str = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
     f = open(f"{THIS_FOLDER}/Long_log_{date_str}.csv","w")
     # f = open(f"{THIS_FOLDER}/TO_DELETE.csv","w")
-    f.write(f"Num of Anchor; Time [ms]; Data Anchor\n")
+    f.write(f"Num of Anchor; Time [ms]; Data Anchor; dbm\n")
     relaunch = False
     while True:
 
@@ -104,36 +81,39 @@ def main():
             if one["A"] == "1780":
                 time_anchor1 = uwb_range_offset(float(one["T"]));
                 data_anchor1 = uwb_range_offset(float(one["R"])); 
+                dbm_anchor1 = float(one["dbm"])
                 t0 = time.time()
-                f.write("1780 ; "+ str(time_anchor1) + ";"+ str(data_anchor1) + "\n")
+                f.write("1780 ; "+ str(time_anchor1) + ";"+ str(data_anchor1) + ";" + str(dbm_anchor1) + "\n")
 
             if one["A"] == "1781":
                 time_anchor2 = uwb_range_offset(float(one["T"]));
                 data_anchor2 = uwb_range_offset(float(one["R"])); 
+                dbm_anchor2 = float(one["dbm"])
                 t0 = time.time()
-                f.write("1781 ; "+ str(time_anchor2) + ";"+ str(data_anchor2) + "\n")
+                f.write("1781 ; "+ str(time_anchor2) + ";"+ str(data_anchor2) + ";" + str(dbm_anchor2) + "\n")
 
             if one["A"] == "1782":
                 time_anchor3 = uwb_range_offset(float(one["T"]));
                 data_anchor3 = uwb_range_offset(float(one["R"])); 
+                dbm_anchor3 = float(one["dbm"])
                 t0 = time.time()
-                f.write("1782 ; "+ str(time_anchor3) + ";"+ str(data_anchor3) + "\n")
+                f.write("1782 ; "+ str(time_anchor3) + ";"+ str(data_anchor3) + ";" + str(dbm_anchor3) + "\n")
 
             if one["A"] == "1783":
                 time_anchor4 = uwb_range_offset(float(one["T"]));
                 data_anchor4 = uwb_range_offset(float(one["R"])); 
+                dbm_anchor4 = float(one["dbm"])
                 t0 = time.time()
-                f.write("1783 ; "+ str(time_anchor4) + ";"+ str(data_anchor4) + "\n")
+                f.write("1783 ; "+ str(time_anchor4) + ";"+ str(data_anchor4) + ";" + str(dbm_anchor4) + "\n")
         
-        if time.time() - t0 > 30:
-            break
-
         f.flush()
+
+        if time.time() - t0 > 60:
+            connect_to_tag()
+
 
 if __name__ == '__main__':
     import datetime
     
-    while True:
-        data, addr = connect_to_tag()
-        main()
-        print("Relaunching..")
+    data, addr = connect_to_tag()
+    main()

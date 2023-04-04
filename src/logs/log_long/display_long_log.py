@@ -58,7 +58,7 @@ if multiple_files:
 
 else:
     # Charger le fichier CSV
-    filename = os.path.join(THIS_FOLDER, "Long_log_28_03_2023_17_25_20.csv")
+    filename = os.path.join(THIS_FOLDER, "Long_log_04_04_2023_09_51_58.csv")
     # filename = os.path.join(LOGS_FOLDER, "Long_log_02_04_2023_21_37_56.csv")
 
     data = np.genfromtxt(filename, delimiter=';', skip_header=1)
@@ -75,13 +75,14 @@ else:
 
     masked = True
     if masked:
-        mask = np.abs(dist - np.mean(dist)) > 3*np.std(dist)
+        # mask = np.abs(dist - np.mean(dist)) > 3*np.std(dist)
+        mask = dist <= 0
         time = time[~mask]
         dist = dist[~mask]
         ids = ids[~mask]
 
 # Tracer la distance en fonction du temps sans mask
-idx_start = np.argmax(time.flatten() > 12000) #9540
+idx_start = 0 #np.argmax(time.flatten() > 12000) #9540
 idx_end = time.shape[0] #- time.shape[0]//10
 time = time[idx_start:idx_end] - time[idx_start]
 dist = dist[idx_start:idx_end]
@@ -95,8 +96,8 @@ fig, axs = plt.subplots(1,2)
 fig.suptitle(f"Déviation d'Allan")
 
 ax = axs[0]
-print(f"----> {(1/np.mean(np.diff(time)))}")
-print(f"----> {time.shape[0]/(time[-1] - time[0])}")
+# print(f"----> {(1/np.mean(np.diff(time)))}")
+# print(f"----> {time.shape[0]/(time[-1] - time[0])}")
 ax.plot(time/60/60, dist)#, s=0.1)
 ax.set_xlabel("Time [h]")
 ax.set_ylabel("Measurements [m]")
@@ -117,7 +118,7 @@ ax1.loglog(T, data)
 
 fig2, ax2 = plt.subplots(1,1)
 
-sigma = np.std(dist)
+sigma = 1.5*data[0] #np.std(dist)
 print(f"sigma = {sigma}")
 
 dbb = sigma*np.sqrt(3)/T
@@ -131,7 +132,7 @@ derive = sigma*T/np.sqrt(2)
 T= T/60/60 # s->h
 ax2.loglog(T, data, label = "allan deviation")
 
-bc = 10*bc; rw = 0.0020*rw
+bc = 10*bc; rw = 0.0015*rw
 ax2.loglog(T, bb, label = "gaussian noise")
 # ax2.loglog(T, bc, label = "bruit corélé")
 # ax2.loglog(T, derive, label = "derive")

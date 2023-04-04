@@ -8,8 +8,6 @@ import matplotlib.pyplot as plt
 import os
 
 # Modules pour l'interpolation
-from scipy import stats
-from scipy.interpolate import interp1d
 from sklearn.metrics import r2_score
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -58,35 +56,6 @@ def uwb_range_offset(uwb_range):
 
     temp = uwb_range
     return temp
-
-# def plot_polynomial_regression(ax, x, y, degrees, num_anc=0):
-
-#     # Calculate coefficients for each degree of polynomial
-#     coeffs = []
-#     for degree in degrees:
-#         p = np.polyfit(x, y, degree)
-#         coeffs.append(p)
-
-#     # Plot data and polynomial lines of best fit
-#     ax.scatter(x, y, label='Data')
-#     for i, c in enumerate(coeffs):
-#         line_x = np.linspace(min(x), max(x), 10000)
-#         line_y = np.polyval(c, line_x)
-#         r_squared = r2_score(y, np.polyval(c, x))
-#         # Construct equation string
-#         eqn = f"y = {c[-1]:.2f}"
-#         for j in range(len(c)-2, -1, -1):
-#             if len(c)-j-1 == 1:
-#                 eqn += f" + {c[j]:.2f}x"
-#             else:
-#                 eqn += f" + {c[j]:.2f}x^{len(c)-j-1}"
-#         ax.plot(line_x, line_y, label=f'Degree {degrees[i]}: {eqn} (R² = {r_squared:.2f})', color = 'red')
-
-#     ax.legend(loc='upper left')
-
-
-import numpy as np
-from sklearn.metrics import r2_score
 
 def plot_polynomial_regression(ax, x: np.ndarray, y: np.ndarray, degrees: list[int], num_anc: int = 0) -> None:
     """
@@ -195,62 +164,60 @@ def main(nb_anchor, dmin, dmax, pas, sec):
     return D
 
 
-if __name__ == '__main__':
-    import datetime
-    doing_calibration = False
+def do_calibration():
+    date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    data, addr = connect_to_tag()
+    print("Start Calibration..")
+    nb_anchor = 1
+    D = main(nb_anchor, dmin=0.5, dmax=10, pas=0.5, sec=30)
+    ch_nb_anchor = ""
+    for anchor in range(nb_anchor):
+        ch_nb_anchor += "Anchor {}; ".format(anchor)
+    np.savetxt(f"{THIS_FOLDER}/Test_on_{date_str}.csv", D, delimiter=";", header=f"Distance (m); {ch_nb_anchor}", fmt="%.3f")
 
-    if doing_calibration:
-        date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-
-        data, addr = connect_to_tag()
-
-        print("Start Calibration..")
-
-
-
-        nb_anchor = 1
-        D = main(nb_anchor, dmin = 0.5,dmax = 10, pas = 0.5, sec=30)
-        ch_nb_anchor = ""
-        for anchor in range(nb_anchor):
-            ch_nb_anchor += "Anchor {}; ".format(anchor)
-        np.savetxt(f"{THIS_FOLDER}/Test_on_{date_str}.csv", D, delimiter=";", header=f"Distance (m); {ch_nb_anchor}", fmt="%.3f")
-
-    else:
-                    ### 4 ANCHORS
-
-        name_log = 'Test_on_2023_03_21'
-        D = np.loadtxt(f"{THIS_FOLDER}/Test_on_2023_03_21.csv", delimiter=";", skiprows=1)
-        fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
-        plt.suptitle("Calibration for the Anchors")
-        axs = axs.flatten()
-        for i, ax in enumerate(axs):
-            ax.set_title(f"Anchor {80 + i}")
-            ax.set_xlabel("Distance (m)")
-            ax.set_ylabel("Measured Range (m)")
-            plot_polynomial_regression(ax, D[0:,i+1], D[0:,0], [1], 80 + i)
+def plot_anchors_calibration(name_log = 'Test_on_2023_03_21',save=False):
+    D = np.loadtxt(f"{THIS_FOLDER}/{name_log}.csv", delimiter=";", skiprows=1)
+    fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+    plt.suptitle("Calibration for the Anchors")
+    axs = axs.flatten()
+    for i, ax in enumerate(axs):
+        ax.set_title(f"Anchor {80 + i}")
+        ax.set_xlabel("Distance (m)")
+        ax.set_ylabel("Measured Range (m)")
+        plot_polynomial_regression(ax, D[0:, i+1], D[0:, 0], [1], 80 + i)
+    if save:
         ### To save the plot
         f = plt.gcf()
         dpi = f.get_dpi()
         h, w = f.get_size_inches()
         f.set_size_inches(h*2, w*2)
         plt.savefig(f"{THIS_FOLDER}/{name_log}.png")
+    else:
+        plt.show()
 
+def plot_single_anchor_calibration(name_log = 'Test_on_2023_04_03_13_53_00', save = False):
+    D = np.loadtxt(f"{THIS_FOLDER}/{name_log}.csv", delimiter=";", skiprows=1)
+    print(D)
+    fig, ax = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
+    ax.set_title(f"Anchor 1")
+    ax.set_xlabel("Distance (m)")
+    ax.set_ylabel("Measured Range (m)")
+    plot_polynomial_regression(ax, D[:,1], D[:,0], [1], 80)
+    if save:
+        ### To save the plot
+        f = plt.gcf()
+        dpi = f.get_dpi()
+        h, w = f.get_size_inches()
+        f.set_size_inches(h*2, w*2)
+        plt.savefig(f"{THIS_FOLDER}/{name_log}.png")
+    else:
+        plt.show()
 
-
-                    ## ONE ANCHOR ONLY
-
-        # D = np.loadtxt(f"{THIS_FOLDER}/{name_log}.csv", delimiter=";", skiprows=1)
-        # print(D)
-        # fig, ax = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-        # ax.set_title(f"Anchor 1")
-        # ax.set_xlabel("Distance (m)")
-        # ax.set_ylabel("Measured Range (m)")
-        # plot_polynomial_regression(ax, D[:,1], D[:,0], [1], 80)
-
-        # # plt.show()
-        # f = plt.gcf()
-        # dpi = f.get_dpi()
-        # h, w = f.get_size_inches()
-        # f.set_size_inches(h*2, w*2)
-        # plt.savefig(f"{THIS_FOLDER}/{name_log}.png")
+if __name__ == '__main__':
+    doing_calibration = False
+    if doing_calibration:
+        do_calibration()
+    else:
+        plot_anchors_calibration()
+        plot_single_anchor_calibration()
 

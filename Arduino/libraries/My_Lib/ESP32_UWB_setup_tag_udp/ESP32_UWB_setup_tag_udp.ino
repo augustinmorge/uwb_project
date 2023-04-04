@@ -30,7 +30,7 @@ For ESP32 UWB or ESP32 UWB Pro
 
 const char *ssid = "iXGuest";
 const char *password = "URWelcome";
-const char *host = "10.123.0.194"; //"SG_72BVTL3";
+const char *host = "10.123.0.141"; //"SG_72BVTL3";
 WiFiClient client;
 
 struct MyLink *uwb_data;
@@ -106,7 +106,6 @@ void setup()
     Serial.println(msgBuffer);
 }
 
-int i = 0;
 void loop()
 {
     DW1000Ranging.loop();
@@ -115,13 +114,6 @@ void loop()
         make_link_json(uwb_data, &all_json, millis());
         send_udp(&all_json);
         runtime = millis();
-        i ++;
-        if (i == 300000 or i < 10)
-        {
-          client.connect(host, 8080);
-          i = 10;
-        }
-
 
         // same data displayed on 128x32 OLED
         display.clearDisplay();
@@ -173,6 +165,9 @@ void send_udp(String *msg_json)
     {
         client.print(*msg_json);
         Serial.println("UDP send");
+    }
+    else{
+      client.connect(host, 8080);
     }
 }
 void relaunch() {

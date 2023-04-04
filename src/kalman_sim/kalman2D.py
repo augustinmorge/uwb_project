@@ -18,8 +18,6 @@ def f(X, u):
     x_dot = np.array([[vx],
                       [vy],
                       [u1],
-                    #   [u2],
-                    #   [u3]])
                       [u2*np.sin(θ) - u3*np.cos(θ)],
                       [u2*np.cos(θ) + u3*np.sin(θ)]])
     return x_dot
@@ -70,8 +68,8 @@ def control(x,t,nb=3,display=True):
 
 # List of waypoints
 
-Wps = np.array([[0, 10 , -10],
-              [0, 0, 0]])
+# Wps = np.array([[0, 10 , -10],
+#               [0, 0, 0]])
 
 # Wps = np.array([[0, 10, -10, 0],
 #               [-10, 0, 0, 10]])
@@ -82,7 +80,7 @@ Wps = np.array([[0, 10 , -10],
 # Wps = np.array([[10000],
 #               [1]])
 
-# Wps = np.array([[]])
+Wps = np.array([[]])
 a = -20
 b = 20
 N = 10
@@ -188,9 +186,10 @@ if __name__ == "__main__":
 
     wp_detected = False
     
-    for i in tqdm(np.arange(0, N*dt, dt)):
+    for t in tqdm(np.arange(0, N*dt, dt)):
+
         # Real state
-        u = control(X,i)
+        u = control(X,t)
         X = X + dt*f(X,u)
         
         u1, u2, u3 = u.flatten()
@@ -207,6 +206,9 @@ if __name__ == "__main__":
                             [1, 0, 0],
                             [0, np.sin(θ), -np.cos(θ)],
                             [0, np.cos(θ), np.sin(θ)]])
+        
+        sigm_equation = t*0.1
+        Q = np.diag([sigm_equation, sigm_equation, sigm_equation])
 
         if UWB :
             Hk,Y,R,wp_detected = g(X, Xhat)
@@ -275,11 +277,11 @@ if __name__ == "__main__":
             tool.legende(ax)
 
         # Append lists to visualize our covariance model
-        T.append(i)
-        i = int(i/dt)
+        T.append(t)
+        t = int(t/dt)
         for j in range(5):
             for k in range(5):
-                PMatrix[i,k+5*j] = P[j,k]
+                PMatrix[t,k+5*j] = P[j,k]
         
         ERR.append(tool.norm(Xhat[0:2] - X[0:2]))
         YTILDE.append(tool.norm(ytilde))

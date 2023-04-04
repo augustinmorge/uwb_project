@@ -153,8 +153,10 @@ void make_link_json(struct MyLink *p, String *s, long unsigned int timer)
     while (temp->next != NULL)
     {
         temp = temp->next;
-        char link_json[50];
-        sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.5f\",\"T\":\"%lu\"}", temp->anchor_addr, temp->range[0], timer);
+        // char link_json[50];
+        // sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.5f\",\"T\":\"%lu\"}", temp->anchor_addr, temp->range[0], timer);
+        char link_json[60];
+        sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.5f\",\"dbm\":\"%.2f\",\"T\":\"%lu\"}", temp->anchor_addr, temp->range[0], temp->dbm, timer);
         
         *s += link_json;
         if (temp->next != NULL)
