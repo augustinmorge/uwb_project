@@ -21,7 +21,6 @@
  * @todo complete this class
  */
 
-
 #define INACTIVITY_TIME 1000
 
 #ifndef _DW1000Device_H_INCLUDED

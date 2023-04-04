@@ -21,7 +21,8 @@ def connect_to_tag():
     data, addr = sock.accept()
     print("Connected !")
 
-    return data, addr
+    return data, addr, sock
+
 
 def read_data():
     data.setblocking(False)
@@ -63,7 +64,7 @@ def write_data(f, data):
     f.write(ch)
 
 
-def main():
+def main(t_start):
     t0 = time.time()
 
     #Fichier pour sauvegarder les données
@@ -79,41 +80,53 @@ def main():
         for one in list:
 
             if one["A"] == "1780":
+                # time_anchor1 = time.time() - t_start # uwb_range_offset(float(one["T"]));
                 time_anchor1 = uwb_range_offset(float(one["T"]));
                 data_anchor1 = uwb_range_offset(float(one["R"])); 
                 dbm_anchor1 = float(one["dbm"])
                 t0 = time.time()
-                f.write("1780 ; "+ str(time_anchor1) + ";"+ str(data_anchor1) + ";" + str(dbm_anchor1) + "\n")
+                if data_anchor1 != 0:
+                    f.write("1780 ; "+ str(time_anchor1) + ";"+ str(data_anchor1) + ";" + str(dbm_anchor1) + "\n")
 
             if one["A"] == "1781":
+                # time_anchor2 = time.time() - t_start
                 time_anchor2 = uwb_range_offset(float(one["T"]));
                 data_anchor2 = uwb_range_offset(float(one["R"])); 
                 dbm_anchor2 = float(one["dbm"])
                 t0 = time.time()
-                f.write("1781 ; "+ str(time_anchor2) + ";"+ str(data_anchor2) + ";" + str(dbm_anchor2) + "\n")
+                if data_anchor2 != 0:
+                    f.write("1781 ; "+ str(time_anchor2) + ";"+ str(data_anchor2) + ";" + str(dbm_anchor2) + "\n")
 
             if one["A"] == "1782":
+                # time_anchor3 = time.time() - t_start
                 time_anchor3 = uwb_range_offset(float(one["T"]));
                 data_anchor3 = uwb_range_offset(float(one["R"])); 
                 dbm_anchor3 = float(one["dbm"])
                 t0 = time.time()
-                f.write("1782 ; "+ str(time_anchor3) + ";"+ str(data_anchor3) + ";" + str(dbm_anchor3) + "\n")
+                if data_anchor3 != 0:
+                    f.write("1782 ; "+ str(time_anchor3) + ";"+ str(data_anchor3) + ";" + str(dbm_anchor3) + "\n")
 
             if one["A"] == "1783":
+                # time_anchor4 = time.time() - t_start
                 time_anchor4 = uwb_range_offset(float(one["T"]));
                 data_anchor4 = uwb_range_offset(float(one["R"])); 
                 dbm_anchor4 = float(one["dbm"])
                 t0 = time.time()
-                f.write("1783 ; "+ str(time_anchor4) + ";"+ str(data_anchor4) + ";" + str(dbm_anchor4) + "\n")
+                if data_anchor4 != 0:
+                    f.write("1783 ; "+ str(time_anchor4) + ";"+ str(data_anchor4) + ";" + str(dbm_anchor4) + "\n")
         
         f.flush()
 
-        if time.time() - t0 > 60:
-            connect_to_tag()
+        # if time.time() - t0 > 1:
+        #     connect_to_tag()
+        #     t0 = time.time()
 
 
 if __name__ == '__main__':
     import datetime
-    
-    data, addr = connect_to_tag()
-    main()
+    data, addr, sock = connect_to_tag()
+    print("Connected !")
+    t_start = time.time()
+    main(t_start)
+    sock.close()
+    print("Disconnected.")

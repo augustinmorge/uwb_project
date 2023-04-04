@@ -95,8 +95,13 @@ void setup()
     DW1000Ranging.attachNewDevice(newDevice);
     DW1000Ranging.attachInactiveDevice(inactiveDevice);
 
-    //we start the module as a tag
-    DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_LOWPOWER, false);
+    //start the module as an tag, do not assign random short address
+    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_LOWPOWER, false);
+    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_SHORTDATA_FAST_LOWPOWER, false);
+    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_FAST_LOWPOWER, false);
+    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_SHORTDATA_FAST_ACCURACY, false);
+    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_FAST_ACCURACY, false);
+    DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_ACCURACY, false);
 
     uwb_data = init_link();
 
@@ -159,6 +164,7 @@ void inactiveDevice(DW1000Device *device)
     delete_link(uwb_data, device->getShortAddress());
 }
 
+// int i = 0;
 void send_udp(String *msg_json)
 {
     if (client.connected())
@@ -166,9 +172,12 @@ void send_udp(String *msg_json)
         client.print(*msg_json);
         Serial.println("UDP send");
     }
-    else{
-      client.connect(host, 8080);
-    }
+    // else{
+    //   if(i==10){
+    //   client.connect(host, 8080); i = 0;}
+    //   i++;
+    //   // delay(10000);
+    // }
 }
 void relaunch() {
   Serial.println("Relaunching device...");

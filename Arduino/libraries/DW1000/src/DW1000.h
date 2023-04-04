@@ -312,10 +312,6 @@ public:
 	// transmission state
 	static void newTransmit();
 	static void startTransmit();
-
-	// Vincent changes
-	// For large power moudle
-	static void large_power_init();
 	
 	/* ##### Operation mode selection ############################################ */
 	/** 

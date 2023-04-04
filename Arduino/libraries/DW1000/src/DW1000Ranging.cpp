@@ -151,8 +151,6 @@ void DW1000RangingClass::generalStart() {
 		Serial.println(msg);
 	}
 	
-	// Vincent changes
-	DW1000.large_power_init();
 	
 	// anchor starts in receiving mode, awaiting a ranging poll message
 	receiver();
@@ -180,9 +178,11 @@ void DW1000RangingClass::startAsAnchor(char address[], const byte mode[], const 
 		_currentShortAddress[1] = _currentAddress[1];
 	}
 	
-	//we configur the network for mac filtering
+	//configure the network for mac filtering
 	//(device Address, network ID, frequency)
-	DW1000Ranging.configureNetwork(_currentShortAddress[0]*256+_currentShortAddress[1], 0xDECA, mode);
+	
+	uint16_t currShortAddr = _currentShortAddress[0]*256+_currentShortAddress[1];
+	DW1000Ranging.configureNetwork(currShortAddr, 0xDECA, mode);
 	
 	//general start:
 	generalStart();
@@ -190,7 +190,8 @@ void DW1000RangingClass::startAsAnchor(char address[], const byte mode[], const 
 	//defined type as anchor
 	_type = ANCHOR;
 	
-	Serial.println("### ANCHOR ###");
+	Serial.print("ANCHOR short address: ");
+	Serial.println(currShortAddr, HEX);
 	
 }
 
@@ -370,6 +371,7 @@ int16_t DW1000RangingClass::detectMessageType(byte datas[]) {
 		//we have a short mac frame message (poll, range, range report, etc..)
 		return datas[SHORT_MAC_LEN];
 	}
+	return -1; //fix flagged return error (sjr)
 }
 
 void DW1000RangingClass::loop() {
@@ -675,7 +677,7 @@ void DW1000RangingClass::loop() {
 				else if(messageType == RANGE_FAILED) {
 					//not needed as we have a timer;
 					return;
-					_expectedMsgId = POLL_ACK;
+//					_expectedMsgId = POLL_ACK;   //?? (commented out by sjr)
 				}
 			}
 		}
@@ -910,6 +912,7 @@ void DW1000RangingClass::transmitRangeReport(DW1000Device* myDistantDevice) {
 	// write final ranging result
 	float curRange   = myDistantDevice->getRange();
 	float curRXPower = myDistantDevice->getRXPower();
+	
 	//We add the Range and then the RXPower
 	memcpy(data+1+SHORT_MAC_LEN, &curRange, 4);
 	memcpy(data+5+SHORT_MAC_LEN, &curRXPower, 4);

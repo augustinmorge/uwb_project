@@ -251,18 +251,18 @@ def main(nb_anchor, dmin, dmax, pas, sec):
 
 if __name__ == '__main__':
     import datetime
-    doing_calibration = 0
-
+    doing_calibration = 1
     nb_anchor = 1
+    
+    date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
     if doing_calibration:
-        date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
         data, addr = connect_to_tag()
 
         print("Start Calibration..")
         
-        D = main(nb_anchor, dmin = 0.5,dmax = 10, pas = 0.5, sec=30)
+        D = main(nb_anchor, dmin = 1, dmax = 20, pas = 1, sec=30)
         ch_nb_anchor = ""
         for anchor in range(nb_anchor):
             ch_nb_anchor += "Anchor {}; ".format(anchor)
@@ -281,11 +281,9 @@ if __name__ == '__main__':
     else:
 
                     ## ONE ANCHOR ONLY
-
-        name_log = "Test_multiple_points"
-        D = open(f"{THIS_FOLDER}/{name_log}.csv","r")  
+        D = open(f"{THIS_FOLDER}/{date_str}_mp.csv","r")  
         D = D.readlines()
-        #np.loadtxt(f"{THIS_FOLDER}/{name_log}.csv", delimiter=";", skiprows=1)
+        #np.loadtxt(f"{THIS_FOLDER}/{date_str}_mp.csv", delimiter=";", skiprows=1)
 
         fig, ax = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
         ax.set_title(f"Anchor 1")
@@ -309,7 +307,7 @@ if __name__ == '__main__':
         # dpi = f.get_dpi()
         # h, w = f.get_size_inches()
         # f.set_size_inches(h*2, w*2)
-        # plt.savefig(f"{THIS_FOLDER}/{name_log}.png")
+        # plt.savefig(f"{THIS_FOLDER}/{date_str}.png")
 
         print(f"Résidus = {np.abs(D_mean[:-1,1] - D_mean[:-1,0])}")
         print(f"Ecart-type des résidus = {np.std(D_mean[:-1,1] - D_mean[:-1,0])}")
