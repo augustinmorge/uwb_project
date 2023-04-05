@@ -7,72 +7,9 @@ from sklearn.metrics import r2_score
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 LOGS_FOLDER = THIS_FOLDER #os.path.join(THIS_FOLDER, 'old')
 
-multiple_files = False
-if multiple_files:
-    time = np.array([])
-    dist = np.array([])
-    ids = np.array([])
+def load_single_file(filename):
     dbm = np.array([])
-    # Parcourir tous les fichiers CSV dans le dossier "logs"
-    with_dbm = False
-    for filename in os.listdir(LOGS_FOLDER):
-        # if filename.endswith('.csv'):
-        if filename.startswith('Long_log_04_04_2023'): #or filename.startswith('Long_log_02_04') or filename.startswith('Long_log_03_04'):
-            filepath = os.path.join(LOGS_FOLDER, filename)
-            
-            # Charger le fichier CSV
-            data = np.genfromtxt(filepath, delimiter=';', skip_header=1)
-
-            if data.shape[1] == 4: with_dbm = True
-
-            # Extraire les colonnes ID, temps et distance
-            ids_temp = data[:, 0]
-            times_ms = data[:, 1]
-            distances = data[:, 2]
-
-            # mask_zeros = distances <= 0
-            print(np.std(distances))
-            mask_zeros = np.abs(distances - np.mean(distances)) > 0.5*np.std(distances)
-            mask_zeros |= distances <= 0
-            mask_zeros &= np.std(distances) > 0.2
-            time = np.hstack((times_ms[~mask_zeros], time))
-            ids = np.hstack((ids_temp[~mask_zeros], ids))
-            dist = np.hstack((distances[~mask_zeros], dist))
-
-            print(f"{distances[~mask_zeros].shape[0]/distances.shape[0]*100}%")
-
-            if with_dbm:
-                dbms = data[:, 3]
-                dbm = np.hstack((dbms[~mask_zeros], dbm))
-
-    # Obtenir les index triés en fonction de la valeur de temps
-    sorted_indices = np.argsort(time)
-
-    # Réorganiser les tableaux time et dist selon les index triés
-    time = time[sorted_indices]/1000
-    dist = dist[sorted_indices]
-    ids = ids[sorted_indices]
-    if with_dbm:
-        dbm = dbm[sorted_indices]
-        tab = np.vstack((ids,time,dist,dbm))
-    else: tab = np.vstack((ids, time))
-    header = "n°Anchor, Time (s), Distance (m), dbm"
-    np.savetxt(f"{THIS_FOLDER}/{filename}_all.csv", tab.T, delimiter=";", header=header)
-
     # Charger le fichier CSV
-    filename = os.path.join(THIS_FOLDER, "Long_log_01_04_2023_3j.csv")
-
-    data = np.genfromtxt(filename, delimiter=';', skip_header=1)
-
-    # import sys
-    # sys.exit()
-
-
-else:
-    # Charger le fichier CSV
-    filename = os.path.join(THIS_FOLDER, "Long_log_04_04_2023_13_59_21.csv")
-    # filename = os.path.join(LOGS_FOLDER, "Long_log_02_04_2023_21_37_56.csv")
-
     data = np.genfromtxt(filename, delimiter=';', skip_header=1)
     with_dbm = False
     if data.shape[1] == 4: with_dbm = True
@@ -93,7 +30,9 @@ else:
 
     masked = True
     if masked:
-        # mask = np.abs(dist - np.mean(dist)) > 3*np.std(dist)
+        # alp = 1/7.1
+        # print(alp*np.std(dist) + np.mean(dist))
+        # mask = np.abs(dist - np.mean(dist)) > alp*np.std(dist)
         mask = dist <= 0
         time = time[~mask]
         dist = dist[~mask]
@@ -101,85 +40,163 @@ else:
         if with_dbm:
             dbm = dbm[~mask]
 
-# Tracer la distance en fonction du temps sans mask
-idx_start = 0 #np.argmax(time.flatten() > 12000) #9540
-idx_end = time.shape[0] #- time.shape[0]//10
-time = time[idx_start:idx_end] - time[idx_start]
-dist = dist[idx_start:idx_end]
-if with_dbm:
-    dbm = dbm[idx_start:idx_end]
+    return time, dist, ids, dbm, with_dbm
 
-print(f"Moyenne : {np.mean(dist)}")
-print(f"Ecart-Type : {np.std(dist)}")
+def load_multiple_files():
+    time = np.array([])
+    dist = np.array([])
+    ids = np.array([])
+    dbm = np.array([])
+    # Parcourir tous les fichiers CSV dans le dossier "logs"
+    with_dbm = False
+    for filename in os.listdir(LOGS_FOLDER):
+        # if filename.endswith('.csv'):
+        if filename.startswith('Long_log_04_04_2023'): #or filename.startswith('Long_log_02_04') or filename.startswith('Long_log_03_04'):
+            filepath = os.path.join(LOGS_FOLDER, filename)
+            file_time, file_dist, file_ids, file_dbm = load_single_file(filepath)
+            time = np.hstack((file_time, time))
+            ids = np.hstack((file_ids, ids))
+            dist = np.hstack((file_dist, dist))
+            if with_dbm:
+                dbm = np.hstack((file_dbm, dbm))
 
+    # Obtenir les index triés en fonction de la valeur de temps
+    sorted_indices = np.argsort(time)
 
-if with_dbm:
-    #Ploting the Allan deviation
-    fig, axs = plt.subplots(1,3)
-    ax0 = axs[2]
-    ax0.plot(time/60/60, dbm)
-    ax0.set_xlabel("Time [h]")
-    ax0.set_ylabel("DBM")
-    ax0.set_title("Measurements")
-    ax0.set_xlim([np.min(time/60/60), np.max(time/60/60)])
-    ax0.grid()
-else:
-    fig, axs = plt.subplots(1,2)
+    # Réorganiser les tableaux time et dist selon les index triés
+    time = time[sorted_indices]/1000
+    dist = dist[sorted_indices]
+    ids = ids[sorted_indices]
+    if with_dbm:
+        dbm = dbm[sorted_indices]
+        tab = np.vstack((ids,time,dist,dbm))
+    else:
+        tab = np.vstack((ids, time))
+    header = "n°Anchor, Time (s), Distance (m), dbm"
+    np.savetxt(f"{THIS_FOLDER}/{filename}_all.csv", tab.T, delimiter=";", header=header)
 
-fig.suptitle(f"Déviation d'Allan")
-ax = axs[0]
-# print(f"----> {(1/np.mean(np.diff(time)))}")
-# print(f"----> {time.shape[0]/(time[-1] - time[0])}")
-ax.plot(time/60/60, dist)#, s=0.1)
-ax.set_xlabel("Time [h]")
-ax.set_ylabel("Measurements [m]")
-ax.set_title("Measurements")
-ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
-# ax.set_ylim([np.mean(dist)-5*np.std(dist), np.mean(dist)+5*np.std(dist)])
-ax.grid()
+    return time, dist, ids, dbm
 
-import qrunch
-from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
+def load_data(filename):
+    multiple_files = False
+    if multiple_files:
+        return load_multiple_files()
+    else:
+        # Charger le fichier CSV
+        return load_single_file(filename)
 
-Frequency = 1/np.mean(np.diff(time))
-T, data, std = qrunch.allan_deviation(dist,Frequency)
+def plot_data(time, dist, dbm, with_dbm=True):
+    # Tracer la distance en fonction du temps sans mask
+    idx_start = np.argmax(time.flatten() > 25000) #9540
+    idx_end = time.shape[0] #- time.shape[0]//10
+    time = time[idx_start:idx_end] - time[idx_start]
+    dist = dist[idx_start:idx_end]
 
-ax1 = axs[1]
-ax1.plot((T), (std), label = 'std')
-ax1.loglog(T, data)
+    print(f"Moyenne : {np.mean(dist)}")
+    print(f"Ecart-Type : {np.std(dist)}")
 
-fig2, ax2 = plt.subplots(1,1)
+    if with_dbm:
+        dbm = dbm[idx_start:idx_end]
+        #Ploting the Allan deviation
+        fig, axs = plt.subplots(1,2)
+        ax0 = axs[1]
+        ax0.plot(time/60/60, dbm)
+        ax0.set_xlabel("Time [h]")
+        ax0.set_ylabel("db")
+        ax0.set_title("DBM")
+        ax0.set_xlim([np.min(time/60/60), np.max(time/60/60)])
+        ax0.grid()
+        ax = axs[0]
+    else:
+        fig, ax = plt.subplots(1,1)
 
-sigma = 1.5*data[0] #np.std(dist)
-print(f"sigma = {sigma}")
+    fig.suptitle(f"Déviation d'Allan")
+    
+    ax.scatter(time/60/60, dist, s=0.1)
+    ax.set_xlabel("Time [h]")
+    ax.set_ylabel("m")
+    ax.set_title("Measurements")
+    ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
+    ax.grid()
 
-dbb = sigma*np.sqrt(3)/T
-q = sigma/(2*T)
-bb = sigma/np.sqrt(T)
-tau = 1000
-bc = 2*tau*sigma**2/T*(1-tau/(2*T)*(3-4*np.exp(-T/tau) + np.exp(-2*T/tau)))
-rw = sigma*np.sqrt(T/3)
-derive = sigma*T/np.sqrt(2)
+    import qrunch
+    from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
 
-T= T/60/60 # s->h
-ax2.loglog(T, data, label = "allan deviation")
+    Frequency = 1/np.mean(np.diff(time))
+    T, data, std = qrunch.allan_deviation(dist,Frequency)
 
-bc = 10*bc; rw = 0.0015*rw
-ax2.loglog(T, bb, label = "gaussian noise")
-# ax2.loglog(T, bc, label = "bruit corélé")
-# ax2.loglog(T, derive, label = "derive")
-ax2.loglog(T, rw, label = "random walk")
-# ax2.loglog(T, q, label = "quantification")
-# ax2.loglog(T, dbb, label = "dérivée bruit blanc")
+    sigma = data[0] #np.std(dist)
+    print(f"sigma = {sigma}")
 
-total = np.sqrt(bb**2 + (rw)**2) # + (bc)**2)
-# total = np.sqrt(bb**2 + (0.0013*rw)**2)
-ax2.loglog(T, total, label = "total", linewidth = 3, color = 'red')
-ax2.set_xlabel('h')
+    sigma_bb = 1.2*sigma
+    sigma_rw = 0.002*sigma
+    dbb = sigma*np.sqrt(3)/T
+    q = sigma/(2*T)
+    bb = sigma_bb/np.sqrt(T)
+    tau = 1000
+    bc = 2*tau*sigma**2/T*(1-tau/(2*T)*(3-4*np.exp(-T/tau) + np.exp(-2*T/tau)))
+    rw = sigma_rw*np.sqrt(T/3)
+    derive = sigma*T/np.sqrt(2)
 
-ax2.set_ylabel('m')
-ax2.set_title('Allan Deviation')
+    T= T/60/60 # s->h
+    
+    if not with_dbm:
+        fig2, ax2 = plt.subplots(1,1)
+        ax2.loglog(T, data, label = "allan deviation")
 
+        ax2.loglog(T, bb, label = "gaussian noise")
+        # ax2.loglog(T, bc, label = "bruit corélé")
+        # ax2.loglog(T, derive, label = "derive")
+        ax2.loglog(T, rw, label = "random walk")
+        # ax2.loglog(T, q, label = "quantification")
+        # ax2.loglog(T, dbb, label = "dérivée bruit blanc")
 
-plt.legend()
-plt.show()
+        total = np.sqrt(bb**2 + (rw)**2)
+        ax2.loglog(T, total, label = "total", linewidth = 3, color = 'red')
+        ax2.set_xlabel('h')
+        ax2.set_ylabel('m')
+        ax2.set_title('Allan Deviation')
+
+        plt.legend()
+    if with_dbm:
+        fig, ax = plt.subplots(1,2)
+        fig.suptitle("Allan deviation")
+
+        ax1 = ax[0]
+        ax1.loglog(T, data, label = "data")
+        ax1.loglog(T, std, label = "std")
+
+        ax1.loglog(T, bb, label = "gaussian noise")
+        # ax1.loglog(T, bc, label = "bruit corélé")
+        # ax1.loglog(T, derive, label = "derive")
+        ax1.loglog(T, rw, label = "random walk")
+        # ax1.loglog(T, q, label = "quantification")
+        # ax1.loglog(T, dbb, label = "dérivée bruit blanc")
+
+        total = np.sqrt(bb**2 + (rw)**2) # + (bc)**2)
+        # total = np.sqrt(bb**2 + (0.0013*rw)**2)
+        ax1.loglog(T, total, label = "total", linewidth = 3, color = 'red')
+        ax1.set_xlabel('h')
+        ax1.set_ylabel('m')
+        ax1.set_title('Distance')
+        ax1.legend()
+
+        T, data_dbm, std_dbm = qrunch.allan_deviation(dbm,Frequency)
+
+        ax1 = ax[1]
+        ax1.plot((T), (std_dbm), label = 'std')
+        sigma = data_dbm[0]
+        bb = sigma/np.sqrt(T)
+        ax1.loglog(T, data_dbm, label='data')
+        ax1.loglog(T, bb, label = "gaussian noise")
+        ax1.set_title("DBM")
+        ax1.set_xlabel("Time")
+        ax1.set_ylabel("db")
+        ax1.legend()
+
+    plt.show()
+
+if __name__ == "__main__":
+    filename = os.path.join(THIS_FOLDER, "Long_log_28_03_2023_17_25_20.csv")
+    time, dist, ids, dbm, with_dbm = load_data(filename)
+    plot_data(time, dist, dbm, with_dbm)
