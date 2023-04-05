@@ -13,7 +13,7 @@ Cela nous donne le résulat suivant :
 
 <div style="text-align:center">
 <p align="center">
-  <img src="https://raw.githubusercontent.com/augustinmorge/uwb_project/main/src/log_cali/Test_on_2023_03_30_09_35_46.png?token=GHSAT0AAAAAACACEXIPZNQK2LB54N4QQZEWZBGUKXQ" width="750" title="Résultat de la calibration">
+  <img src="https://github.com/augustinmorge/uwb_project/blob/main/src/logs/log_cali/Test_on_2023_03_30_09_35_46.png" width="750" title="Résultat de la calibration">
 </p>
 </div>
 

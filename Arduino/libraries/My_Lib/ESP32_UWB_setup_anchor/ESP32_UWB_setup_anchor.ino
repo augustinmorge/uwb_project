@@ -107,6 +107,8 @@ void newRange()
   }
   dist = dist/NUMBER_OF_DISTANCES;
   Serial.println(dist);
+  Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
+  Serial.print(", ");
 }
 
 void newDevice(DW1000Device *device)

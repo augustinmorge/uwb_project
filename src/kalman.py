@@ -6,6 +6,19 @@ import numpy as np
 import sys, time
 from get_data import *
 
+def sawtooth(x):
+    return (x+np.pi)%(2*np.pi)-np.pi   # or equivalently   2*arctan(tan(x/2))
+
+def mvnrnd(G):
+    n = len(G)
+    if n == 0:
+        return np.zeros((0, 1))
+    elif n == 1:
+        return np.random.normal(scale=np.sqrt(G[0, 0]), size=(1, 1))
+    else:
+        y = np.random.multivariate_normal(np.zeros(n), G)
+        return y.reshape(n, 1)
+
 def f(X, u):
     
     u1, u2, u3 = u.flatten()
@@ -25,25 +38,25 @@ def g(anchors, x):
     y = np.zeros((1,1))
     Beta = []
     for id in anchors.keys():
-        time, dist = anchors[id]['Time'], anchors[id]['Range']
+        dist = anchors[id]['Range']
         a = anchors[id]['Coords']
         
-        wp_detected = True
         plt.plot(np.array([a[0],x[0,0]]),np.array([a[1],x[1,0]]),"red",1)
 
-        dist_hat = np.linalg.norm(a - (x[0:2]).flatten())**2
+        dist_hat = np.linalg.norm(a - (x[0:2]).flatten())
         Hi = np.array([[-2*(a[0] - x[0,0]), -2*(a[1] - x[1,0]), 0, 0, 0]])
-        yi = dist - dist_hat + Hi@x
+        yi = dist**2 - dist_hat**2 + Hi@x
 
         if not wp_detected:
             H = Hi; y = yi; 
         else:
             H = np.vstack((H,Hi)); y = np.vstack((y,yi))
 
+        wp_detected = True
         Beta.append(0.1)
     R = np.diag(Beta)
     if len(Beta) != 0:
-        y = y + tool.mvnrnd1(R)
+        y = y + mvnrnd(R)
     
     return H, y, R, wp_detected
 
