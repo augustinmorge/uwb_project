@@ -12,10 +12,11 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
+#define ANCHOR_ADD "81:17:5B:D5:A9:9A:E2:9C"
 
 //calibrated Antenna Delay setting for this anchor
-#define Adelay 16548
+// #define Adelay 16548
+#define Adelay 16572
 
 // previously determined calibration results for antenna delay
 // #1 16630
@@ -94,6 +95,7 @@ void loop()
   DW1000Ranging.loop();
 }
 
+// float t0 = millis();
 void newRange()
 {
   //    Serial.print("from: ");
@@ -109,6 +111,9 @@ void newRange()
   Serial.print(dist);
   Serial.print(", ");
   Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
+  Serial.print(", ");
+  // Serial.println(millis() - t0);
+  // t0 = millis();
 }
 
 void newDevice(DW1000Device *device)

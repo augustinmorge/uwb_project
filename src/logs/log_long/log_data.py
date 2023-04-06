@@ -117,7 +117,8 @@ def main(t_start):
         
         f.flush()
 
-        # if time.time() - t0 > 1:
+        # if time.time() - t0 > 60:
+        #     break
         #     connect_to_tag()
         #     t0 = time.time()
 

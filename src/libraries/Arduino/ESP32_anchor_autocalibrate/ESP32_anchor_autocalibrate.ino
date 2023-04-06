@@ -99,17 +99,15 @@ void newRange()
   static float last_delta = 0.0;
   // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), DEC);
 
-  // float dist = 0;
-  // for (int i = 0; i < 100; i++) {
-  //   // get and average 100 measurements
-  //   dist += DW1000Ranging.getDistantDevice()->getRange();
-  // }
-  // dist /= 100.0;
-
-  dist = DW1000Ranging.getDistantDevice()->getRange();
+  float dist = 0;
+  for (int i = 0; i < 100; i++) {
+    // get and average 100 measurements
+    dist += DW1000Ranging.getDistantDevice()->getRange();
+  }
+  dist /= 100.0;
 
   // Serial.print(",");
-  // Serial.print(dist); 
+  Serial.println(dist); 
   if (Adelay_delta < 3) {
     if(tot==100){while (1);}
     Serial.print("final Adelay n°");

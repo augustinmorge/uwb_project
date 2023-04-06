@@ -126,7 +126,6 @@ void loop()
         // Loop for the WiFi
         make_link_json(uwb_data, &all_json, millis());
         send_udp(&all_json);
-        runtime = millis();
     }
 }
 

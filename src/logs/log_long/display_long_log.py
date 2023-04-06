@@ -85,7 +85,7 @@ def load_data(filename):
         # Charger le fichier CSV
         return load_single_file(filename)
 
-def plot_data(time, dist, dbm, with_dbm=True):
+def plot_data(ids, time, dist, dbm, with_dbm=True):
     # Tracer la distance en fonction du temps sans mask
     idx_start = np.argmax(time.flatten() > 25000) #9540
     idx_end = time.shape[0] #- time.shape[0]//10
@@ -110,7 +110,7 @@ def plot_data(time, dist, dbm, with_dbm=True):
     else:
         fig, ax = plt.subplots(1,1)
 
-    fig.suptitle(f"Déviation d'Allan")
+    fig.suptitle(f"Déviation d'Allan for anchor {int(ids[0])}")
     
     ax.scatter(time/60/60, dist, s=0.1)
     ax.set_xlabel("Time [h]")
@@ -155,12 +155,12 @@ def plot_data(time, dist, dbm, with_dbm=True):
         ax2.loglog(T, total, label = "total", linewidth = 3, color = 'red')
         ax2.set_xlabel('h')
         ax2.set_ylabel('m')
-        ax2.set_title('Allan Deviation')
+        ax2.set_title('Allan Deviation for anchor {}'.format(int(ids[0])))
 
         plt.legend()
     if with_dbm:
         fig, ax = plt.subplots(1,2)
-        fig.suptitle("Allan deviation")
+        fig.suptitle("Allan deviation for anchor {}".format(int(ids[0])))
 
         ax1 = ax[0]
         ax1.loglog(T, data, label = "data")
@@ -197,6 +197,14 @@ def plot_data(time, dist, dbm, with_dbm=True):
     plt.show()
 
 if __name__ == "__main__":
-    filename = os.path.join(THIS_FOLDER, "Long_log_28_03_2023_17_25_20.csv")
+    filename = os.path.join(THIS_FOLDER, "Long_log_05_04_2023_17_23_38.csv")
     time, dist, ids, dbm, with_dbm = load_data(filename)
-    plot_data(time, dist, dbm, with_dbm)
+
+    # plot_data(ids, time, dist, dbm, with_dbm)
+    val_idx = np.unique(ids)
+    for idx in val_idx:
+        new_ids = ids[ids == idx]
+        new_dist = dist[ids == idx]
+        new_time = time[ids == idx]
+        new_dbm = dbm[ids == idx]
+        plot_data(new_ids, new_time, new_dist, new_dbm, with_dbm)

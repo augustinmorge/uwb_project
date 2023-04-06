@@ -1,8 +1,6 @@
 from kalman import *
 
 def main(X,u):
-    global anchors
-    anchors = anchors.anchors
     global dt, P, Q
     u1, u2, u3 = u.flatten() ## TODO : Récupérer les données de la centrale pour wz, ax, ay
     x, y, θ, vx, vy = X.flatten()
@@ -29,14 +27,14 @@ def main(X,u):
 
     if display_bot:
         # Display the results
-        tool.draw_tank(X)
+        tool.draw_tank(X,col='darkblue',r=0.1) #,w=2)
         tool.draw_ellipse_cov(ax, X[0:2], P[0:2, 0:2], 0.9, col='black')
         ax.scatter(X[0, 0], X[1, 0], color='green', label = 'Estimation of position', s = 5)
         ax.legend()
-
-        for id in anchors.keys():
+        ids = anchors.anchors.keys()
+        for id in ids:
             try:
-                ax.scatter(anchors[id]['Coords'][0], anchors['Coords'][1], label = 'anchors UWB')
+                ax.scatter(anchors.anchors[id]['Coords'][0], anchors.anchors['Coords'][1], label = 'anchors UWB')
             except:
                 pass
 
@@ -47,11 +45,31 @@ def main(X,u):
     
         
 if __name__ == "__main__":
+
+    # Start the threads
+    anchors = Anchor()
+
+    data, addr = connect_to_tag()
+
+    # # Create a thread that runs the get_data function
+    # get_data_thread = lambda : get_data(anchors, data)
+    # t_get_data = threading.Thread(target=get_data)
+
+    # # Start the thread
+    # t_get_data.start()
+
+    # Create a thread that runs the get_data function
+    get_data_thread = threading.Thread(target=get_data, args=(anchors,data,))
+
+    # Start the thread
+    get_data_thread.start()
+
+    # Start the display
     display_bot = 1
 
     L = 20
     if display_bot:
-        ax = tool.init_figure(-L*1.1, L*1.1, -L*1.1, L*1.1)
+        ax = tool.init_figure(-5, 5, -5, 5)
 
     P = 10 * np.eye(5)
     X = np.array([[1], [0], [0], [0], [0]])
@@ -59,22 +77,12 @@ if __name__ == "__main__":
     wp_detected = False
 
     u = np.zeros((3,1))
-    t0 = time.time()
-    global dt
-    dt = t0
+    dt = 0.1
 
-    
-
-    print("Everything working.. Starting the main program in 5.."); time.sleep(1)
-    print("..4.."); time.sleep(1); print("..3..");time.sleep(1); print("..2..");time.sleep(1)
-    print("..1");time.sleep(1)
     while True:
         sigm_equation = dt*0.1
         Q = np.diag([sigm_equation, sigm_equation, sigm_equation])
         # Change time step
         t0 = time.time()
-        mutex.acquire()
         main(X,u)
-        mutex.release()
         dt = time.time() - t0
-        time.sleep(0.5)

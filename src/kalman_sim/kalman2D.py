@@ -215,7 +215,7 @@ if __name__ == "__main__":
             if wp_detected and not GNSS:
                 Xhat, P, ytilde, inv_norm_S = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
             if not wp_detected and not GNSS and not odometer:
-                Xhat = Xhat + dt*f(Xhat,u) #+ mvnrnd(Gk @ Q @ Gk.T) #Fk @ Xhat + Gk @ u
+                Xhat = Xhat + dt*f(Xhat,u) + mvnrnd(Gk @ Q @ Gk.T) #Fk @ Xhat + Gk @ u
                 P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
 
         if GNSS:
@@ -223,7 +223,7 @@ if __name__ == "__main__":
                 sigm_measure = 0.01
                 R_gps = np.diag([sigm_measure, sigm_measure])
 
-                Y_gps = np.array([[x], [y]]) #+ mvnrnd(R)
+                Y_gps = np.array([[x], [y]])
                 Hk_gps = np.array([[1, 0, 0, 0, 0],
                                    [0, 1, 0, 0, 0]])
 
@@ -237,13 +237,13 @@ if __name__ == "__main__":
                 P = P - K @ Hk_gps @ P
 
             if not odometer:
-                Xhat = Xhat + dt*f(Xhat,u) ##+ mvnrnd(Gk @ Q @ Gk.T) #Fk @ Xhat + Gk @ u
+                Xhat = Xhat + dt*f(Xhat,u)
                 P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
 
         if odometer:
             sigm_measure = 0.00001
             R_odo = np.diag([sigm_measure, sigm_measure])
-            Y_odo = np.array([[vx], [vy]]) #+ mvnrnd(R)
+            Y_odo = np.array([[vx], [vy]])
             Hk_odo = np.array([[0, 0, 0, 1, 0],
                                 [0, 0, 0, 0, 1]])
 
@@ -256,7 +256,7 @@ if __name__ == "__main__":
             Xhat = Xhat + K @ ytilde
             P = P - K @ Hk_odo @ P
 
-            Xhat = Xhat + dt*f(Xhat,u) ##+ mvnrnd(Gk @ Q @ Gk.T) #Fk @ Xhat + Gk @ u
+            Xhat = Xhat + dt*f(Xhat,u)
             P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
 
         if display_bot:

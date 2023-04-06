@@ -37,7 +37,7 @@ def read_data(data):
 
     try:
         uwb_data = json.loads(line)
-        print(uwb_data)
+        # print(uwb_data)
 
         uwb_list = uwb_data["links"]
         # for uwb_archor in uwb_list:
@@ -50,7 +50,6 @@ def read_data(data):
     return uwb_list
 
 def uwb_range_offset(uwb_range):
-
     temp = uwb_range
     return temp
 
@@ -61,62 +60,60 @@ class Anchor:
     
     def update_anchor(self, id, time, range, coords):
         with self.lock: # Acquire the lock before accessing the dictionary
+            mutex.acquire()
             self.anchors[id] = {'Time':time, 'Range': range, 'Coords': coords}
+            mutex.release()
 
 def get_data(anchors, data):
     while True:
 
         list = read_data(data)
+        
 
         for one in list:
 
             if one["A"] == "1780":
                 time_anchor1 = uwb_range_offset(float(one["T"]));
                 data_anchor1 = uwb_range_offset(float(one["R"]));
-                mutex.acquire()
                 anchors.update_anchor(1780, time_anchor1, data_anchor1, (0,0))
-                mutex.release()
 
             if one["A"] == "1781":
                 time_anchor2 = uwb_range_offset(float(one["T"]));
                 data_anchor2 = uwb_range_offset(float(one["R"]));
-                mutex.acquire()
-                anchors.update_anchor(1781, time_anchor2, data_anchor2, (0,5))
-                mutex.release()
+                anchors.update_anchor(1781, time_anchor2, data_anchor2, (0,1.1))
 
             if one["A"] == "1782":
                 time_anchor3 = uwb_range_offset(float(one["T"]));
                 data_anchor3 = uwb_range_offset(float(one["R"]));
-                mutex.acquire()
-                anchors.update_anchor(1782, time_anchor3, data_anchor3, (-5,0))
-                mutex.release()
+                anchors.update_anchor(1782, time_anchor3, data_anchor3, (-1.1,0))
 
             if one["A"] == "1783":
                 time_anchor4 = uwb_range_offset(float(one["T"]));
                 data_anchor4 = uwb_range_offset(float(one["R"]));
-                mutex.acquire()
-                anchors.update_anchor(1783, time_anchor4, data_anchor4, (5,5))
-                mutex.release()
+                anchors.update_anchor(1783, time_anchor4, data_anchor4, (1.1,5))
 
         mutex.acquire()
         print(anchors.anchors)
         mutex.release()
 
-        # time.sleep(1.1)
+        # time.sleep(1)
 
 
-anchors = Anchor()
-data, addr = connect_to_tag()
+if __name__ == "__main__":
+    # Start the threads
+    anchors = Anchor()
+    
+    data, addr = connect_to_tag()
 
-# # Create a thread that runs the get_data function
-# get_data_thread = lambda : get_data(anchors, data)
-# t_get_data = threading.Thread(target=get_data)
+    # # Create a thread that runs the get_data function
+    # get_data_thread = lambda : get_data(anchors, data)
+    # t_get_data = threading.Thread(target=get_data)
 
-# # Start the thread
-# t_get_data.start()
+    # # Start the thread
+    # t_get_data.start()
 
-# Create a thread that runs the get_data function
-get_data_thread = threading.Thread(target=get_data, args=(anchors,data,))
+    # Create a thread that runs the get_data function
+    get_data_thread = threading.Thread(target=get_data, args=(anchors,data,))
 
-# Start the thread
-get_data_thread.start()
+    # Start the thread
+    get_data_thread.start()

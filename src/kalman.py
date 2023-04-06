@@ -37,9 +37,14 @@ def g(anchors, x):
     H = np.zeros((1,5))
     y = np.zeros((1,1))
     Beta = []
-    for id in anchors.keys():
-        dist = anchors[id]['Range']
-        a = anchors[id]['Coords']
+    mutex.acquire()
+    ids = anchors.anchors.keys()
+    mutex.release()
+    for id in ids:
+        mutex.acquire()
+        dist = anchors.anchors[id]['Range']
+        a = anchors.anchors[id]['Coords']
+        mutex.release()
         
         plt.plot(np.array([a[0],x[0,0]]),np.array([a[1],x[1,0]]),"red",1)
 
