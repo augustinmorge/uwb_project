@@ -102,7 +102,7 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
         ax0 = axs[1]
         ax0.plot(time/60/60, dbm)
         ax0.set_xlabel("Time [h]")
-        ax0.set_ylabel("db")
+        ax0.set_ylabel("dBm")
         ax0.set_title("DBM")
         ax0.set_xlim([np.min(time/60/60), np.max(time/60/60)])
         ax0.grid()
@@ -138,7 +138,7 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
     rw = sigma_rw*np.sqrt(T/3)
     derive = sigma*T/np.sqrt(2)
 
-    T= T/60/60 # s->h
+    T = T/60/60 # s->h
     
     if not with_dbm:
         fig2, ax2 = plt.subplots(1,1)
@@ -182,16 +182,17 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
         ax1.legend()
 
         T, data_dbm, std_dbm = qrunch.allan_deviation(dbm,Frequency)
-
+        
         ax1 = ax[1]
-        ax1.plot((T), (std_dbm), label = 'std')
         sigma = data_dbm[0]
         bb = sigma/np.sqrt(T)
+        T = T/60/60
+        ax1.plot((T), (std_dbm), label = 'std')
         ax1.loglog(T, data_dbm, label='data')
         ax1.loglog(T, bb, label = "gaussian noise")
         ax1.set_title("DBM")
         ax1.set_xlabel("Time")
-        ax1.set_ylabel("db")
+        ax1.set_ylabel("dBm")
         ax1.legend()
 
     plt.show()

@@ -31,6 +31,8 @@ struct Link
     uint16_t anchor_addr;
     float range;
     float dbm;
+    float fp;
+    float quality;    
     struct Link *next;
 };
 
@@ -80,12 +82,12 @@ void setup()
     // DW1000Ranging.useRangeFilter(true);
 
     // we start the module as a tag
-    DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_LOWPOWER,false);
+    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_LOWPOWER,false);
     // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_SHORTDATA_FAST_LOWPOWER,false);
     // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_FAST_LOWPOWER,false);
     // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_SHORTDATA_FAST_ACCURACY,false);
     // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_FAST_ACCURACY,false);
-    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_ACCURACY,false);
+    DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_ACCURACY,false);
 
     uwb_data = init_link();
 
@@ -127,20 +129,28 @@ void loop()
         make_link_json(uwb_data, &all_json, millis());
         send_udp(&all_json);
     }
+  // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
+  // Serial.print(", ");
+  // Serial.print(DW1000Ranging.getDistantDevice()->getFPPower());
+  // Serial.print(", diff:");
+  // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower() - DW1000Ranging.getDistantDevice()->getFPPower());
+  // Serial.print(", ");
+  // Serial.println(DW1000Ranging.getDistantDevice()->getQuality());
+  // Serial.println("");
 }
 
 void newRange()
 {
-    Serial.print("from: ");
-    Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
-    Serial.print("\t Range: ");
-    Serial.print(DW1000Ranging.getDistantDevice()->getRange());
-    Serial.print(" m");
-    Serial.print("\t RX power: ");
-    Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
-    Serial.println(" dBm");
+    // Serial.print("from: ");
+    // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
+    // Serial.print("\t Range: ");
+    // Serial.print(DW1000Ranging.getDistantDevice()->getRange());
+    // Serial.print(" m");
+    // Serial.print("\t RX power: ");
+    // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
+    // Serial.println(" dBm");
 
-    fresh_link(uwb_data, DW1000Ranging.getDistantDevice()->getShortAddress(), DW1000Ranging.getDistantDevice()->getRange(), DW1000Ranging.getDistantDevice()->getRXPower());
+    fresh_link(uwb_data, DW1000Ranging.getDistantDevice()->getShortAddress(), DW1000Ranging.getDistantDevice()->getRange(), DW1000Ranging.getDistantDevice()->getRXPower()); //\, DW1000Ranging.getDistantDevice()->getFPPower(), DW1000Ranging.getDistantDevice()->getQuality());
     // print_link(uwb_data);
 }
 
@@ -194,6 +204,8 @@ void add_link(struct Link *p, uint16_t addr)
     a->anchor_addr = addr;
     a->range = 0.0;
     a->dbm = 0.0;
+    a->fp = 0.0;
+    a->quality = 0.0;
     a->next = NULL;
 
     // Add anchor to end of struct Link
@@ -204,9 +216,9 @@ void add_link(struct Link *p, uint16_t addr)
 
 struct Link *find_link(struct Link *p, uint16_t addr)
 {
-#ifdef DEBUG
-    Serial.println("find_link");
-#endif
+// #ifdef DEBUG
+//     Serial.println("find_link");
+// #endif
     if (addr == 0)
     {
         Serial.println("find_link:Input addr is 0");
@@ -235,17 +247,19 @@ struct Link *find_link(struct Link *p, uint16_t addr)
     return NULL;
 }
 
-void fresh_link(struct Link *p, uint16_t addr, float range, float dbm)
+void fresh_link(struct Link *p, uint16_t addr, float range, float dbm) //, float fp, float quality)
 {
-#ifdef DEBUG
-    Serial.println("fresh_link");
-#endif
+// #ifdef DEBUG
+    // Serial.println("fresh_link");
+// #endif
     struct Link *temp = find_link(p, addr);
     if (temp != NULL)
     {
 
         temp->range = range;
         temp->dbm = dbm;
+        // temp->fp = fp;
+        // temp->quality = quality;
         return;
     }
     else
@@ -257,9 +271,9 @@ void fresh_link(struct Link *p, uint16_t addr, float range, float dbm)
 
 void print_link(struct Link *p)
 {
-#ifdef DEBUG
-    Serial.println("print_link");
-#endif
+// #ifdef DEBUG
+//     Serial.println("print_link");
+// #endif
     struct Link *temp = p;
 
     while (temp->next != NULL)
@@ -383,7 +397,8 @@ void make_link_json(struct Link *p, String *s, long unsigned int timer)
         // sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.5f\"}", temp->anchor_addr, temp->range);
         char link_json[60];
         sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.5f\",\"dbm\":\"%.2f\",\"T\":\"%lu\"}", temp->anchor_addr, temp->range, temp->dbm, timer);
-        
+        // char link_json[120];
+        // sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.2f\",\"RX\":\"%.2f\",\"FP\":\"%.2f\",\"Q\":\"%.2f\",\"T\":\"%lu\"}", temp->anchor_addr, temp->range, temp->dbm, temp->fp, temp->quality, timer);
         *s += link_json;
         if (temp->next != NULL)
         {
@@ -401,7 +416,7 @@ void send_udp(String *msg_json)
         client.print(*msg_json);
         Serial.println("UDP send");
     }
-    // else{
-    //   client.connect(host, 8080);
-    // }
+    else{
+      client.connect(host, 8080);
+    }
 }

@@ -37,7 +37,7 @@ def read_data(data):
 
     try:
         uwb_data = json.loads(line)
-        # print(uwb_data)
+        print(uwb_data)
 
         uwb_list = uwb_data["links"]
         # for uwb_archor in uwb_list:
@@ -92,9 +92,9 @@ def get_data(anchors, data):
                 data_anchor4 = uwb_range_offset(float(one["R"]));
                 anchors.update_anchor(1783, time_anchor4, data_anchor4, (1.1,5))
 
-        mutex.acquire()
-        print(anchors.anchors)
-        mutex.release()
+        # mutex.acquire()
+        # print(anchors.anchors)
+        # mutex.release()
 
         # time.sleep(1)
 
