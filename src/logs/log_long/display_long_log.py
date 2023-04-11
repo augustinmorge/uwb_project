@@ -30,10 +30,10 @@ def load_single_file(filename):
 
     masked = True
     if masked:
-        # alp = 1/7.1
+        alp = 1
         # print(alp*np.std(dist) + np.mean(dist))
-        # mask = np.abs(dist - np.mean(dist)) > alp*np.std(dist)
-        mask = dist <= 0
+        mask = np.abs(dist - np.mean(dist)) > alp*np.std(dist)
+        # mask = dist <= 0
         time = time[~mask]
         dist = dist[~mask]
         ids = ids[~mask]
@@ -87,7 +87,7 @@ def load_data(filename):
 
 def plot_data(ids, time, dist, dbm, with_dbm=True):
     # Tracer la distance en fonction du temps sans mask
-    idx_start = np.argmax(time.flatten() > 25000) #9540
+    idx_start = 0 # np.argmax(time.flatten() > 25000) #9540
     idx_end = time.shape[0] #- time.shape[0]//10
     time = time[idx_start:idx_end] - time[idx_start]
     dist = dist[idx_start:idx_end]
@@ -129,7 +129,7 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
     print(f"sigma = {sigma}")
 
     sigma_bb = 1.2*sigma
-    sigma_rw = 0.002*sigma
+    sigma_rw = 0.00005
     dbb = sigma*np.sqrt(3)/T
     q = sigma/(2*T)
     bb = sigma_bb/np.sqrt(T)
@@ -190,6 +190,8 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
         ax1.plot((T), (std_dbm), label = 'std')
         ax1.loglog(T, data_dbm, label='data')
         ax1.loglog(T, bb, label = "gaussian noise")
+        rw = 0.05*np.sqrt(T/3)
+        ax1.loglog(T, np.sqrt(rw**2 + bb**2), label = "total", linewidth = 3, color = 'red')
         ax1.set_title("DBM")
         ax1.set_xlabel("Time")
         ax1.set_ylabel("dBm")
@@ -198,7 +200,7 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
     plt.show()
 
 if __name__ == "__main__":
-    filename = os.path.join(THIS_FOLDER, "Long_log_05_04_2023_17_23_38.csv")
+    filename = os.path.join(THIS_FOLDER, "Long_log_07_04_2023_17_09_02.csv")
     time, dist, ids, dbm, with_dbm = load_data(filename)
 
     # plot_data(ids, time, dist, dbm, with_dbm)
