@@ -90,6 +90,13 @@ Wps = np.array([[0, 10, -10, 0],
 # N = 10
 # Wps = np.random.uniform(low=a, high=b, size=(2, N))
 
+def random_noise(G, n_iter,sigma=0.00005):
+    n = len(G)
+    gaussian_vector = np.random.multivariate_normal(np.zeros(n), sigma*np.eye(*G.shape), size=n_iter+1)
+    random_noise = np.sum(gaussian_vector, axis = 0).reshape(-1,1)
+    return random_noise
+
+
 #Génération d'un vecteur gaussien
 def mvnrnd(G):
     n = len(G)
@@ -100,15 +107,16 @@ def mvnrnd(G):
     else:
         y = np.random.multivariate_normal(np.zeros(n), G)
         return y.reshape(n, 1)
-
+    
+err = []
 # Observation function
-def g(x, Xhat):
+def g(x, Xhat, t):
+    global err, col
     x=x.flatten()
     wp_detected = False
     H = np.zeros((1,5))
     y = np.zeros((1,1))
     Beta = []; A = []
-    global col
     for i in range(Wps.shape[1]):
         a=Wps[:,i].flatten() #wps(i) in (xi,yi)
         da = a-(x[0:2]).flatten()
@@ -134,7 +142,7 @@ def g(x, Xhat):
 
     Γβ = np.diag(Beta)
     if len(Beta) != 0:
-        y = y + mvnrnd(Γβ)
+        y = y + mvnrnd(Γβ) + random_noise(Γβ, int(t/dt))
     
     return H, y, Γβ, wp_detected
 
@@ -154,11 +162,10 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
 
     return xbar, P, ytilde, inv_norm_S
 
-
 if __name__ == "__main__":
     global col
     col = []
-    display_bot = 1
+    display_bot = 0
     UWB = 1
     GNSS = 0
     odometer = 0
@@ -211,7 +218,7 @@ if __name__ == "__main__":
                             [0, np.cos(θ), np.sin(θ)]])
 
         if UWB :
-            Hk,Y,R,wp_detected = g(X, Xhat)
+            Hk,Y,R,wp_detected = g(X, Xhat, t)
             if wp_detected and not GNSS:
                 Xhat, P, ytilde, inv_norm_S = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
             if not wp_detected and not GNSS and not odometer:
@@ -321,4 +328,4 @@ if __name__ == "__main__":
             ax1.set_xlabel("Time [s]")
             ax1.set_ylabel("||Ytilde|| [m]")
             plt.show()
-    final_display()
+    # final_display()

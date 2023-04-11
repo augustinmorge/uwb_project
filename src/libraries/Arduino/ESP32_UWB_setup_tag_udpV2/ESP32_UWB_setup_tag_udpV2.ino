@@ -141,14 +141,16 @@ void loop()
 
 void newRange()
 {
-    // Serial.print("from: ");
-    // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
-    // Serial.print("\t Range: ");
-    // Serial.print(DW1000Ranging.getDistantDevice()->getRange());
-    // Serial.print(" m");
-    // Serial.print("\t RX power: ");
-    // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
-    // Serial.println(" dBm");
+    Serial.print("from: ");
+    Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
+    Serial.print("\t Range: ");
+    Serial.print(DW1000Ranging.getDistantDevice()->getRange());
+    Serial.print(" m");
+    Serial.print("\t RX power: ");
+    Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
+    Serial.print(" dBm");
+    Serial.print("\t Quality: ");
+    Serial.println(DW1000->getQuality());
 
     fresh_link(uwb_data, DW1000Ranging.getDistantDevice()->getShortAddress(), DW1000Ranging.getDistantDevice()->getRange(), DW1000Ranging.getDistantDevice()->getRXPower()); //\, DW1000Ranging.getDistantDevice()->getFPPower(), DW1000Ranging.getDistantDevice()->getQuality());
     // print_link(uwb_data);
