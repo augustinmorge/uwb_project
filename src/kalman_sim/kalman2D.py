@@ -2,6 +2,7 @@
 import os, sys
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(1, os.path.join(THIS_FOLDER, '../libraries'))
+from sensor import noise_sensor
 import toolbox_kalman as tool
 
 import matplotlib.pyplot as plt
@@ -90,14 +91,14 @@ Wps = np.array([[0, 10, -10, 0],
 # N = 10
 # Wps = np.random.uniform(low=a, high=b, size=(2, N))
 
-def random_noise(G, n_iter,sigma=0.00005):
-    n = len(G)
-    gaussian_vector = np.random.multivariate_normal(np.zeros(n), sigma*np.eye(*G.shape), size=n_iter+1)
-    random_noise = np.sum(gaussian_vector, axis = 0).reshape(-1,1)
-    return random_noise
+# def random_noise(G, n_iter,sigma=0.00005):
+#     n = len(G)
+#     gaussian_vector = np.random.multivariate_normal(np.zeros(n), sigma*np.eye(*G.shape), size=n_iter+1)
+#     random_noise = np.sum(gaussian_vector, axis = 0).reshape(-1,1)
+#     return random_noise
 
 
-#Génération d'un vecteur gaussien
+# #Génération d'un vecteur gaussien
 def mvnrnd(G):
     n = len(G)
     if n == 0:
@@ -108,7 +109,6 @@ def mvnrnd(G):
         y = np.random.multivariate_normal(np.zeros(n), G)
         return y.reshape(n, 1)
     
-err = []
 # Observation function
 def g(x, Xhat, t):
     global err, col
@@ -127,22 +127,25 @@ def g(x, Xhat, t):
 
             dist_hat = np.linalg.norm(a - (Xhat[0:2]).flatten())**2
             Hi = np.array([[-2*(a[0] - Xhat[0,0]), -2*(a[1] - Xhat[1,0]), 0, 0, 0]])
-            yi = dist - dist_hat + Hi@Xhat
+            yi = dist - dist_hat + Hi@Xhat 
+
+            # Ajout du bruit
+            yi = noise_sensor(int(t/dt)+1, sigma_bb, sigma_rw, yi[0,0])[-1]
 
             if not wp_detected:
                 H = Hi; y = yi; 
             else:
                 H = np.vstack((H,Hi)); y = np.vstack((y,yi))
 
-            Beta.append(0.1)
+            Beta.append(np.sqrt(sigma_bb**2 + sigma_rw**2))
             wp_detected = True
 
     if not wp_detected: col.append('blue')
     else: col.append('red')
 
     Γβ = np.diag(Beta)
-    if len(Beta) != 0:
-        y = y + mvnrnd(Γβ) + random_noise(Γβ, int(t/dt))
+    # if len(Beta) != 0:
+    #     y = y + noise_sensor(int(t/dt), sigma_bb, sigma_rw) #, mvnrnd(Γβ) + random_noise(Γβ, int(t/dt))
     
     return H, y, Γβ, wp_detected
 
@@ -165,7 +168,7 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
 if __name__ == "__main__":
     global col
     col = []
-    display_bot = 0
+    display_bot = 1
     UWB = 1
     GNSS = 0
     odometer = 0
@@ -183,6 +186,8 @@ if __name__ == "__main__":
     X = np.array([[1], [0], [0], [0], [0]])
     Xhat = X
 
+    sigma_bb = 0.01665937281279768
+    sigma_rw = 0.00005
     sigm_equation = dt*0.1
     Q = np.diag([sigm_equation, sigm_equation, sigm_equation])
 
@@ -222,7 +227,7 @@ if __name__ == "__main__":
             if wp_detected and not GNSS:
                 Xhat, P, ytilde, inv_norm_S = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
             if not wp_detected and not GNSS and not odometer:
-                Xhat = Xhat + dt*f(Xhat,u) + mvnrnd(Gk @ Q @ Gk.T) #Fk @ Xhat + Gk @ u
+                Xhat = Xhat + dt*f(Xhat,u) + mvnrnd(Gk @ Q @ Gk.T)
                 P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
 
         if GNSS:
@@ -328,4 +333,4 @@ if __name__ == "__main__":
             ax1.set_xlabel("Time [s]")
             ax1.set_ylabel("||Ytilde|| [m]")
             plt.show()
-    # final_display()
+    final_display()
