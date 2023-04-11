@@ -173,8 +173,6 @@ if __name__ == "__main__":
     col = []
     display_bot = 0
     UWB = 1
-    GNSS = 0
-    odometer = 0
 
     if display_bot:
         ax = tool.init_figure(-L*1.1, L*1.1, -L*1.1, L*1.1)
@@ -227,56 +225,15 @@ if __name__ == "__main__":
 
         if UWB :
             Hk,Y,R,wp_detected = g(X, Xhat, t)
-            if wp_detected and not GNSS:
+            if wp_detected :
                 Xhat, P, ytilde, inv_norm_S = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
-            if not wp_detected and not GNSS and not odometer:
+            else:
                 Xhat = Xhat + dt*f(Xhat,u) + mvnrnd(Gk @ Q @ Gk.T)
                 P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
 
-        if GNSS:
-            if t%1==0: #each second we get a new value of GNSS data
-                sigm_measure = 0.01
-                R_gps = np.diag([sigm_measure, sigm_measure])
 
-                Y_gps = np.array([[x], [y]])
-                Hk_gps = np.array([[1, 0, 0, 0, 0],
-                                   [0, 1, 0, 0, 0]])
 
-                # Correction
-                ytilde = Y_gps - Hk_gps @ Xhat
-                S = Hk_gps @ P @ Hk_gps.T + R_gps
-                inv_norm_S = scipy.linalg.sqrtm(np.linalg.inv(S))@ytilde
-
-                K = P @ Hk_gps.T @ np.linalg.inv(S)
-                Xhat = Xhat + K @ ytilde
-                P = P - K @ Hk_gps @ P
-
-            if not odometer:
-                Xhat = Xhat + dt*f(Xhat,u)
-                P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
-
-        if odometer:
-            sigm_measure = 0.00001
-            R_odo = np.diag([sigm_measure, sigm_measure])
-            Y_odo = np.array([[vx], [vy]])
-            Hk_odo = np.array([[0, 0, 0, 1, 0],
-                                [0, 0, 0, 0, 1]])
-
-            # Correction
-            ytilde = Y_odo - Hk_odo @ Xhat
-            S = Hk_odo @ P @ Hk_odo.T + R_odo
-            np.linalg.inv_np.linalg.norm_S = scipy.linalg.sqrtm(np.linalg.inv(S))@ytilde
-
-            K = P @ Hk_odo.T @ np.linalg.inv(S)
-            Xhat = Xhat + K @ ytilde
-            P = P - K @ Hk_odo @ P
-
-            Xhat = Xhat + dt*f(Xhat,u)
-            P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
-
-        if display_bot:
-
-        
+        if display_bot:        
             # Display the results
             tool.draw_tank(X)
             tool.draw_ellipse_cov(ax, Xhat[0:2], P[0:2, 0:2], 0.9, col='black')

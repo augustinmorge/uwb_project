@@ -8,11 +8,14 @@ THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 LOGS_FOLDER = THIS_FOLDER #os.path.join(THIS_FOLDER, 'old')
 
 def load_single_file(filename):
-    dbm = np.array([])
+    RX = np.array([])
+    FP = np.array([])
+    Q = np.array([])
     # Charger le fichier CSV
     data = np.genfromtxt(filename, delimiter=';', skip_header=1)
-    with_dbm = False
-    if data.shape[1] == 4: with_dbm = True
+    with_RX = False; with_all = False
+    if data.shape[1] >= 4: with_RX = True
+    if data.shape[1] > 4: with_all = True
 
     # Extraire les colonnes ID, temps et distance
     ids = data[:, 0]
@@ -24,9 +27,17 @@ def load_single_file(filename):
     dist = distances
     time = time - np.min(time)
 
-    if with_dbm:
-        dbms = data[:, 3]
-        dbm = dbms
+    if with_RX:
+        RXs = data[:, 3]
+        RX = RXs
+
+    if with_all:
+        FPs = data[:, 4]
+        FP = FPs
+        Qs = data[:, 5]
+        Q = Qs
+
+
 
     masked = True
     if masked:
@@ -37,28 +48,32 @@ def load_single_file(filename):
         time = time[~mask]
         dist = dist[~mask]
         ids = ids[~mask]
-        if with_dbm:
-            dbm = dbm[~mask]
+        if with_RX:
+            RX = RX[~mask]
+        
+        if with_all:
+            FP = FP[~mask]
+            Q = Q[~mask]
 
-    return time, dist, ids, dbm, with_dbm
+    return time, dist, ids, RX, with_RX, FP, Q, with_all
 
 def load_multiple_files():
     time = np.array([])
     dist = np.array([])
     ids = np.array([])
-    dbm = np.array([])
+    RX = np.array([])
     # Parcourir tous les fichiers CSV dans le dossier "logs"
-    with_dbm = False
+    with_RX = False
     for filename in os.listdir(LOGS_FOLDER):
         # if filename.endswith('.csv'):
         if filename.startswith('Long_log_04_04_2023'): #or filename.startswith('Long_log_02_04') or filename.startswith('Long_log_03_04'):
             filepath = os.path.join(LOGS_FOLDER, filename)
-            file_time, file_dist, file_ids, file_dbm = load_single_file(filepath)
+            file_time, file_dist, file_ids, file_RX, with_RX, file_FP, file_Q, file_with_all = load_single_file(filepath)
             time = np.hstack((file_time, time))
             ids = np.hstack((file_ids, ids))
             dist = np.hstack((file_dist, dist))
-            if with_dbm:
-                dbm = np.hstack((file_dbm, dbm))
+            if with_RX:
+                RX = np.hstack((file_RX, RX))
 
     # Obtenir les index triés en fonction de la valeur de temps
     sorted_indices = np.argsort(time)
@@ -67,15 +82,15 @@ def load_multiple_files():
     time = time[sorted_indices]/1000
     dist = dist[sorted_indices]
     ids = ids[sorted_indices]
-    if with_dbm:
-        dbm = dbm[sorted_indices]
-        tab = np.vstack((ids,time,dist,dbm))
+    if with_RX:
+        RX = RX[sorted_indices]
+        tab = np.vstack((ids,time,dist,RX))
     else:
         tab = np.vstack((ids, time))
-    header = "n°Anchor, Time (s), Distance (m), dbm"
+    header = "n°Anchor, Time (s), Distance (m), RX"
     np.savetxt(f"{THIS_FOLDER}/{filename}_all.csv", tab.T, delimiter=";", header=header)
 
-    return time, dist, ids, dbm
+    return time, dist, ids, RX
 
 def load_data(filename):
     multiple_files = False
@@ -85,7 +100,7 @@ def load_data(filename):
         # Charger le fichier CSV
         return load_single_file(filename)
 
-def plot_data(ids, time, dist, dbm, with_dbm=True):
+def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
     # Tracer la distance en fonction du temps sans mask
     idx_start = 0 # np.argmax(time.flatten() > 25000) #9540
     idx_end = time.shape[0] #- time.shape[0]//10
@@ -95,15 +110,15 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
     print(f"Moyenne : {np.mean(dist)}")
     print(f"Ecart-Type : {np.std(dist)}")
 
-    if with_dbm:
-        dbm = dbm[idx_start:idx_end]
+    if with_RX:
+        RX = RX[idx_start:idx_end]
         #Ploting the Allan deviation
         fig, axs = plt.subplots(1,2)
         ax0 = axs[1]
-        ax0.plot(time/60/60, dbm)
+        ax0.plot(time/60/60, RX)
         ax0.set_xlabel("Time [h]")
         ax0.set_ylabel("dBm")
-        ax0.set_title("DBM")
+        ax0.set_title("RX")
         ax0.set_xlim([np.min(time/60/60), np.max(time/60/60)])
         ax0.grid()
         ax = axs[0]
@@ -128,7 +143,7 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
     sigma = data[0] #np.std(dist)
     print(f"sigma = {sigma}")
 
-    sigma_bb = 1.2*sigma
+    sigma_bb = 1.1*sigma
     sigma_rw = 0.00005
     dbb = sigma*np.sqrt(3)/T
     q = sigma/(2*T)
@@ -140,7 +155,7 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
 
     T = T/60/60 # s->h
     
-    if not with_dbm:
+    if not with_RX:
         fig2, ax2 = plt.subplots(1,1)
         ax2.loglog(T, data, label = "allan deviation")
 
@@ -158,7 +173,7 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
         ax2.set_title('Allan Deviation for anchor {}'.format(int(ids[0])))
 
         plt.legend()
-    if with_dbm:
+    if with_RX:
         fig, ax = plt.subplots(1,2)
         fig.suptitle("Allan deviation for anchor {}".format(int(ids[0])))
 
@@ -181,33 +196,58 @@ def plot_data(ids, time, dist, dbm, with_dbm=True):
         ax1.set_title('Distance')
         ax1.legend()
 
-        T, data_dbm, std_dbm = qrunch.allan_deviation(dbm,Frequency)
+        T, data_RX, std_RX = qrunch.allan_deviation(RX,Frequency)
         
         ax1 = ax[1]
-        sigma = data_dbm[0]
+        sigma = data_RX[0]
         bb = sigma/np.sqrt(T)
         T = T/60/60
-        ax1.plot((T), (std_dbm), label = 'std')
-        ax1.loglog(T, data_dbm, label='data')
+        ax1.plot((T), (std_RX), label = 'std')
+        ax1.loglog(T, data_RX, label='data')
         ax1.loglog(T, bb, label = "gaussian noise")
         rw = 0.05*np.sqrt(T/3)
         ax1.loglog(T, np.sqrt(rw**2 + bb**2), label = "total", linewidth = 3, color = 'red')
-        ax1.set_title("DBM")
+        ax1.set_title("RX")
         ax1.set_xlabel("Time")
-        ax1.set_ylabel("dBm")
+        ax1.set_ylabel("dBM")
         ax1.legend()
+
+    if with_all:
+        fig, ax = plt.subplots(1,2)
+        ax0 = ax[0]
+        ax1 = ax[1]
+        ax0.plot(time, RX - FP, label='diff power [dbM]')
+        ax0.set_title("RX - FP")
+        ax0.set_ylabel("dBM")
+        ax0.set_xlabel("time [s]")
+        ax0.legend()
+        
+        ax1.plot(time, Q, label = 'quality (FP2/STD)')
+        ax1.set_title("Quality of signal")
+        ax1.set_ylabel("ua")
+        ax1.set_xlabel("time [s]")
+        ax1.legend()
+
 
     plt.show()
 
 if __name__ == "__main__":
-    filename = os.path.join(THIS_FOLDER, "Long_log_07_04_2023_17_09_02.csv")
-    time, dist, ids, dbm, with_dbm = load_data(filename)
+    filename = os.path.join(THIS_FOLDER, "Long_log_11_04_2023_15_41_32.csv")
+    time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
 
-    # plot_data(ids, time, dist, dbm, with_dbm)
+    # plot_data(ids, time, dist, RX, with_RX)
     val_idx = np.unique(ids)
     for idx in val_idx:
         new_ids = ids[ids == idx]
         new_dist = dist[ids == idx]
         new_time = time[ids == idx]
-        new_dbm = dbm[ids == idx]
-        plot_data(new_ids, new_time, new_dist, new_dbm, with_dbm)
+        if with_all:
+            new_RX = RX[ids == idx]
+            new_FP = FP[ids == idx]
+            new_Q = Q[ids == idx]
+            plot_data(new_ids, new_time, new_dist, new_RX, with_RX, new_FP, new_Q, with_all)
+        elif with_RX:
+            new_RX = RX[ids == idx]
+            plot_data(new_ids, new_time, new_dist, new_RX, with_RX, np.array([]), np.array([]), False)
+        else:
+            plot_data(new_ids, new_time, new_dist, np.array([]), False, np.array([]), np.array([]), False)

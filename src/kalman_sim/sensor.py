@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 import numpy as np
 
-def noise_sensor(n, sigma_bb, sigma_rw, measure = 0):
+def noise_sensor(n, sigma_bb, sigma_rw, measure = np.random.randint(0,10)):
     """Simule les mesures d'un capteur avec bruit blanc et random walk
     
     Args:
@@ -30,16 +30,19 @@ def noise_sensor(n, sigma_bb, sigma_rw, measure = 0):
 
 if __name__ == "__main__":
     # paramètres du capteur
-    sigma_bb = 0.01665937281279768
+    sigma_bb = 1.1*0.01665937281279768
     sigma_rw = 0.00005
 
     # nombre de mesures
-    N = 3*24*60*60
+    nb_j = 3
+    N = int(nb_j*24*60*60)
 
     # simulation du capteur
-    mesures = noise_sensor(N, sigma_bb, sigma_rw)
+    # mesures = noise_sensor(N, sigma_bb, sigma_rw)
+    mesures = np.round(noise_sensor(N, sigma_bb, sigma_rw) * 100) / 100
+
     T = np.linspace(0,N,N)
 
     sys.path.insert(1, os.path.join(THIS_FOLDER, '../logs/log_long'))
     from display_long_log import plot_data
-    plot_data(np.array([0]), T, np.array(mesures), np.array([]), with_dbm=False)
+    plot_data(np.array([0]), T, np.array(mesures), np.array([]), False, np.array([]), np.array([]), False)
