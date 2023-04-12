@@ -38,23 +38,6 @@ def load_single_file(filename):
         Q = Qs
 
 
-
-    masked = True
-    if masked:
-        alp = 1
-        # print(alp*np.std(dist) + np.mean(dist))
-        mask = np.abs(dist - np.mean(dist)) > alp*np.std(dist)
-        # mask = dist <= 0
-        time = time[~mask]
-        dist = dist[~mask]
-        ids = ids[~mask]
-        if with_RX:
-            RX = RX[~mask]
-        
-        if with_all:
-            FP = FP[~mask]
-            Q = Q[~mask]
-
     return time, dist, ids, RX, with_RX, FP, Q, with_all
 
 def load_multiple_files():
@@ -102,7 +85,7 @@ def load_data(filename):
 
 def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
     # Tracer la distance en fonction du temps sans mask
-    idx_start = 0 # np.argmax(time.flatten() > 25000) #9540
+    idx_start = 0 #np.argmax(time.flatten() > 25000) #9540
     idx_end = time.shape[0] #- time.shape[0]//10
     time = time[idx_start:idx_end] - time[idx_start]
     dist = dist[idx_start:idx_end]
@@ -140,11 +123,11 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
     Frequency = 1/np.mean(np.diff(time))
     T, data, std = qrunch.allan_deviation(dist,Frequency)
 
-    sigma = data[0] #np.std(dist)
+    sigma = std[0] #np.std(dist) #data[0] #np.std(dist)
     print(f"sigma = {sigma}")
 
-    sigma_bb = 1.1*sigma
-    sigma_rw = 0.00005
+    sigma_bb = 0.04 #sigma
+    sigma_rw = 0.00015 #0.00005
     dbb = sigma*np.sqrt(3)/T
     q = sigma/(2*T)
     bb = sigma_bb/np.sqrt(T)
@@ -199,13 +182,13 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
         T, data_RX, std_RX = qrunch.allan_deviation(RX,Frequency)
         
         ax1 = ax[1]
-        sigma = data_RX[0]
+        sigma = std_RX[0]
         bb = sigma/np.sqrt(T)
         T = T/60/60
         ax1.plot((T), (std_RX), label = 'std')
         ax1.loglog(T, data_RX, label='data')
         ax1.loglog(T, bb, label = "gaussian noise")
-        rw = 0.05*np.sqrt(T/3)
+        rw = 0.5*np.sqrt(T/3)
         ax1.loglog(T, np.sqrt(rw**2 + bb**2), label = "total", linewidth = 3, color = 'red')
         ax1.set_title("RX")
         ax1.set_xlabel("Time")
@@ -221,7 +204,7 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
         ax0.set_ylabel("dBM")
         ax0.set_xlabel("time [s]")
         ax0.legend()
-        
+
         ax1.plot(time, Q, label = 'quality (FP2/STD)')
         ax1.set_title("Quality of signal")
         ax1.set_ylabel("ua")
@@ -232,8 +215,26 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
     plt.show()
 
 if __name__ == "__main__":
-    filename = os.path.join(THIS_FOLDER, "Long_log_11_04_2023_15_41_32.csv")
+    filename = os.path.join(THIS_FOLDER, "Long_log_11_04_2023_17_10_41.csv")
     time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
+    
+    masked = False
+    if masked and with_all:
+        alp = 1
+        # print(alp*np.std(dist) + np.mean(dist))
+        # mask = np.abs(dist - np.mean(dist)) > alp*np.std(dist)
+        mask = (RX - FP < 0) #mask |
+        mask = mask | (Q < 80)
+        mask = mask | (dist <= 0) #
+        time = time[~mask]
+        dist = dist[~mask]
+        ids = ids[~mask]
+        if with_RX:
+            RX = RX[~mask]
+        
+        if with_all:
+            FP = FP[~mask]
+            Q = Q[~mask]
 
     # plot_data(ids, time, dist, RX, with_RX)
     val_idx = np.unique(ids)

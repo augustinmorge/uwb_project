@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 import numpy as np
 
-def noise_sensor(n, sigma_bb, sigma_rw, measure = np.random.randint(0,10)):
+def noise_sensor(n, sigma_bb, sigma_rw):#, measure = np.random.randint(0,10)):
     """Simule les mesures d'un capteur avec bruit blanc et random walk
     
     Args:
@@ -18,7 +18,7 @@ def noise_sensor(n, sigma_bb, sigma_rw, measure = np.random.randint(0,10)):
     """
     
     # génération du bruit blanc
-    bb = np.random.normal(loc = measure, scale=sigma_bb, size=n)
+    bb = np.random.normal(scale=sigma_bb, size=n)
     
     # génération du random walk
     rw = np.zeros(n)
@@ -30,16 +30,16 @@ def noise_sensor(n, sigma_bb, sigma_rw, measure = np.random.randint(0,10)):
 
 if __name__ == "__main__":
     # paramètres du capteur
-    sigma_bb = 1.1*0.01665937281279768
-    sigma_rw = 0.00005
+    sigma_bb = 0.04
+    sigma_rw = 0.00015
 
     # nombre de mesures
-    nb_j = 3
+    nb_j = 0.1
     N = int(nb_j*24*60*60)
 
     # simulation du capteur
     # mesures = noise_sensor(N, sigma_bb, sigma_rw)
-    mesures = np.round(noise_sensor(N, sigma_bb, sigma_rw) * 100) / 100
+    mesures = np.floor((1 + noise_sensor(N, sigma_bb, sigma_rw))*100)/100
 
     T = np.linspace(0,N,N)
 

@@ -82,12 +82,12 @@ void setup()
     // DW1000Ranging.useRangeFilter(true);
 
     // we start the module as a tag
-    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_LOWPOWER,false);
+    DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_LOWPOWER,false);
     // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_SHORTDATA_FAST_LOWPOWER,false);
     // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_FAST_LOWPOWER,false);
     // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_SHORTDATA_FAST_ACCURACY,false);
     // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_FAST_ACCURACY,false);
-    DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_ACCURACY,false);
+    // DW1000Ranging.startAsTag(TAG_ADDR, DW1000.MODE_LONGDATA_RANGE_ACCURACY,false);
 
     uwb_data = init_link();
 
@@ -261,7 +261,7 @@ struct Link *find_link(struct Link *p, uint16_t addr)
 void fresh_link(struct Link *p, uint16_t addr, float range, float dbm, float fp, float quality)
 {
 // #ifdef DEBUG
-    // Serial.println("fresh_link");
+//     Serial.println("fresh_link");
 // #endif
     struct Link *temp = find_link(p, addr);
     if (temp != NULL)
@@ -282,9 +282,9 @@ void fresh_link(struct Link *p, uint16_t addr, float range, float dbm, float fp,
 
 void print_link(struct Link *p)
 {
-// #ifdef DEBUG
-//     Serial.println("print_link");
-// #endif
+#ifdef DEBUG
+    Serial.println("print_link");
+#endif
     struct Link *temp = p;
 
     while (temp->next != NULL)
@@ -363,8 +363,8 @@ void display_uwb(struct Link *p)
         temp = temp->next;
 
         // Serial.println("Dev %d:%d m", temp->next->anchor_addr, temp->next->range);
-        Serial.println(temp->anchor_addr, HEX);
-        Serial.println(temp->range);
+        // Serial.println(temp->anchor_addr, HEX);
+        // Serial.println(temp->range);
 
         char c[30];
 
@@ -417,7 +417,7 @@ void make_link_json(struct Link *p, String *s, long unsigned int timer)
         }
     }
     *s += "]}";
-    Serial.println(*s);
+    // Serial.println(*s);
 }
 
 void send_udp(String *msg_json)
@@ -425,7 +425,7 @@ void send_udp(String *msg_json)
     if (client.connected())
     {
         client.print(*msg_json);
-        Serial.println("UDP send");
+        // Serial.println("UDP send");
     }
     else{
       client.connect(host, 8080);
