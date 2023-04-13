@@ -80,7 +80,7 @@ def mvnrnd(G):
         return y.reshape(n, 1)
     
 # Observation function
-def g(x, Xhat, t):
+def g(x, Xhat, t, L_detect = 15):
     global err, col
     x=x.flatten()
     wp_detected = []
@@ -91,7 +91,7 @@ def g(x, Xhat, t):
         a=Wps[:,i].flatten() #wps(i) in (xi,yi)
         da = a-(x[0:2]).flatten()
         dist = np.linalg.norm(da)**2
-        if np.sqrt(dist) < 50 and t%1 == 0: #On considère qu'on a capté la balise
+        if np.sqrt(dist) < L_detect and t%1 == 0: #On considère qu'on a capté la balise
             
             # plt.plot(np.array([a[0],x[0]]),np.array([a[1],x[1]]),"red",1)
 
@@ -127,20 +127,20 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
     # Correction
     ytilde = y - H @ xbar
     S = H @ P @ H.T + R
-    inv_norm_S = scipy.linalg.sqrtm(np.linalg.inv(S))@ytilde
+    innov_norm = scipy.linalg.sqrtm(np.linalg.inv(S))@ytilde
 
     K = P @ H.T @ np.linalg.inv(S)
     xbar = xbar + K @ ytilde
     P = P - K @ H @ P
 
-    return xbar, P, ytilde, inv_norm_S
+    return xbar, P, ytilde, innov_norm
 
 if __name__ == "__main__":
     display_bot = 0
     UWB = 1
 
     # Size of simu
-    tmax = int(0.01*24*60*60)
+    tmax = int(0.1*24*60*60)
     T = np.arange(0, tmax, dt)
     N = len(T)
 
@@ -162,6 +162,7 @@ if __name__ == "__main__":
     #Lists to display results
     col = []; ERR = []
     BETA = []; YTILDE = []
+    INNOV_NORM = []
     PMatrix = np.zeros((N,25))
     
     for t in tqdm(T):
@@ -187,10 +188,12 @@ if __name__ == "__main__":
         Hk,Y,R,wp_detected = g(X, Xhat, t)
 
         if wp_detected :
-            Xhat, P, ytilde, inv_norm_S = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
+            Xhat, P, ytilde, innov_norm = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
+            INNOV_NORM.append(innov_norm[0,0])
         else:
             Xhat = Xhat + dt*f(Xhat,u)
             P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
+            INNOV_NORM.append(None)
 
         if display_bot: display_results(X, Xhat, P, Wps, L, wp_detected)
 
@@ -205,4 +208,5 @@ if __name__ == "__main__":
     plot_noise(noise, Wps, T, tmax)
     plot_covariance(PMatrix, T)
     plot_error(YTILDE, ERR, T, col, UWB)
+    display_innov_norm(T, INNOV_NORM)
     plt.show()

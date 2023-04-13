@@ -14,7 +14,7 @@ import toolbox_kalman as tool
 Wps = np.array([[0, 10, -10, 0],
               [-10, 0, 0, 10]])
 
-# Wps = np.array([[1],
+# Wps = np.array([[0],
 #               [0]])
 
 # Wps = np.array([[10000],
@@ -65,15 +65,26 @@ def plot_noise(noise, Wps, T, tmax):
     """
     Fonction pour afficher les bruits de mesure pour chaque ancre UWB
     """
-    fig, axs = plt.subplots(1, Wps.shape[1]);
-    fig.suptitle("noise")
-    T = np.linspace(0,tmax,tmax)
-    for i in range(Wps.shape[1]):
-        axs[i].set_xlabel("[h]")
-        axs[i].set_ylabel("[m]")
-        axs[i].scatter(T/60/60, noise[i], label=f"noise for anchor {i}", s=1)
-        axs[i].legend()
-    
+    if Wps.shape[1] > 1:
+        fig, axs = plt.subplots(1, Wps.shape[1]);
+        fig.suptitle("noise")
+        T = np.linspace(0,tmax,tmax)
+        
+        for i in range(Wps.shape[1]):
+            axs[i].set_xlabel("[h]")
+            axs[i].set_ylabel("[m]")
+            axs[i].scatter(T/60/60, noise[i], label=f"noise for anchor {i}", s=1)
+            axs[i].legend()
+    else:
+        fig, ax = plt.subplots(1, 1);
+        fig.suptitle("noise")
+        T = np.linspace(0,tmax,tmax)
+        
+        for i in range(Wps.shape[1]):
+            ax.set_xlabel("[h]")
+            ax.set_ylabel("[m]")
+            ax.scatter(T/60/60, noise[i], label=f"noise for anchor {i}", s=1)
+            ax.legend()
 i_ = 0
 def display_results(X, Xhat, P, Wps, L, wp_detected = []):
     global i_, ax
@@ -103,3 +114,16 @@ def display_results(X, Xhat, P, Wps, L, wp_detected = []):
     tool.legende(ax)
 
     
+def display_innov_norm(T, INNOV_NORM):
+    INNOV_NORM = np.array(INNOV_NORM)
+    # Enlever les valeurs 'None' dans INNOV_NORM et les indices correspondants dans T
+    indices = [i for i, x in enumerate(INNOV_NORM) if x is None]
+    INNOV_NORM = np.delete(INNOV_NORM, indices)
+    T = np.delete(T, indices)
+
+    # Plot des innovations normalisées en fonction du temps
+    plt.figure()
+    plt.plot(T, INNOV_NORM)
+    plt.xlabel('Temps')
+    plt.ylabel('Innovation normalisée')
+    plt.title('Innovation normalisée en fonction du temps')
