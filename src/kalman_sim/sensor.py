@@ -31,10 +31,10 @@ def noise_sensor(n, sigma_bb, sigma_rw):#, measure = np.random.randint(0,10)):
 if __name__ == "__main__":
     # paramètres du capteur
     sigma_bb = 0.04
-    sigma_rw = 0.00015
+    sigma_rw = 0.0001
 
     # nombre de mesures
-    nb_j = 0.1
+    nb_j = 1
     N = int(nb_j*24*60*60)
 
     # simulation du capteur

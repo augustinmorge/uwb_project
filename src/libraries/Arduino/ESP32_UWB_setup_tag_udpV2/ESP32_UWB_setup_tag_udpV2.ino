@@ -46,7 +46,7 @@ Adafruit_SSD1306 display(128, 64, &Wire, -1);
 // #include "link.h"
 const char *ssid = "iXGuest";
 const char *password = "URWelcome";
-const char *host = "10.123.0.141"; //"SG_72BVTL3";
+const char *host = "10.123.0.186"; //"SG_72BVTL3";
 WiFiClient client;
 String all_json = "";
 
@@ -120,15 +120,15 @@ long int runtime = 0;
 void loop()
 {
     DW1000Ranging.loop();
-    // if ((millis() - runtime) > 1000)
-    // {
+    if ((millis() - runtime) > 1000)
+    {
         display_uwb(uwb_data);
         runtime = millis();
 
         // Loop for the WiFi
         make_link_json(uwb_data, &all_json, millis());
         send_udp(&all_json);
-    // }
+    }
   // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
   // Serial.print(", ");
   // Serial.print(DW1000Ranging.getDistantDevice()->getFPPower());

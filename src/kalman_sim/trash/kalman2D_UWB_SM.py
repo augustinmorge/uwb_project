@@ -82,6 +82,7 @@ def mvnrnd(G):
 # Observation function
 def g(x, Xhat, t, L_detect = 15):
     global err, col
+    first = True
     x=x.flatten()
     wp_detected = []
     H = np.zeros((1,5))
@@ -93,31 +94,32 @@ def g(x, Xhat, t, L_detect = 15):
         dist = np.linalg.norm(da)**2
         if np.sqrt(dist) < L_detect and t%1 == 0: #On considère qu'on a capté la balise
             
-            # plt.plot(np.array([a[0],x[0]]),np.array([a[1],x[1]]),"red",1)
+            ### With several balises
+            if first : 
+                wp_detected.append([a, np.sqrt(dist) + noise[i][int(t)]])
+            if a[0] != wp_detected[0][0][0] and a[1] != wp_detected[0][0][1]:
+                # https://www.th-luebeck.de/fileadmin/media_cosa/Dateien/Veroeffentlichungen/Sammlung/TR-2-2015-least-sqaures-with-ToA.pdf 
+                x0, y0, d0 = wp_detected[0][0][0], wp_detected[0][0][1], wp_detected[0][1]
+                k0 = x0**2 + y0**2
 
-            dist_hat = np.linalg.norm(a - (Xhat[0:2]).flatten())**2
-            Hi = np.array([[-2*(a[0] - Xhat[0,0]), -2*(a[1] - Xhat[1,0]), 0, 0, 0]])
-            yi = dist - dist_hat + Hi@Xhat 
+                xj, yj, dj = a[0], a[1], np.sqrt(dist) + noise[i][int(t)]
+                kj = xj**2 + yj**2
 
-            ## Au cm
-            yi = int(yi[0,0]*100)/100
+                Yj = d0**2 - dj**2 - k0**2 + kj**2
+                Hj = 2*np.array([[xj - x0, yj - y0, 0, 0, 0]])
+                if len(wp_detected) == 1:
+                    H = Hj; y = Yj; 
+                else:
+                    H = np.vstack((H,Hj)); y = np.vstack((y,Yj))
 
-            # Ajout du bruit
-            yi = yi + noise[i][int(t)]
-
-            if not wp_detected:
-                H = Hi; y = yi; 
-            else:
-                H = np.vstack((H,Hi)); y = np.vstack((y,yi))
-
-            # Beta.append(noise[i][int(t)])
-            Beta.append(np.sqrt(sigma_bb**2 + sigma_rw**2))
-            wp_detected.append(a)
+                Beta.append(np.sqrt(sigma_bb**2 + sigma_rw**2))
+                wp_detected.append([a, np.sqrt(dist)])
+            first = False
 
     col.append('red' if wp_detected else 'blue')
 
-    Γβ = np.diag(Beta)
-    return H, y, Γβ, wp_detected
+    R = np.diag(Beta)
+    return H, y, R, wp_detected
 
 def Kalman(xbar, P, u, y, Q, R, F, G, H):
     # Prédiction
@@ -136,7 +138,7 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
     return xbar, P, ytilde, innov_norm
 
 if __name__ == "__main__":
-    display_bot = 0
+    display_bot = 1
     UWB = 1
 
     # Size of simu
@@ -187,7 +189,7 @@ if __name__ == "__main__":
 
         Hk,Y,R,wp_detected = g(X, Xhat, t)
 
-        if wp_detected :
+        if len(wp_detected) > 1 :
             Xhat, P, ytilde, innov_norm = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
             INNOV_NORM.append(innov_norm[0,0])
         else:
@@ -195,7 +197,7 @@ if __name__ == "__main__":
             P = Fk @ P @ Fk.T + Gk @ Q @ Gk.T
             INNOV_NORM.append(None)
 
-        if display_bot: display_results(X, Xhat, P, Wps, L, wp_detected)
+        if display_bot: display_results1(X, Xhat, P, Wps, L, wp_detected)
 
         # Variables to visualize
         PMatrix[int(t/dt),:] = np.ravel(P)

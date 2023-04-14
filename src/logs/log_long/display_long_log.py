@@ -3,6 +3,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
+import contextlib
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 LOGS_FOLDER = THIS_FOLDER #os.path.join(THIS_FOLDER, 'old')
@@ -117,17 +118,17 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
     ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
     ax.grid()
 
-    import qrunch
-    from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
+    with contextlib.redirect_stdout(None), contextlib.suppress(ImportError):
+        import qrunch
 
     Frequency = 1/np.mean(np.diff(time))
     T, data, std = qrunch.allan_deviation(dist,Frequency)
 
-    sigma = std[0] #np.std(dist) #data[0] #np.std(dist)
-    print(f"sigma = {sigma}")
+    sigma = std[0]
+    print(f"Frequency = {1/Frequency}\n")
 
-    sigma_bb = 0.04 #sigma
-    sigma_rw = 0.00015 #0.00005
+    sigma_bb = sigma
+    sigma_rw = 0.0001 #0.00005
     dbb = sigma*np.sqrt(3)/T
     q = sigma/(2*T)
     bb = sigma_bb/np.sqrt(T)
@@ -215,17 +216,18 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
     plt.show()
 
 if __name__ == "__main__":
-    filename = os.path.join(THIS_FOLDER, "Long_log_11_04_2023_17_10_41.csv")
+    filename = os.path.join(THIS_FOLDER, "Long_log_13_04_2023_17_28_39.csv")
     time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
     
     masked = False
-    if masked and with_all:
+    if masked:
         alp = 1
         # print(alp*np.std(dist) + np.mean(dist))
-        # mask = np.abs(dist - np.mean(dist)) > alp*np.std(dist)
-        mask = (RX - FP < 0) #mask |
-        mask = mask | (Q < 80)
-        mask = mask | (dist <= 0) #
+        mask = np.abs(dist - np.mean(dist)) > alp*np.std(dist)
+        # mask = (RX - FP < 0) #mask |
+        # mask = mask | (Q < 80)
+        # mask = mask | (dist <= 0) #
+        # mask = RX < -55
         time = time[~mask]
         dist = dist[~mask]
         ids = ids[~mask]

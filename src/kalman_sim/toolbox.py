@@ -123,7 +123,71 @@ def display_innov_norm(T, INNOV_NORM):
 
     # Plot des innovations normalisées en fonction du temps
     plt.figure()
-    plt.plot(T, INNOV_NORM)
-    plt.xlabel('Temps')
-    plt.ylabel('Innovation normalisée')
+    plt.scatter(T, INNOV_NORM,s=1)
+    plt.xlabel('s')
+    plt.ylabel('ytilde/sqrt(S)')
     plt.title('Innovation normalisée en fonction du temps')
+
+
+### SM
+
+def display_results1(X, Xhat, P, Wps, L, wp_detected = []):
+    global i_, ax
+    if i_ == 0:
+        ax = tool.init_figure(-L*1.1, L*1.1, -L*1.1, L*1.1)
+        i_ += 1
+    # Affichage du tank
+    tool.draw_tank(X)
+
+    # Affichage de l'ellipse de covariance
+    tool.draw_ellipse_cov(ax, Xhat[0:2], P[0:2, 0:2], 0.9, col='black')
+
+    # Affichage de l'estimation de position
+    ax.scatter(Xhat[0, 0], Xhat[1, 0], color='green', label='Estimation of position', s=5)
+
+    # Affichage des points d'ancrage UWB
+    if Wps.shape[0] != 0 and Wps.shape[1] != 0:
+        ax.scatter(Wps[0], Wps[1], label='anchors UWB')
+
+    for elem in wp_detected:
+        ax.plot(np.array([elem[0][0],X[0,0]]),np.array([elem[0][1],X[1,0]]),"red",1)
+
+    plt.pause(0.001)
+
+    # Nettoyage de l'affichage
+    tool.clear(ax)
+    tool.legende(ax)
+
+### DES
+
+def display_estimation(x_estimated, X, Xhat, P, Wps, L, wp_detected = []):
+    
+    global i_, ax
+    if i_ == 0:
+        ax = tool.init_figure(-L*1.1, L*1.1, -L*1.1, L*1.1)
+        i_ += 1
+    # Affichage du tank
+    tool.draw_tank(X)
+
+    # Affichage de l'ellipse de covariance
+    tool.draw_ellipse_cov(ax, Xhat[0:2], P[0:2, 0:2], 0.9, col='black')
+
+    # Affichage de l'estimation de position
+    ax.scatter(Xhat[0, 0], Xhat[1, 0], color='green', label='Estimation of position', s=5)
+
+    # Affichage des points d'ancrage UWB
+    if Wps.shape[0] != 0 and Wps.shape[1] != 0:
+        ax.scatter(Wps[0], Wps[1], label='anchors UWB')
+
+    for elem in wp_detected:
+        ax.plot(np.array([elem[0],X[0,0]]),np.array([elem[1],X[1,0]]),"red",1)
+
+    plt.pause(0.001)
+
+    # Nettoyage de l'affichage
+    tool.clear(ax)
+    tool.legende(ax)
+
+    ax.scatter(x_estimated[0], x_estimated[1], label= 'estimation')
+    ax.legend()
+    

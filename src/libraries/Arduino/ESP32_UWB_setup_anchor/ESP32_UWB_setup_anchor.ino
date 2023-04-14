@@ -12,17 +12,18 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
+#define ANCHOR_ADD "82:17:5B:D5:A9:9A:E2:9C"
 
 //calibrated Antenna Delay setting for this anchor
-#define Adelay 16548
+// #define Adelay 16548
 // #define Adelay 16572
+#define Adelay 16545
 
 // previously determined calibration results for antenna delay
-// #1 16630
-// #2 16610
-// #3 16607
-// #4 16580
+// #1 16520
+// #2 16539
+// #3 16545
+// #4 16505
 
 // calibration distance
 float dist_m = 2; //meters
