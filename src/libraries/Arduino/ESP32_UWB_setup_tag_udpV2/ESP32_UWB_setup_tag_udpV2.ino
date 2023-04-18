@@ -137,6 +137,7 @@ void loop()
   // Serial.print(", ");
   // Serial.println(DW1000Ranging.getDistantDevice()->getQuality());
   // Serial.println("");
+  // Serial.print(", ");
 }
 
 void newRange()
@@ -271,6 +272,10 @@ void fresh_link(struct Link *p, uint16_t addr, float range, float dbm, float fp,
         temp->dbm = dbm;
         temp->fp = fp;
         temp->quality = quality;
+
+        // Serial.println(range);
+        // Serial.println(dbm);
+
         return;
     }
     else
@@ -293,6 +298,8 @@ void print_link(struct Link *p)
         Serial.println(temp->next->anchor_addr, HEX);
         Serial.println(temp->next->range);
         Serial.println(temp->next->dbm);
+        Serial.println(temp->next->fp);
+        Serial.println(temp->next->quality);
         temp = temp->next;
     }
 
@@ -409,7 +416,7 @@ void make_link_json(struct Link *p, String *s, long unsigned int timer)
         // char link_json[60];
         // sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.5f\",\"dbm\":\"%.2f\",\"T\":\"%lu\"}", temp->anchor_addr, temp->range, temp->dbm, timer);
         char link_json[120];
-        sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.2f\",\"RX\":\"%.2f\",\"FP\":\"%.2f\",\"Q\":\"%.2f\",\"T\":\"%lu\"}", temp->anchor_addr, temp->range, temp->dbm, temp->fp, temp->quality, timer);
+        sprintf(link_json, "{\"A\":\"%X\",\"R\":\"%.3f\",\"RX\":\"%.3f\",\"FP\":\"%.3f\",\"Q\":\"%.3f\",\"T\":\"%lu\"}", temp->anchor_addr, temp->range, temp->dbm, temp->fp, temp->quality, timer);
         *s += link_json;
         if (temp->next != NULL)
         {

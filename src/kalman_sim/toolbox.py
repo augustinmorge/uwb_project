@@ -36,11 +36,11 @@ def plot_covariance(PMatrix, T):
     for i in range(5):
         for j in range(5):
             ax = plt.subplot2grid((5, 5), (i, j))
-            ax.scatter(T/60/60, PMatrix[:,i+5*j],color='darkblue',s=1)
+            ax.plot(T/60/60, PMatrix[:,i+5*j],color='darkblue') #,s=1)
             ax.set_xlabel("Hours [h]")
             ax.set_title(f"P_{i},{j}")
 
-def plot_error(YTILDE, ERR, T, col, UWB):
+def plot_error(INNOV_NORM, ERR, T, col, UWB):
     """
     Fonction pour afficher l'erreur et la norme de la mesure innovante
     """
@@ -57,9 +57,17 @@ def plot_error(YTILDE, ERR, T, col, UWB):
     ax.legend()
 
     ax1 = plt.subplot2grid((2, 1), (1, 0))
-    ax1.scatter(T/60/60, YTILDE, color=np.array(col), s=1)
+    INNOV_NORM = np.array(INNOV_NORM)
+    # Enlever les valeurs 'None' dans INNOV_NORM et les indices correspondants dans T
+    indices = [i for i, x in enumerate(INNOV_NORM) if x is None]
+    INNOV_NORM = np.delete(INNOV_NORM, indices)
+    T = np.delete(T, indices)
+    print("Ecart de l'innovation normalisée :"+str(np.std(INNOV_NORM)))
+    ax1.plot(T/60/60, INNOV_NORM) #, s=1)
     ax1.set_xlabel("Hours [h]")
-    ax1.set_ylabel("||Ytilde|| [m]")
+    ax1.set_xlabel('h')
+    ax1.set_ylabel('ytilde/sqrt(S)')
+    ax1.set_title('Innovation normalisée en fonction du temps')
 
 def plot_noise(noise, Wps, T, tmax):
     """
@@ -112,21 +120,6 @@ def display_results(X, Xhat, P, Wps, L, wp_detected = []):
     # Nettoyage de l'affichage
     tool.clear(ax)
     tool.legende(ax)
-
-    
-def display_innov_norm(T, INNOV_NORM):
-    INNOV_NORM = np.array(INNOV_NORM)
-    # Enlever les valeurs 'None' dans INNOV_NORM et les indices correspondants dans T
-    indices = [i for i, x in enumerate(INNOV_NORM) if x is None]
-    INNOV_NORM = np.delete(INNOV_NORM, indices)
-    T = np.delete(T, indices)
-
-    # Plot des innovations normalisées en fonction du temps
-    plt.figure()
-    plt.scatter(T, INNOV_NORM,s=1)
-    plt.xlabel('s')
-    plt.ylabel('ytilde/sqrt(S)')
-    plt.title('Innovation normalisée en fonction du temps')
 
 
 ### SM

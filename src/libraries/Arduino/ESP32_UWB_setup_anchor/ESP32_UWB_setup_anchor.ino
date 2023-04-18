@@ -12,12 +12,10 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define ANCHOR_ADD "82:17:5B:D5:A9:9A:E2:9C"
+#define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
 
 //calibrated Antenna Delay setting for this anchor
-// #define Adelay 16548
-// #define Adelay 16572
-#define Adelay 16545
+#define Adelay 16520
 
 // previously determined calibration results for antenna delay
 // #1 16520
@@ -26,8 +24,6 @@
 // #4 16505
 
 // calibration distance
-float dist_m = 2; //meters
-
 #define SPI_SCK 18
 #define SPI_MISO 19
 #define SPI_MOSI 23
@@ -68,8 +64,6 @@ void setup()
   Serial.println("Anchor config and start");
   Serial.print("Antenna delay ");
   Serial.println(Adelay);
-  Serial.print("Calibration distance ");
-  Serial.println(dist_m);
 
   //init the configuration
   SPI.begin(SPI_SCK, SPI_MISO, SPI_MOSI);
@@ -91,6 +85,12 @@ void setup()
   // DW1000Ranging.startAsAnchor(ANCHOR_ADD, DW1000.MODE_LONGDATA_RANGE_ACCURACY, false);
 }
 
+// const byte DW1000Class::MODE_LONGDATA_RANGE_LOWPOWER[] = {TRX_RATE_110KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_2048};
+// const byte DW1000Class::MODE_SHORTDATA_FAST_LOWPOWER[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_128};
+// const byte DW1000Class::MODE_LONGDATA_FAST_LOWPOWER[]  = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024};
+// const byte DW1000Class::MODE_SHORTDATA_FAST_ACCURACY[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_128};
+// const byte DW1000Class::MODE_LONGDATA_FAST_ACCURACY[]  = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_1024};
+// const byte DW1000Class::MODE_LONGDATA_RANGE_ACCURACY[] = {TRX_RATE_110KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_2048};
 void loop()
 {
   DW1000Ranging.loop();
@@ -111,13 +111,12 @@ void newRange()
   dist = dist/NUMBER_OF_DISTANCES;
   // Serial.print(dist);
   // Serial.print(", ");
-  // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
+  // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
   // Serial.print(", ");
   // Serial.print(DW1000Ranging.getDistantDevice()->getFPPower());
   // Serial.print(", diff:");
   // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower() - DW1000Ranging.getDistantDevice()->getFPPower());
   // Serial.print(", ");
-  // Serial.println(DW1000Ranging.getDistantDevice()->getQuality());
   // Serial.println("");
   // Serial.println(millis() - t0);
   // t0 = millis();

@@ -46,3 +46,4 @@ if __name__ == "__main__":
     sys.path.insert(1, os.path.join(THIS_FOLDER, '../logs/log_long'))
     from display_long_log import plot_data
     plot_data(np.array([0]), T, np.array(mesures), np.array([]), False, np.array([]), np.array([]), False)
+    plt.show()

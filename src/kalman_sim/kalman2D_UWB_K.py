@@ -80,7 +80,7 @@ def mvnrnd(G):
         return y.reshape(n, 1)
     
 # Observation function
-def g(x, Xhat, t, L_detect = 30):
+def g(x, Xhat, t, L_detect = 100):
     global err, col
     x=x.flatten()
     wp_detected = []
@@ -134,35 +134,36 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
     xbar = xbar + K @ ytilde
     P = P - K @ H @ P
 
-    return xbar, P, ytilde, innov_norm
+    return xbar, P, innov_norm
 
 if __name__ == "__main__":
     display_bot = 0
     UWB = 1
 
     # Size of simu
-    tmax = int(0.1*24*60*60)
+    day = 0.1
+    tmax = int(day*24*60*60)
     T = np.arange(0, tmax, dt)
     N = len(T)
 
     # Variables for Kalman
-    P = 10 * np.eye(5)
+    P = 100 * np.eye(5)
 
-    X = np.array([[1], [0], [0], [0], [0]])
+    X = np.array([[0], [0], [0], [0], [0]])
     Xhat = X
 
     sigma_bb = 0.02
-    sigma_rw = 0.00015
+    sigma_rw = 0.0001
     noise = [noise_sensor(tmax, sigma_bb, sigma_rw) for _ in range(Wps.shape[1])]
 
     ytilde = np.array([[0],[0]])
 
-    sigm_equation = dt*0.01
+    sigm_equation =dt*0.01
     Q = np.diag([sigm_equation, sigm_equation, sigm_equation])
 
     #Lists to display results
+
     col = []; ERR = []
-    BETA = []; YTILDE = []
     INNOV_NORM = []
     PMatrix = np.zeros((N,25))
     
@@ -189,7 +190,7 @@ if __name__ == "__main__":
         Hk,Y,R,wp_detected = g(X, Xhat, t)
 
         if wp_detected :
-            Xhat, P, ytilde, innov_norm = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
+            Xhat, P, innov_norm = Kalman(Xhat, P, u, Y, Q, R, Fk, Gk, Hk)
             INNOV_NORM.append(innov_norm[0,0])
         else:
             Xhat = Xhat + dt*f(Xhat,u)
@@ -201,13 +202,10 @@ if __name__ == "__main__":
         # Variables to visualize
         PMatrix[int(t/dt),:] = np.ravel(P)
         ERR.append(np.linalg.norm(Xhat[0:2] - X[0:2]))
-        YTILDE.append(np.linalg.norm(ytilde))
-        BETA.append(np.linalg.norm(Hk))
 
     
     plt.close()
-    plot_noise(noise, Wps, T, tmax)
-    plot_covariance(PMatrix, T)
-    plot_error(YTILDE, ERR, T, col, UWB)
-    display_innov_norm(T, INNOV_NORM)
+    # plot_noise(noise, Wps, T, tmax)
+    # plot_covariance(PMatrix, T)
+    plot_error(INNOV_NORM, ERR, T, col, UWB)
     plt.show()

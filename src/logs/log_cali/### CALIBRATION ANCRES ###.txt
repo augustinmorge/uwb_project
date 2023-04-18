@@ -2,14 +2,7 @@
 
 Antenna delay for anchor with default antenna delay for TAG
 
-80 : 16520.14
-81 : 16538.61
-82 : 16544.94
-83 : 16504.76
-
-Antenna delay for anchor with 0 antenna delay for TAG
-
-80 : 
-81 : 
-82 : 
-83 : 32889.61
+80 : 16520
+81 : 16539
+82 : 16545
+83 : 16505
