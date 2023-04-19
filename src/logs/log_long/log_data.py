@@ -125,6 +125,7 @@ def main(t_start):
         
         f.flush()
 
+
 if __name__ == '__main__':
     import datetime
     data, addr, sock = connect_to_tag()

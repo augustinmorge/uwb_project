@@ -12,10 +12,8 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
-
-//calibrated Antenna Delay setting for this anchor
-#define Adelay 16520
+int selected_anchor = 82;
+String str_display = "";
 
 // previously determined calibration results for antenna delay
 // #1 16520
@@ -40,6 +38,36 @@ Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
 void setup()
 {
+
+    
+  switch(selected_anchor){
+    // case 80:
+    //   #define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
+    //   #define Adelay 16520
+    //   str_display =  "UWB Anchor 80 ";
+    //   break;
+    // case 81:
+    //   #define ANCHOR_ADD "81:17:5B:D5:A9:9A:E2:9C"
+    //   #define Adelay 16539
+    //   str_display =  "UWB Anchor 81 ";
+    //   break;
+    case 82:
+      #define ANCHOR_ADD "82:17:5B:D5:A9:9A:E2:9C"
+      #define Adelay 16545
+      str_display =  "UWB Anchor 82 ";
+      break;
+    // case 83:
+    //   #define ANCHOR_ADD "83:17:5B:D5:A9:9A:E2:9C"
+    //   #define Adelay 16505
+    //   str_display =  "UWB Anchor 83 ";
+    //   break;
+    // default:
+    //   #define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
+    //   #define Adelay 16520
+    //   str_display =  "UWB Anchor 80 ";
+    //   break;
+  }
+
   Serial.begin(115200);
 
   //Init the screen 
@@ -57,7 +85,7 @@ void setup()
     display.setTextColor(SSD1306_WHITE); // Draw white text
     display.setCursor(0, 0);     // Start at top-left corner
 
-    display.println("UWB Anchor 80 ");
+    display.println(str_display);
     display.display();
 
   delay(1000); //wait for serial monitor to connect

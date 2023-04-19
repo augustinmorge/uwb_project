@@ -80,7 +80,7 @@ def mvnrnd(G):
         return y.reshape(n, 1)
     
 # Observation function
-def g(x, Xhat, t, L_detect = 100):
+def g(x, Xhat, t, L_detect = 15):
     global err, col
     x=x.flatten()
     wp_detected = []
@@ -137,7 +137,7 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
     return xbar, P, innov_norm
 
 if __name__ == "__main__":
-    display_bot = 0
+    display_bot = 1
     UWB = 1
 
     # Size of simu
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     # Variables for Kalman
     P = 100 * np.eye(5)
 
-    X = np.array([[0], [0], [0], [0], [0]])
+    X = np.array([[1], [0], [0], [0], [0]])
     Xhat = X
 
     sigma_bb = 0.02

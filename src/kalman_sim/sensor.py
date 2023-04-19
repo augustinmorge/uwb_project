@@ -30,16 +30,16 @@ def noise_sensor(n, sigma_bb, sigma_rw):#, measure = np.random.randint(0,10)):
 
 if __name__ == "__main__":
     # paramètres du capteur
-    sigma_bb = 0.04
-    sigma_rw = 0.0001
+    sigma_bb = 0.05
+    sigma_rw = 0.00015
 
     # nombre de mesures
     nb_j = 1
     N = int(nb_j*24*60*60)
 
-    # simulation du capteur
+    # simulation du capteur 
     # mesures = noise_sensor(N, sigma_bb, sigma_rw)
-    mesures = np.floor((1 + noise_sensor(N, sigma_bb, sigma_rw))*100)/100
+    mesures = np.floor((1 + noise_sensor(N, sigma_bb, sigma_rw))*1000)/1000
 
     T = np.linspace(0,N,N)
 

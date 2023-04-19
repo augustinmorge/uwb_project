@@ -21,11 +21,11 @@ def plot_data(filename):
     plt.ylabel('dBm')
     plt.show()
 
-looging_data = True
+looging_data = 0
 
 if looging_data:
     # Ouvrir le port série
-    ser = serial.Serial('COM4', 115200)
+    ser = serial.Serial('COM8', 115200)
 
     # Ouvrir un fichier de log CSV avec un nom basé sur la date et l'heure
     
@@ -52,19 +52,19 @@ if looging_data:
 
 
 else:
-    csv_file_los = THIS_FOLDER + f"\\CIR_data\\CIR_2023-04-17_12-02-51.csv"
-    csv_file_nlos = THIS_FOLDER + f"\\CIR_data\\CIR_2023-04-17_15-28-39.csv"
-    # plot_data(csv_file_los)
-    # plot_data(csv_file_nlos)
+    csv_file_los = THIS_FOLDER + f"\\CIR_data\\CIR_2023-04-18_11-59-14.csv"
+    csv_file_nlos = THIS_FOLDER + f"\\CIR_data\\CIR_2023-04-18_11-59-28.csv"
+    plot_data(csv_file_los)
+    plot_data(csv_file_nlos)
 
     import numpy as np
 
     # # Load the CIR data from the CSV file
-    cir_los = np.genfromtxt(csv_file_los)
-    cir_nlos = np.genfromtxt(csv_file_nlos)
+    cir_los = np.genfromtxt(csv_file_los,skip_header=17)
+    cir_nlos = np.genfromtxt(csv_file_nlos,skip_header=17)
 
     # Number of subsets to create
-    subset_size = 200 #int(len(cir) / num_subsets)
+    subset_size = 250 #int(len(cir) / num_subsets)
     num_subsets = min(len(cir_los)//subset_size, len(cir_nlos)//subset_size) #100
 
 
@@ -82,8 +82,9 @@ else:
 
     # Create subsets and calculate kurtosis for each subset
     kurtosis = lambda x : np.mean((np.abs(x) - np.mean(np.abs(x))) ** 4) / (np.mean((np.abs(x) - np.mean(np.abs(x))) ** 2) ** 2)
+    from tqdm import tqdm
 
-    for i in range(num_subsets):
+    for i in tqdm(range(num_subsets)):
 
         start_index = i * subset_size
         end_index = start_index + subset_size
@@ -103,29 +104,33 @@ else:
 
         #LOS tm and trms
 
-        t_los = np.arange(len(h_los))
+        t_nlos = np.arange(len(h_los)) #np.linspace(start_index, end_index, min(len(h_nlos),len(h_nlos)))
 
-        tau_m_los = np.trapz(h_los**2 * t_los, dx=1/64) / np.trapz(h_los**2, dx=1/64)
+        # tau_m_los = np.trapz(h_los**2 * t_nlos, dx=1/64) / np.trapz(h_los**2, dx=1/64)
+        tau_m_los = np.sum(h_los**2 * t_nlos) / np.sum(h_los**2)
         tau_m_values_los.append(tau_m_los)
 
-        tau_rms_los = np.sqrt(np.trapz(((t_los - tau_m_los)*h_los)**2, dx=1/64) / np.trapz(h_los**2, dx=1/64))
+        # tau_rms_los = np.sqrt(np.trapz(((t_nlos - tau_m_los)*h_los)**2, dx=1/64) / np.trapz(h_los**2, dx=1/64))
+        tau_rms_los = np.sqrt(np.sum(((t_nlos - tau_m_los)*h_los)**2) / np.trapz(h_los**2))
         tau_rms_values_los.append(tau_rms_los)
 
 
         #NLOS tm and trms
         
-        t_nlos = np.arange(len(h_nlos))
+        t_nlos = np.arange(len(h_nlos)) #np.linspace(start_index, end_index, min(len(h_los),len(h_nlos)))
 
-        tau_m_nlos = np.trapz(h_nlos**2 * t_nlos, dx=1/64) / np.trapz(h_nlos**2, dx=1/64)
+        # tau_m_nlos = np.trapz(h_nlos**2 * t_nlos, dx=1/64) / np.trapz(h_nlos**2, dx=1/64)
+        tau_m_nlos = np.sum(h_nlos**2 * t_nlos) / np.sum(h_nlos**2)
         tau_m_values_nlos.append(tau_m_nlos)
 
-        tau_rms_nlos = np.sqrt(np.trapz(((t_nlos - tau_m_nlos)*h_nlos)**2, dx=1/64) / np.trapz(h_nlos**2, dx=1/64))
+        # tau_rms_nlos = np.sqrt(np.trapz(((t_nlos - tau_m_nlos)*h_nlos)**2, dx=1/64) / np.trapz(h_nlos**2, dx=1/64))
+        tau_rms_nlos = np.sqrt(np.sum(((t_nlos - tau_m_nlos)*h_nlos)**2) / np.sum(h_nlos**2))
         tau_rms_values_nlos.append(tau_rms_nlos)
 
     # Plot histogram
     plt.figure()
     plt.hist(kurtosis_values_los, bins=num_subsets,label='LOS', alpha=0.5)
-    plt.hist(kurtosis_values_nlos, bins=num_subsets,label='NLOS')
+    plt.hist(kurtosis_values_nlos, bins=num_subsets,label='NLOS',alpha=0.5)
     plt.xlabel('Kurtosis')
     plt.ylabel('Number of samples')
     plt.title('Distribution of Kurtosis Values')
