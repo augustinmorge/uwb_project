@@ -21,7 +21,7 @@ def plot_data(filename):
     plt.ylabel('dBm')
     plt.show()
 
-looging_data = 0
+looging_data = 1
 
 if looging_data:
     # Ouvrir le port série

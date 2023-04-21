@@ -8,8 +8,6 @@ import matplotlib.pyplot as plt
 import os
 
 # Modules pour l'interpolation
-from scipy import stats
-from scipy.interpolate import interp1d
 from sklearn.metrics import r2_score
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -251,7 +249,7 @@ def main(nb_anchor, dmin, dmax, pas, sec):
 
 if __name__ == '__main__':
     import datetime
-    doing_calibration = 1
+    doing_calibration = 0
     nb_anchor = 1
     
     date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")

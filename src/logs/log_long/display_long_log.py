@@ -84,10 +84,10 @@ def load_data(filename):
         # Charger le fichier CSV
         return load_single_file(filename)
 
-def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
+def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005):
     # Tracer la distance en fonction du temps sans mask
-    idx_start = np.argmax(time.flatten() > 20000) #9540
-    idx_end = dist.shape[0] - time.shape[0]//10
+    idx_start = 0 #np.argmax(time.flatten() > 20000) #9540
+    idx_end = dist.shape[0] - time.shape[0]//7 #-1 #
     time = time[idx_start:idx_end] - time[idx_start]
     dist = dist[idx_start:idx_end]
 
@@ -134,48 +134,48 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all):
         import qrunch
 
     Frequency = 1 #/np.mean(np.diff(time))
-    try:
-        T, data, std = qrunch.allan_deviation(dist,Frequency)
+    # try:
+    T, data, std = qrunch.allan_deviation(dist,Frequency)
 
-        print(f"Frequency = {Frequency}\n")
+    print(f"Frequency = {Frequency}\n")
 
-        sigma_bb = std[0]
-        sigma_rw = 0.00005 #0.00005
-        bb = sigma_bb/np.sqrt(T)
-        rw = sigma_rw*np.sqrt(T/3)
+    sigma_bb = std[0]
+    # sigma_rw = 0.0002 #0.00005
+    bb = sigma_bb/np.sqrt(T)
+    rw = sigma_rw*np.sqrt(T/3)
 
-        fig, ax = plt.subplots(1,1)
-        ax.loglog(T/3600, data, label = "allan deviation")
+    fig, ax = plt.subplots(1,1)
+    ax.loglog(T/3600, data, label = "allan deviation")
 
-        ax.loglog(T/3600, bb, label = "gaussian noise")
-        ax.loglog(T/3600, rw, label = "random walk")
+    ax.loglog(T/3600, bb, label = "gaussian noise")
+    ax.loglog(T/3600, rw, label = "random walk")
 
-        total = np.sqrt(bb**2+ rw**2)
-        ax.loglog(T/3600, total, label = "total", linewidth = 3, color = 'red')
+    total = np.sqrt(bb**2+ rw**2)
+    ax.loglog(T/3600, total, label = "total", linewidth = 3, color = 'red')
 
-        ax.set_xlabel('h')
-        ax.set_ylabel('m')
-        ax.set_title('Allan Deviation for anchor {}'.format(int(ids[0])))
+    ax.set_xlabel('h')
+    ax.set_ylabel('m')
+    ax.set_title('Allan Deviation for anchor {}'.format(int(ids[0])))
 
-        plt.legend()
+    plt.legend()
 
-        if with_all:
-            fig, ax = plt.subplots(1,2)
-            ax0 = ax[0]
-            ax1 = ax[1]
-            ax0.plot(time/60/60, RX - FP, label='diff power [dbM]')
-            ax0.set_title("RX - FP")
-            ax0.set_ylabel("dBM")
-            ax0.set_xlabel("time [h]")
-            ax0.legend()
+    if with_all:
+        fig, ax = plt.subplots(1,2)
+        ax0 = ax[0]
+        ax1 = ax[1]
+        ax0.plot(time/60/60, RX - FP, label='diff power [dbM]')
+        ax0.set_title("RX - FP")
+        ax0.set_ylabel("dBM")
+        ax0.set_xlabel("time [h]")
+        ax0.legend()
 
-            ax1.plot(time/60/60, Q, label = 'quality (FP2/STD)')
-            ax1.set_title("Quality of signal")
-            ax1.set_ylabel("ua")
-            ax1.set_xlabel("time [h]")
-            ax1.legend()
-    except:
-        print("Nothing remains")
+        ax1.plot(time/60/60, Q, label = 'quality (FP2/STD)')
+        ax1.set_title("Quality of signal")
+        ax1.set_ylabel("ua")
+        ax1.set_xlabel("time [h]")
+        ax1.legend()
+    # except:
+    #     print("Nothing remains")
     
 
 if __name__ == "__main__":
@@ -184,12 +184,12 @@ if __name__ == "__main__":
     # filename2 = os.path.join(THIS_FOLDER, "Long_log_14_04_2023_13_42_54.csv")
     # filenames = [filename1, filename2]
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_11_04_2023_17_10_41.csv")] #s
-    filenames = [os.path.join(THIS_FOLDER, "Long_log_17_04_2023_17_26_57.csv")] #los/nlos
-    # filenames = [os.path.join(THIS_FOLDER, "Long_log_18_04_2023_17_15_32.csv")] #los/nlos
+    # filenames = [os.path.join(THIS_FOLDER, "Long_log_17_04_2023_17_26_57.csv")] #los/nlos
+    filenames = [os.path.join(THIS_FOLDER, "Long_log_19_04_2023_17_26_08.csv")] #los/nlos
     for filename in filenames:
         time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
         
-        masked = True
+        masked = False
         if masked:
             alp = 1
             # print(alp*np.std(dist) + np.mean(dist))
@@ -212,19 +212,20 @@ if __name__ == "__main__":
         # plot_data(ids, time, dist, RX, with_RX)
         val_idx = np.unique(ids)
         for idx in val_idx:
-            new_ids = ids[ids == idx]
-            new_dist = dist[ids == idx]
-            new_time = time[ids == idx]
-            if with_all:
-                new_RX = RX[ids == idx]
-                new_FP = FP[ids == idx]
-                new_Q = Q[ids == idx]
-                new_FP = FP[ids == idx]
-                plot_data(new_ids, new_time, new_dist, new_RX, with_RX, new_FP, new_Q, with_all)
-            elif with_RX:
-                new_RX = RX[ids == idx]
-                plot_data(new_ids, new_time, new_dist, new_RX, with_RX, np.array([]), np.array([]), False)
-            else:
-                plot_data(new_ids, new_time, new_dist, np.array([]), False, np.array([]), np.array([]), False)
-        
-    plt.show()
+            if idx == 1781 or idx == 1780:
+                new_ids = ids[ids == idx]
+                new_dist = dist[ids == idx]
+                new_time = time[ids == idx]
+                if with_all:
+                    new_RX = RX[ids == idx]
+                    new_FP = FP[ids == idx]
+                    new_Q = Q[ids == idx]
+                    new_FP = FP[ids == idx]
+                    plot_data(new_ids, new_time, new_dist, new_RX, with_RX, new_FP, new_Q, with_all)
+                elif with_RX:
+                    new_RX = RX[ids == idx]
+                    plot_data(new_ids, new_time, new_dist, new_RX, with_RX, np.array([]), np.array([]), False)
+                else:
+                    plot_data(new_ids, new_time, new_dist, np.array([]), False, np.array([]), np.array([]), False)
+            
+        plt.show()

@@ -12,8 +12,11 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-int selected_anchor = 82;
+int selected_anchor = 83;
 String str_display = "";
+String  anchorAddress = "";
+char ANCHOR_ADD[24];
+int Adelay = 0;
 
 // previously determined calibration results for antenna delay
 // #1 16520
@@ -36,38 +39,48 @@ String str_display = "";
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
-void setup()
-{
-
-    
+void starting_parameters(){
   switch(selected_anchor){
-    // case 80:
-    //   #define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
-    //   #define Adelay 16520
-    //   str_display =  "UWB Anchor 80 ";
-    //   break;
-    // case 81:
-    //   #define ANCHOR_ADD "81:17:5B:D5:A9:9A:E2:9C"
-    //   #define Adelay 16539
-    //   str_display =  "UWB Anchor 81 ";
-    //   break;
+    case 80:
+      anchorAddress = "80:17:5B:D5:A9:9A:E2:9C";
+      anchorAddress.toCharArray(ANCHOR_ADD, 24);
+      // Adelay = 16520;
+      Adelay = 16535;
+      str_display =  "UWB Anchor 80 ";
+      break;
+    case 81:
+      anchorAddress = "81:17:5B:D5:A9:9A:E2:9C";
+      anchorAddress.toCharArray(ANCHOR_ADD, 24);
+      // Adelay = 16539;
+      Adelay = 16550;
+      str_display =  "UWB Anchor 81 ";
+      break;
     case 82:
-      #define ANCHOR_ADD "82:17:5B:D5:A9:9A:E2:9C"
-      #define Adelay 16545
+      anchorAddress = "82:17:5B:D5:A9:9A:E2:9C";
+      anchorAddress.toCharArray(ANCHOR_ADD, 24);
+      Adelay = 16445;
       str_display =  "UWB Anchor 82 ";
       break;
-    // case 83:
-    //   #define ANCHOR_ADD "83:17:5B:D5:A9:9A:E2:9C"
-    //   #define Adelay 16505
-    //   str_display =  "UWB Anchor 83 ";
-    //   break;
-    // default:
-    //   #define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
-    //   #define Adelay 16520
-    //   str_display =  "UWB Anchor 80 ";
-    //   break;
+    case 83:
+      anchorAddress = "83:17:5B:D5:A9:9A:E2:9C";
+      anchorAddress.toCharArray(ANCHOR_ADD, 24);
+      // Adelay = 16505;
+      Adelay = 16540;
+      str_display =  "UWB Anchor 83 ";
+      break;
+    default:
+      anchorAddress = "80:17:5B:D5:A9:9A:E2:9C";
+      anchorAddress.toCharArray(ANCHOR_ADD, 24);
+      Adelay = 16530;
+      str_display =  "UWB Anchor 80 ";
+      break;
   }
+}
 
+void setup()
+{
+  starting_parameters();
+  
   Serial.begin(115200);
 
   //Init the screen 
@@ -137,14 +150,15 @@ void newRange()
     dist += DW1000Ranging.getDistantDevice()->getRange();
   }
   dist = dist/NUMBER_OF_DISTANCES;
-  // Serial.print(dist);
-  // Serial.print(", ");
+  Serial.print(dist);
+  Serial.println(", ");
   // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
   // Serial.print(", ");
   // Serial.print(DW1000Ranging.getDistantDevice()->getFPPower());
   // Serial.print(", diff:");
-  // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower() - DW1000Ranging.getDistantDevice()->getFPPower());
+  // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower() - DW1000Ranging.getDistantDevice()->getFPPower());
   // Serial.print(", ");
+  // Serial.println(DW1000.getReceiveQuality());
   // Serial.println("");
   // Serial.println(millis() - t0);
   // t0 = millis();

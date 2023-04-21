@@ -11,8 +11,8 @@ import toolbox_kalman as tool
 # Wps = np.array([[0, 10 , -10],
 #               [0, 0, 0]])
 
-Wps = np.array([[0, 10, -10, 0],
-              [-10, 0, 0, 10]])
+# Wps = np.array([[0, 10, -10, 0],
+#               [-10, 0, 0, 10]])
 
 # Wps = np.array([[0],
 #               [0]])
@@ -22,10 +22,10 @@ Wps = np.array([[0, 10, -10, 0],
 
 # Wps = np.array([[]])
 
-# a = -20
-# b = 20
-# N = 10
-# Wps = np.random.uniform(low=a, high=b, size=(2, N))
+a = -20
+b = 20
+N = 4
+Wps = np.random.uniform(low=a, high=b, size=(2, N))
 
 def plot_covariance(PMatrix, T):
     """

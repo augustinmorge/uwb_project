@@ -36,8 +36,8 @@
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
-#define ANCHOR_ADD "81:17:5B:D5:A9:9A:E2:9C"
-float this_anchor_target_distance = 2; //measured distance to anchor in m
+#define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
+float this_anchor_target_distance = 7.22; //measured distance to anchor in m
 
 float this_anchor_Adelay = 15000; //starting value
 float Adelay_delta = 100; //initial binary search step size
@@ -107,17 +107,19 @@ void newRange()
   dist /= 100.0;
 
   // Serial.print(",");
-  Serial.println(dist); 
+  //Serial.println(dist); 
   if (Adelay_delta < 3) {
-    if(tot==100){while (1);}
+    if(tot==100){while (1){Serial.println(anchor_delay_final/tot); Serial.print("Tot: "); Serial.println(tot);};}
     Serial.print("final Adelay n°");
     Serial.print(tot);
     Serial.print(": ");
     tot ++;
     anchor_delay_final = anchor_delay_final + this_anchor_Adelay;
     Serial.println(anchor_delay_final/tot);
+    Serial.println(this_anchor_Adelay);
 //    Serial.print("Check: stored Adelay = ");
 //    Serial.println(DW1000.getAntennaDelay());
+  float this_anchor_Adelay = 15000; //starting value
   Adelay_delta = 100;
     // while(1);  //done calibrating
   }
@@ -134,6 +136,7 @@ void newRange()
   // Serial.println (this_anchor_Adelay);
   // SPI.begin(SPI_SCK, SPI_MISO, SPI_MOSI);
   // DW1000Ranging.initCommunication(PIN_RST, PIN_SS, PIN_IRQ); //Reset, CS, IRQ pin
+  // Serial.println(this_anchor_Adelay);
   DW1000.setAntennaDelay(this_anchor_Adelay);
 
   // if ((this_anchor_Adelay < 16400) or (this_anchor_Adelay > 16800)){this_anchor_Adelay = 16400; delay(500);}

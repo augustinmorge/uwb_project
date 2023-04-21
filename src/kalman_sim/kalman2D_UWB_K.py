@@ -80,7 +80,7 @@ def mvnrnd(G):
         return y.reshape(n, 1)
     
 # Observation function
-def g(x, Xhat, t, L_detect = 15):
+def g(x, Xhat, t, L_detect = 20):
     global err, col
     x=x.flatten()
     wp_detected = []
@@ -103,8 +103,8 @@ def g(x, Xhat, t, L_detect = 15):
         if dist < L_detect and t%1 == 0: #On considère qu'on a capté la balise
             
             dist_hat = np.linalg.norm(a - (Xhat[0:2]).flatten())
-            Hi = np.array([[-2*(a[0] - Xhat[0,0]), -2*(a[1] - Xhat[1,0]), 0, 0, 0]])
-            yi = dist**2 - dist_hat**2 + Hi@Xhat 
+            Hi = -np.array([[(a[0] - Xhat[0,0])/dist_hat, (a[1] - Xhat[1,0])/dist_hat, 0, 0, 0]])
+            yi = dist - dist_hat + Hi@Xhat 
 
             if not wp_detected:
                 H = Hi; y = yi; 
@@ -139,7 +139,6 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
 if __name__ == "__main__":
     display_bot = 1
     UWB = 1
-
     # Size of simu
     day = 0.1
     tmax = int(day*24*60*60)
@@ -149,16 +148,16 @@ if __name__ == "__main__":
     # Variables for Kalman
     P = 100 * np.eye(5)
 
-    X = np.array([[1], [0], [0], [0], [0]])
+    X = np.array([[0.], [0.], [0.], [0.], [0.]])
     Xhat = X
 
-    sigma_bb = 0.02
+    sigma_bb = 0.05
     sigma_rw = 0.0001
     noise = [noise_sensor(tmax, sigma_bb, sigma_rw) for _ in range(Wps.shape[1])]
 
     ytilde = np.array([[0],[0]])
 
-    sigm_equation =dt*0.01
+    sigm_equation = dt*0.01
     Q = np.diag([sigm_equation, sigm_equation, sigm_equation])
 
     #Lists to display results
@@ -169,6 +168,7 @@ if __name__ == "__main__":
     
     for t in tqdm(T):
         u = control(X,t)
+        # u = np.array([[0],[0],[0]])
 
         X = X + dt*f(X,u)
         
@@ -205,7 +205,18 @@ if __name__ == "__main__":
 
     
     plt.close()
-    # plot_noise(noise, Wps, T, tmax)
-    # plot_covariance(PMatrix, T)
+    plot_noise(noise, Wps, T, tmax)
+    plot_covariance(PMatrix, T)
     plot_error(INNOV_NORM, ERR, T, col, UWB)
+
+    sys.path.insert(1, os.path.join(THIS_FOLDER, '../logs/log_long'))
+    from display_long_log import plot_data
+
+    INNOV_NORM = np.array(INNOV_NORM)
+    # Enlever les valeurs 'None' dans INNOV_NORM et les indices correspondants dans T
+    indices = [i for i, x in enumerate(INNOV_NORM) if x is None]
+    INNOV_NORM = np.delete(INNOV_NORM, indices)
+    T = np.delete(T, indices)
+
+    plot_data(np.array([0]), T, INNOV_NORM, np.array([]), False, np.array([]), np.array([]), False, sigma_rw)
     plt.show()
