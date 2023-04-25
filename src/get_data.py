@@ -64,7 +64,10 @@ class Anchor:
             self.anchors[id] = {'Time':time, 'Range': range, 'Coords': coords}
             mutex.release()
 
+tot = 0
+m_data = 0
 def get_data(anchors, data):
+    global m_data, tot
     while True:
 
         list = read_data(data)
@@ -76,6 +79,10 @@ def get_data(anchors, data):
                 time_anchor1 = uwb_range_offset(float(one["T"]));
                 data_anchor1 = uwb_range_offset(float(one["R"]));
                 anchors.update_anchor(1780, time_anchor1, data_anchor1, (0,0))
+                if data_anchor1 != 0:
+                    m_data += data_anchor1
+                    tot += 1
+                    print(f"mean = {m_data/tot}")
 
             if one["A"] == "1781":
                 time_anchor2 = uwb_range_offset(float(one["T"]));

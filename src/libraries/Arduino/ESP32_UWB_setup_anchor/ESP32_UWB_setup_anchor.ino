@@ -45,27 +45,31 @@ void starting_parameters(){
       anchorAddress = "80:17:5B:D5:A9:9A:E2:9C";
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16520;
-      Adelay = 16535;
+      // Adelay = 16535;
+      Adelay = 16529.41;
       str_display =  "UWB Anchor 80 ";
       break;
     case 81:
       anchorAddress = "81:17:5B:D5:A9:9A:E2:9C";
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16539;
-      Adelay = 16550;
+      // Adelay = 16550;
+      Adelay = 16535.48;
       str_display =  "UWB Anchor 81 ";
       break;
     case 82:
       anchorAddress = "82:17:5B:D5:A9:9A:E2:9C";
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
-      Adelay = 16445;
+      // Adelay = 16445;
+      Adelay = 16550; //16549.71;
       str_display =  "UWB Anchor 82 ";
       break;
     case 83:
       anchorAddress = "83:17:5B:D5:A9:9A:E2:9C";
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16505;
-      Adelay = 16540;
+      // Adelay = 16540;
+      Adelay = 16533; //16532.50;
       str_display =  "UWB Anchor 83 ";
       break;
     default:
@@ -138,20 +142,26 @@ void loop()
 }
 
 // float t0 = millis();
+float mean_dist = 0.;float tot = 0.;
+float dist = 0.;
 void newRange()
 {
   //    Serial.print("from: ");
   // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
   // Serial.print(", ");
 
-#define NUMBER_OF_DISTANCES 1
-  float dist = 0.0;
-  for (int i = 0; i < NUMBER_OF_DISTANCES; i++) {
-    dist += DW1000Ranging.getDistantDevice()->getRange();
-  }
-  dist = dist/NUMBER_OF_DISTANCES;
-  Serial.print(dist);
-  Serial.println(", ");
+// #define NUMBER_OF_DISTANCES 1
+//   float dist = 0.0;
+//   for (int i = 0; i < NUMBER_OF_DISTANCES; i++) {
+//     dist += DW1000Ranging.getDistantDevice()->getRange();
+//   }
+//   dist = dist/NUMBER_OF_DISTANCES;
+
+  dist = DW1000Ranging.getDistantDevice()->getRange();
+  mean_dist += dist; tot ++;
+  Serial.println(mean_dist/tot);
+  // Serial.print(dist);
+  // Serial.println(", ");
   // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
   // Serial.print(", ");
   // Serial.print(DW1000Ranging.getDistantDevice()->getFPPower());

@@ -2,7 +2,6 @@
 import time
 import socket
 import json
-import keyboard
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -142,10 +141,11 @@ def main(file, sec = 60):
 
 
 if __name__ == '__main__':
-    print("/!\ WARNING : This code can be used with only one anchor on /!\ ")
     import datetime, sys
     doing_test = 0
     nb_anchor = 1
+
+    offset = {1780 : 0, 1781 : 0, 1782 : 0, 1783 : 0}
     
 
 
@@ -166,7 +166,7 @@ if __name__ == '__main__':
     else:
 
         ## ONE ANCHOR ONLY
-        filename = f"{THIS_FOLDER}/2023_04_24_16_45_12_Test_multiple_points.csv"
+        filename = f"{THIS_FOLDER}/2023_04_25_16_08_59_Test_multiple_points.csv"
         data = np.genfromtxt(filename, delimiter=';', skip_header=1)
 
         fig, ax = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
@@ -178,8 +178,6 @@ if __name__ == '__main__':
         D_mean_real = []
         D_mean_mes = []
 
-        D = np.unique(data[:,1])
-
         ids = data[:,0]
         d_real = data[:,1]
         t = data[:,2]
@@ -189,13 +187,18 @@ if __name__ == '__main__':
         Q = data[:,6]
 
         for idx in np.unique(ids):
-            new_ids = ids[ids == idx]
-            new_d_real = d_real[ids == idx]
-            new_t = t[ids == idx]
-            new_d_measured = d_measured[ids == idx] + 0.215
-            new_RX = RX[ids == idx]
-            new_FP = FP[ids == idx]
-            new_Q = Q[ids == idx]
+
+            false_value = np.abs(d_measured - d_real) > 2
+            new_ids = ids[ids == idx][~false_value]
+            new_d_real = d_real[ids == idx][~false_value]
+            new_t = t[ids == idx][~false_value]
+            new_d_measured = d_measured[ids == idx][~false_value] + offset[idx]
+            new_RX = RX[ids == idx][~false_value]
+            new_FP = FP[ids == idx][~false_value]
+            new_Q = Q[ids == idx][~false_value]
+            
+            D = np.unique(new_d_real)
+
             if idx == 1780:
                 for d in D:
                     D_mean_mes.append(np.mean(new_d_measured[new_d_real == d]))
@@ -214,7 +217,7 @@ if __name__ == '__main__':
                 print(f"Ecart-type des résidus = {np.std(D_mean_mes - D)}")
                 print(f"Moyenne des résidus = {np.mean(D_mean_mes - D)}")
 
-                show_all = True
+                show_all = 0
 
                 if show_all:
                     means_RX = [np.mean(new_RX[(new_d_real == d)]) for d in D]

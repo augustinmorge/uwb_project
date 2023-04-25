@@ -161,9 +161,13 @@ void newRange()
 
     // fresh_link(uwb_data, DW1000Ranging.getDistantDevice()->getShortAddress(), DW1000Ranging.getDistantDevice()->getRange(), DW1000Ranging.getDistantDevice()->getRXPower());
     fresh_link(uwb_data, DW1000Ranging.getDistantDevice()->getShortAddress(), DW1000Ranging.getDistantDevice()->getRange(), \
-                         DW1000Ranging.getDistantDevice()->getRXPower(), DW1000.getFirstPathPower(), DW1000.getReceiveQuality());
+                         DW1000Ranging.getDistantDevice()->getRXPower(), DW1000.getFirstPathPower(), DW1000.getReceiveQuality()); //DW1000.getFirstPathPower() //DW1000Ranging.getDistantDevice()->getRXPower()
 
-    // print_link(uwb_data);
+    // // print_link(uwb_data);
+    // Serial.print("Received Power = ");
+    // Serial.println(DW1000.getReceivePower());
+    // Serial.print("Received Power from device = ");
+    // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
 }
 
 void newDevice(DW1000Device *device)
