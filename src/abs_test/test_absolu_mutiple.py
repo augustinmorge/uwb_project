@@ -146,6 +146,7 @@ if __name__ == '__main__':
     nb_anchor = 1
 
     offset = {1780 : 0, 1781 : 0, 1782 : 0, 1783 : 0}
+    # offset = {1780 : 0.086, 1781 : -0.419, 1782 : -0.910, 1783 : 0.659}
     coords = {1780 : {'x' : 1.29, 'y' : 12.543, 'z' : 1.348}, 1781 : {'x' : 0, 'y' : 0, 'z' : 1.342}, \
               1782 : {'x' : -3.167, 'y' : -11.36, 'z' : 1.213}, 1783 : {'x' : 1.1, 'y' : -28.066, 'z' : -1.502}}
     def f_distance(id,d): 
@@ -153,7 +154,7 @@ if __name__ == '__main__':
         # id : l'identifiant de l'ancre
         # d : la distance mesurée entre lancre A et le tag (cf schéma)
         ###
-        return np.sqrt((coords[id]['x'] - coords[1780]['x'])**2 + (coords[id]['y'] - (coords[1780]['y'] - d))**2 + (coords[id]['z'] - (coords[1780]['z']-0.2294))**2)
+        return np.sqrt((coords[id]['x'] - coords[1780]['x'])**2 + (coords[id]['y'] - (coords[1780]['y'] - d))**2 + (coords[id]['z'] - np.sqrt((coords[1780]['z']**2-0.2294**2)))**2)
     
 
     date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
@@ -171,25 +172,9 @@ if __name__ == '__main__':
         file.close()
 
     else:
-
-        ## ONE ANCHOR ONLY
-        # filename2 = f"{THIS_FOLDER}/2023_04_25_16_08_59_Test_multiple_points.csv"
-        # filename1 = f"{THIS_FOLDER}/2023_04_24_16_45_12_Test_multiple_points.csv"
-        # filename3 = f"{THIS_FOLDER}/2023_04_26_16_31_06_Test_multiple_points.csv"
-        # filenames = [filename1, filename2, filename3]
         filenames = [f"{THIS_FOLDER}/2023_04_27_14_17_12_Test_multiple_points.csv"]
         for filename in filenames:
             data = np.genfromtxt(filename, delimiter=';', skip_header=1)
-
-            fig, ax = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-            fig.suptitle(filename[-44:])
-            ax.set_title(f"Anchor 1")
-            ax.set_xlabel("Distance (m)")
-            ax.set_ylabel("Measured Range (m)")
-
-
-            D_mean_real = []
-            D_mean_mes = []
 
             ids = data[:,0]
             d_real = data[:,1]
@@ -199,13 +184,25 @@ if __name__ == '__main__':
             FP = data[:,5]
             Q = data[:,6]
 
+            L_new_d_measured = []; L_D_mean_mes = []; L_new_d_real = []; L_D = []
             for idx in np.unique(ids):
 
-                # false_value =np.abs(d_measured[ids == idx] - d_real[ids == idx]) > 2
+                D_mean_real = []
+                D_mean_mes = []
+
+                # false_value = np.abs(d_measured[ids == idx] - f_distance(idx,d_real)[ids == idx]) > 2
+                indices = np.where(np.abs(d_measured[ids == idx] - f_distance(idx,d_real)[ids == idx]) > 2)
+                print(np.unique(d_real[indices]))
+                # false_value = d_real[indices]
+
                 new_ids = ids[ids == idx] #[~false_value]
-                new_d_real = d_real[ids == idx] #[~false_value]
+                new_d_real = d_real[ids == idx] 
+                new_d_real = f_distance(idx,new_d_real) #[~false_value]
+
                 new_t = t[ids == idx] #[~false_value]
                 new_d_measured = d_measured[ids == idx] #[~false_value] + offset[idx]
+                
+                
                 new_RX = RX[ids == idx] #[~false_value]
                 new_FP = FP[ids == idx] #[~false_value]
                 new_Q = Q[ids == idx] #[~false_value]
@@ -220,57 +217,74 @@ if __name__ == '__main__':
                 
                 D = np.unique(new_d_real)
 
-                if idx == 1780:
-                    for d in D:
-                        D_mean_mes.append(np.mean(new_d_measured[new_d_real == d]))
-                        
-                    ax.scatter(new_d_measured, new_d_real, label = 'data', s = 0.4)
+                for d in D:
+                    D_mean_mes.append(np.mean(new_d_measured[new_d_real == d]))
+                    
+                D_mean_mes = np.array(D_mean_mes)
+
+                L_new_d_measured.append(new_d_measured)
+                L_D_mean_mes.append(D_mean_mes)
+                L_new_d_real.append(new_d_real)
+                L_D.append(D)
+
+                print(f"Résidus = {(D_mean_mes - D)}")
+                print(f"Ecart-type des résidus = {np.std(D_mean_mes - D)}")
+                print(f"Moyenne des résidus = {np.mean(D_mean_mes - D)}\n")
+
+                show_all = 0
+
+                if show_all:
+                    means_RX = [np.mean(new_RX[(new_d_real == d)]) for d in D]
+                    means_FP = [np.mean(new_FP[(new_d_real == d)]) for d in D]
+                    means_Q = [np.mean(new_Q[(new_d_real == d)]) for d in D]
+
+                    plt.figure()
+                    plt.xlabel("Distance [m]")
+                    plt.ylabel("RX")
+                    plt.scatter(new_d_real, new_RX)                    
+                    plt.plot(D, means_RX, color = 'red')
+                    plt.title("RX - Anchor {}".format(idx))
+                    plt.grid()
+                    
+                    plt.figure()
+                    plt.xlabel("Distance [m]")
+                    plt.ylabel("FP")
+                    plt.scatter(new_d_real, new_FP)                    
+                    plt.plot(D, means_FP, color = 'red')
+                    plt.title("FP - Anchor {}".format(idx))
+                    plt.grid()
+                    
+                    plt.figure()
+                    plt.xlabel("Distance [m]")
+                    plt.ylabel("Q")
+                    plt.scatter(new_d_real, new_Q)                    
+                    plt.plot(D, means_Q, color = 'red')
+                    plt.title("Q - Anchor {}".format(idx))
+                    plt.grid()
+                    
+                    plt.figure()
+                    plt.xlabel("Distance [m]")
+                    plt.ylabel("RX - FP")
+                    plt.scatter(new_d_real, new_RX - new_FP)                    
+                    plt.plot(D, np.array(means_RX) - np.array(means_FP), color = 'red')
+                    plt.title("RX - FP - Anchor {}".format(idx))
+                    plt.grid()
+                
+                plt.show()
+
+            ### DISPLAY
+            fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+            fig.suptitle(filename[-44:])
+            for i in range(2):
+                for j in range(2):
+                    ax = axs[i,j]
+                    idx = 2*i + j
+                    ax.set_xlabel("Distance (m)")
+                    ax.set_ylabel("Measured Range (m)")
+                    ax.set_title("Anchor n°{}".format(80 + idx))
+                    ax.set_xlim([0, int(np.max(D)+5)])
+                    ax.set_ylim([0, int(np.max(D)+5)])
+                    ax.scatter(L_new_d_measured[idx], L_new_d_real[idx], label = 'data', s = 0.4)
                     ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
-                    plot_polynomial_regression(ax, D_mean_mes, D, [1])
-
-                    
-                    D_mean_mes = np.array(D_mean_mes)
-                    print(f"Résidus = {(D_mean_mes - D)}")
-                    print(f"Ecart-type des résidus = {np.std(D_mean_mes - D)}")
-                    print(f"Moyenne des résidus = {np.mean(D_mean_mes - D)}")
-
-                    show_all = 1 #len(filenames) == 1
-
-                    if show_all:
-                        means_RX = [np.mean(new_RX[(new_d_real == d)]) for d in D]
-                        means_FP = [np.mean(new_FP[(new_d_real == d)]) for d in D]
-                        means_Q = [np.mean(new_Q[(new_d_real == d)]) for d in D]
-
-                        plt.figure()
-                        plt.xlabel("Distance [m]")
-                        plt.ylabel("RX")
-                        plt.scatter(new_d_real, new_RX)                    
-                        plt.plot(D, means_RX, color = 'red')
-                        plt.title("RX")
-                        plt.grid()
-                        
-                        plt.figure()
-                        plt.xlabel("Distance [m]")
-                        plt.ylabel("FP")
-                        plt.scatter(new_d_real, new_FP)                    
-                        plt.plot(D, means_FP, color = 'red')
-                        plt.title("FP")
-                        plt.grid()
-                        
-                        plt.figure()
-                        plt.xlabel("Distance [m]")
-                        plt.ylabel("Q")
-                        plt.scatter(new_d_real, new_Q)                    
-                        plt.plot(D, means_Q, color = 'red')
-                        plt.title("Q")
-                        plt.grid()
-                        
-                        plt.figure()
-                        plt.xlabel("Distance [m]")
-                        plt.ylabel("RX - FP")
-                        plt.scatter(new_d_real, new_RX - new_FP)                    
-                        plt.plot(D, np.array(means_RX) - np.array(means_FP), color = 'red')
-                        plt.title("RX - FP")
-                        plt.grid()
-                    
+                    plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1])
             plt.show()

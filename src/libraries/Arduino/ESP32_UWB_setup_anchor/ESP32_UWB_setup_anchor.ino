@@ -12,7 +12,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-int selected_anchor = 83;
+int selected_anchor = 80;
 String str_display = "";
 String  anchorAddress = "";
 char ANCHOR_ADD[24];
@@ -46,7 +46,8 @@ void starting_parameters(){
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16520;
       // Adelay = 16535;
-      Adelay = 16529.41;
+      // Adelay = 16529.41;
+      Adelay = 16570;
       str_display =  "UWB Anchor 80 ";
       break;
     case 81:
@@ -54,14 +55,16 @@ void starting_parameters(){
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16539;
       // Adelay = 16550;
-      Adelay = 16535.48;
+      // Adelay = 16535.48;
+      Adelay = 16530;
       str_display =  "UWB Anchor 81 ";
       break;
     case 82:
       anchorAddress = "82:17:5B:D5:A9:9A:E2:9C";
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16445;
-      Adelay = 16550; //16549.71;
+      // Adelay = 16550; //16549.71;
+      Adelay = 16600;
       str_display =  "UWB Anchor 82 ";
       break;
     case 83:
@@ -69,7 +72,8 @@ void starting_parameters(){
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16505;
       // Adelay = 16540;
-      Adelay = 16533; //16532.50;
+      // Adelay = 16533; //16532.50;
+      Adelay = 16560;
       str_display =  "UWB Anchor 83 ";
       break;
     default:
@@ -157,9 +161,9 @@ void newRange()
 //   }
 //   dist = dist/NUMBER_OF_DISTANCES;
 
-  dist = DW1000Ranging.getDistantDevice()->getRange();
-  mean_dist += dist; tot ++;
-  Serial.println(mean_dist/tot);
+  // dist = DW1000Ranging.getDistantDevice()->getRange();
+  // mean_dist += dist; tot ++;
+  // Serial.println(mean_dist/tot);
   // Serial.print(dist);
   // Serial.println(", ");
   // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
@@ -172,6 +176,12 @@ void newRange()
   // Serial.println("");
   // Serial.println(millis() - t0);
   // t0 = millis();
+  float temp(0); float v(0);
+  DW1000.getTempAndVbat(temp,v);
+  Serial.println("Temp :");
+  Serial.println(temp);
+  Serial.println("v :");
+  Serial.println(v);
 }
 
 void newDevice(DW1000Device *device)

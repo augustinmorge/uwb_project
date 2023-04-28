@@ -23,7 +23,6 @@ def connect_to_tag():
 
     return data, addr, sock
 
-
 def read_data():
     data.setblocking(False)
     try:
@@ -49,8 +48,6 @@ def read_data():
 
     return uwb_list
 
-
-
 def uwb_range_offset(uwb_range):
 
     temp = uwb_range
@@ -62,7 +59,6 @@ def write_data(f, data):
         ch += str(d) + ";"
     ch += str(data[-1]) + "\n"
     f.write(ch)
-
 
 def main(t_start):
     t0 = time.time()

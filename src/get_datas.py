@@ -10,11 +10,25 @@ mutex = threading.Lock()
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
-def connect_to_tag():
+def connect_to_tag1():
     hostname = socket.gethostname()
     UDP_IP = socket.gethostbyname(hostname)
     print("***Local ip:" + str(UDP_IP) + "***")
     UDP_PORT = 8080
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((UDP_IP, UDP_PORT))
+    sock.listen(1)  # 接收的连接数
+    print("En attente de connexion...")
+    data, addr = sock.accept()
+    print("Connected !")
+
+    return data, addr
+
+def connect_to_tag2():
+    hostname = socket.gethostname()
+    UDP_IP = socket.gethostbyname(hostname)
+    print("***Local ip:" + str(UDP_IP) + "***")
+    UDP_PORT = 8181
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((UDP_IP, UDP_PORT))
     sock.listen(1)  # 接收的连接数
@@ -71,7 +85,6 @@ def get_data(anchors, data):
     while True:
 
         list = read_data(data)
-        
 
         for one in list:
 
@@ -79,10 +92,10 @@ def get_data(anchors, data):
                 time_anchor1 = uwb_range_offset(float(one["T"]));
                 data_anchor1 = uwb_range_offset(float(one["R"]));
                 anchors.update_anchor(1780, time_anchor1, data_anchor1, (0,0))
-                # if data_anchor1 != 0:
-                #     m_data += data_anchor1
-                #     tot += 1
-                #     print(f"mean = {m_data/tot}")
+                if data_anchor1 != 0:
+                    m_data += data_anchor1
+                    tot += 1
+                    print(f"mean = {m_data/tot}")
 
             if one["A"] == "1781":
                 time_anchor2 = uwb_range_offset(float(one["T"]));
@@ -110,7 +123,9 @@ if __name__ == "__main__":
     # Start the threads
     anchors = Anchor()
     
-    data, addr = connect_to_tag()
+    # data, addr = connect_to_tag()
+    data1, addr1 = connect_to_tag1()
+    data2, addr2 = connect_to_tag2()
 
     # # Create a thread that runs the get_data function
     # get_data_thread = lambda : get_data(anchors, data)
@@ -120,7 +135,8 @@ if __name__ == "__main__":
     # t_get_data.start()
 
     # Create a thread that runs the get_data function
-    get_data_thread = threading.Thread(target=get_data, args=(anchors,data,))
+    # get_data_thread = threading.Thread(target=get_data, args=(anchors,data1,))
+    get_data_thread = threading.Thread(target=get_data, args=(anchors,data2,))
 
     # Start the thread
     get_data_thread.start()

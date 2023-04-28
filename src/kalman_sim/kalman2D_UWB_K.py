@@ -77,7 +77,7 @@ def mvnrnd(G):
         return y.reshape(n, 1)
     
 # Observation function
-def g(x, Xhat, t, L_detect = 20):
+def g(x, Xhat, t, L_detect = 200):
     global err, col
     x=x.flatten()
     wp_detected = []
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     X = np.array([[0.], [0.], [0.], [0.], [0.]])
     Xhat = X
 
-    sigma_bb = 0.05
+    sigma_bb = 1
     sigma_rw = 0.0001
     noise = [noise_sensor(tmax, sigma_bb, sigma_rw) for _ in range(Wps.shape[1])]
 

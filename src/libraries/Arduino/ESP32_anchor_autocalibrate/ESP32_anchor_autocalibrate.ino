@@ -36,8 +36,8 @@
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
-#define ANCHOR_ADD "80:17:5B:D5:A9:9A:E2:9C"
-float this_anchor_target_distance = 7.81; //measured distance to anchor in m
+#define ANCHOR_ADD "83:17:5B:D5:A9:9A:E2:9C"
+float this_anchor_target_distance = 7.8; //measured distance to anchor in m
 
 float this_anchor_Adelay = 15000; //starting value
 float Adelay_delta = 100; //initial binary search step size
@@ -106,7 +106,7 @@ void newRange()
   // Serial.println(dist);
   // Serial.println(this_anchor_Adelay);
   if (Adelay_delta < 1) {
-    if(tot==100){while (1){Serial.println(anchor_delay_final/tot);};}
+    if(tot==100){while (1){Serial.println(anchor_delay_final/tot); delay(1000);};}
     Serial.print("final Adelay n°");
     Serial.print(tot);
     Serial.print(": ");
