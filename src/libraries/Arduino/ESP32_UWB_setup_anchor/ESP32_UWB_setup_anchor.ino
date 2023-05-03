@@ -17,12 +17,7 @@ String str_display = "";
 String  anchorAddress = "";
 char ANCHOR_ADD[24];
 int Adelay = 0;
-
-// previously determined calibration results for antenna delay
-// #1 16520
-// #2 16539
-// #3 16545
-// #4 16505
+bool display_screen = false;
 
 // calibration distance
 #define SPI_SCK 18
@@ -47,7 +42,7 @@ void starting_parameters(){
       // Adelay = 16520;
       // Adelay = 16535;
       // Adelay = 16529.41;
-      Adelay = 16570;
+      Adelay = 16542;
       str_display =  "UWB Anchor 80 ";
       break;
     case 81:
@@ -56,7 +51,8 @@ void starting_parameters(){
       // Adelay = 16539;
       // Adelay = 16550;
       // Adelay = 16535.48;
-      Adelay = 16530;
+      // Adelay = 16530;
+      Adelay = 16548;
       str_display =  "UWB Anchor 81 ";
       break;
     case 82:
@@ -64,7 +60,7 @@ void starting_parameters(){
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16445;
       // Adelay = 16550; //16549.71;
-      Adelay = 16600;
+      Adelay = 16566;
       str_display =  "UWB Anchor 82 ";
       break;
     case 83:
@@ -73,7 +69,8 @@ void starting_parameters(){
       // Adelay = 16505;
       // Adelay = 16540;
       // Adelay = 16533; //16532.50;
-      Adelay = 16560;
+      // Adelay = 16560;
+      Adelay = 16537;
       str_display =  "UWB Anchor 83 ";
       break;
     default:
@@ -90,24 +87,25 @@ void setup()
   starting_parameters();
   
   Serial.begin(115200);
+  if(display_screen){
+    //Init the screen 
+      Wire.begin(I2C_SDA, I2C_SCL);
+      delay(1000);
+      // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+      if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C))
+      { // Address 0x3C for 128x32
+          Serial.println(F("SSD1306 allocation failed"));
+          for (;;)
+              ; // Don't proceed, loop forever
+      }
+      display.clearDisplay();
+      display.setTextSize(2);      // Normal 1:1 pixel scale
+      display.setTextColor(SSD1306_WHITE); // Draw white text
+      display.setCursor(0, 0);     // Start at top-left corner
 
-  //Init the screen 
-    Wire.begin(I2C_SDA, I2C_SCL);
-    delay(1000);
-    // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-    if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C))
-    { // Address 0x3C for 128x32
-        Serial.println(F("SSD1306 allocation failed"));
-        for (;;)
-            ; // Don't proceed, loop forever
-    }
-    display.clearDisplay();
-    display.setTextSize(2);      // Normal 1:1 pixel scale
-    display.setTextColor(SSD1306_WHITE); // Draw white text
-    display.setCursor(0, 0);     // Start at top-left corner
-
-    display.println(str_display);
-    display.display();
+      display.println(str_display);
+      display.display();
+  }
 
   delay(1000); //wait for serial monitor to connect
   Serial.println("Anchor config and start");
@@ -148,40 +146,15 @@ void loop()
 // float t0 = millis();
 float mean_dist = 0.;float tot = 0.;
 float dist = 0.;
+float f = 0; float t0 = millis(); float tk = t0; int ct = 0;
 void newRange()
 {
-  //    Serial.print("from: ");
-  // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
-  // Serial.print(", ");
-
-// #define NUMBER_OF_DISTANCES 1
-//   float dist = 0.0;
-//   for (int i = 0; i < NUMBER_OF_DISTANCES; i++) {
-//     dist += DW1000Ranging.getDistantDevice()->getRange();
-//   }
-//   dist = dist/NUMBER_OF_DISTANCES;
-
-  // dist = DW1000Ranging.getDistantDevice()->getRange();
-  // mean_dist += dist; tot ++;
-  // Serial.println(mean_dist/tot);
-  // Serial.print(dist);
-  // Serial.println(", ");
-  // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
-  // Serial.print(", ");
-  // Serial.print(DW1000Ranging.getDistantDevice()->getFPPower());
-  // Serial.print(", diff:");
-  // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower() - DW1000Ranging.getDistantDevice()->getFPPower());
-  // Serial.print(", ");
-  // Serial.println(DW1000.getReceiveQuality());
-  // Serial.println("");
-  // Serial.println(millis() - t0);
-  // t0 = millis();
-  float temp(0); float v(0);
-  DW1000.getTempAndVbat(temp,v);
-  Serial.println("Temp :");
-  Serial.println(temp);
-  Serial.println("v :");
-  Serial.println(v);
+    // Serial.println("\nNew values:");
+    // Serial.println(DW1000Ranging.getDistantDevice()->getRange());
+    // Serial.println(DW1000Ranging.getDistantDevice()->getShortAddress());
+    // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
+    // Serial.println(DW1000Ranging.getDistantDevice()->getFPPower());
+    // Serial.println(DW1000Ranging.getDistantDevice()->getQuality());
 }
 
 void newDevice(DW1000Device *device)

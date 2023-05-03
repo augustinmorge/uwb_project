@@ -177,7 +177,7 @@ if __name__ == '__main__':
         # filename1 = f"{THIS_FOLDER}/2023_04_24_16_45_12_Test_multiple_points.csv"
         # filename3 = f"{THIS_FOLDER}/2023_04_26_16_31_06_Test_multiple_points.csv"
         # filenames = [filename1, filename2, filename3]
-        filenames = [f"{THIS_FOLDER}/2023_04_27_14_17_12_Test_multiple_points.csv"]
+        filenames = [f"{THIS_FOLDER}/2023_04_24_16_45_12_Test_multiple_points.csv"]
         for filename in filenames:
             data = np.genfromtxt(filename, delimiter=';', skip_header=1)
 

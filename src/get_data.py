@@ -69,42 +69,7 @@ m_data = 0
 def get_data(anchors, data):
     global m_data, tot
     while True:
-
-        list = read_data(data)
-        
-
-        for one in list:
-
-            if one["A"] == "1780":
-                time_anchor1 = uwb_range_offset(float(one["T"]));
-                data_anchor1 = uwb_range_offset(float(one["R"]));
-                anchors.update_anchor(1780, time_anchor1, data_anchor1, (0,0))
-                # if data_anchor1 != 0:
-                #     m_data += data_anchor1
-                #     tot += 1
-                #     print(f"mean = {m_data/tot}")
-
-            if one["A"] == "1781":
-                time_anchor2 = uwb_range_offset(float(one["T"]));
-                data_anchor2 = uwb_range_offset(float(one["R"]));
-                anchors.update_anchor(1781, time_anchor2, data_anchor2, (0,1.1))
-
-            if one["A"] == "1782":
-                time_anchor3 = uwb_range_offset(float(one["T"]));
-                data_anchor3 = uwb_range_offset(float(one["R"]));
-                anchors.update_anchor(1782, time_anchor3, data_anchor3, (-1.1,0))
-
-            if one["A"] == "1783":
-                time_anchor4 = uwb_range_offset(float(one["T"]));
-                data_anchor4 = uwb_range_offset(float(one["R"]));
-                anchors.update_anchor(1783, time_anchor4, data_anchor4, (1.1,5))
-
-        # mutex.acquire()
-        # print(anchors.anchors)
-        # mutex.release()
-
-        # time.sleep(1)
-
+        read_data(data)
 
 if __name__ == "__main__":
     # Start the threads

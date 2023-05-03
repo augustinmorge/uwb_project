@@ -72,7 +72,7 @@ def plot_polynomial_regression(ax, x, y, degrees):
 
 
 
-def main(file, sec = 30):
+def main(file, sec = 60):
     while True:
         input("Press ENTER to continue\n")
         d = float(input("Please select the distance: "))
@@ -172,7 +172,7 @@ if __name__ == '__main__':
         file.close()
 
     else:
-        filenames = [f"{THIS_FOLDER}/2023_04_27_14_17_12_Test_multiple_points.csv"]
+        filenames = [f"{THIS_FOLDER}/2023_05_03_16_12_38_Test_multiple_points.csv"]
         for filename in filenames:
             data = np.genfromtxt(filename, delimiter=';', skip_header=1)
 
@@ -184,38 +184,47 @@ if __name__ == '__main__':
             FP = data[:,5]
             Q = data[:,6]
 
+            show_all = 0
+            cancel_adjust = 0
+            add_filter = 0
+
             L_new_d_measured = []; L_D_mean_mes = []; L_new_d_real = []; L_D = []
             for idx in np.unique(ids):
 
                 D_mean_real = []
                 D_mean_mes = []
 
-                # false_value = np.abs(d_measured[ids == idx] - f_distance(idx,d_real)[ids == idx]) > 2
+                false_value = np.abs(d_measured[ids == idx] - f_distance(idx,d_real)[ids == idx]) > 2
+                if not add_filter : false_value[1:] = False
+
                 indices = np.where(np.abs(d_measured[ids == idx] - f_distance(idx,d_real)[ids == idx]) > 2)
-                print(np.unique(d_real[indices]))
-                # false_value = d_real[indices]
-
-                new_ids = ids[ids == idx] #[~false_value]
+                # print(np.unique(d_real[indices]))
+                
+                new_ids = ids[ids == idx][~false_value]
                 new_d_real = d_real[ids == idx] 
-                new_d_real = f_distance(idx,new_d_real) #[~false_value]
-
-                new_t = t[ids == idx] #[~false_value]
-                new_d_measured = d_measured[ids == idx] #[~false_value] + offset[idx]
-                
-                
-                new_RX = RX[ids == idx] #[~false_value]
-                new_FP = FP[ids == idx] #[~false_value]
-                new_Q = Q[ids == idx] #[~false_value]
-
-                # for i in range(new_RX.shape[0]): #rx in new_RX:
-                #     if new_RX[i] > -88 and filename[-44:] != "2023_04_26_16_31_06_Test_multiple_points.csv":
-                #         new_RX[i] = 1/2.334*new_RX[i] - 88
-                # for i in range(new_FP.shape[0]):
-                    
-                #     if new_FP[i] > -88 and filename[-44:] != "2023_04_26_16_31_06_Test_multiple_points.csv":
-                #         new_FP[i] = 1/2.334*new_FP[i] - 88
-                
+                new_d_real = f_distance(idx,new_d_real)[~false_value]
                 D = np.unique(new_d_real)
+
+                new_t = t[ids == idx][~false_value]
+                new_d_measured = d_measured[ids == idx][~false_value] + offset[idx]
+                
+                # Add offset when we start
+                # new_d_measured = new_d_measured + (np.mean(new_d_real[new_d_real == D[0]] - new_d_measured[new_d_real == D[0]]))
+                
+                new_RX = RX[ids == idx][~false_value]
+                new_FP = FP[ids == idx][~false_value]
+                new_Q = Q[ids == idx][~false_value]
+
+                if cancel_adjust:
+                    alpha = 2.334
+                    for i in range(new_RX.shape[0]): #rx in new_RX:
+                        if new_RX[i]/(1+alpha)-88*alpha > -88 and filename[-44:] != "2023_04_26_16_31_06_Test_multiple_points.csv":
+                            new_RX[i] = 1/(alpha+1)*(new_RX[i] - 88)
+                    for i in range(new_FP.shape[0]):
+                        if new_FP[i]/(1+alpha)-88*alpha > -88 and filename[-44:] != "2023_04_26_16_31_06_Test_multiple_points.csv":
+                            new_FP[i] = 1/(alpha+1)*(new_FP[i] - 88)
+                
+                
 
                 for d in D:
                     D_mean_mes.append(np.mean(new_d_measured[new_d_real == d]))
@@ -230,8 +239,6 @@ if __name__ == '__main__':
                 print(f"Résidus = {(D_mean_mes - D)}")
                 print(f"Ecart-type des résidus = {np.std(D_mean_mes - D)}")
                 print(f"Moyenne des résidus = {np.mean(D_mean_mes - D)}\n")
-
-                show_all = 0
 
                 if show_all:
                     means_RX = [np.mean(new_RX[(new_d_real == d)]) for d in D]

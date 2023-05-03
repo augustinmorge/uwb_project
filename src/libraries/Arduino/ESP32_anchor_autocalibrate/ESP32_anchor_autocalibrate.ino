@@ -36,8 +36,8 @@
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
-#define ANCHOR_ADD "83:17:5B:D5:A9:9A:E2:9C"
-float this_anchor_target_distance = 7.8; //measured distance to anchor in m
+#define ANCHOR_ADD "81:17:5B:D5:A9:9A:E2:9C"
+float this_anchor_target_distance = 7.18; //measured distance to anchor in m
 
 float this_anchor_Adelay = 15000; //starting value
 float Adelay_delta = 100; //initial binary search step size
@@ -92,43 +92,55 @@ void loop()
   DW1000Ranging.loop();
 }
 
+float dist = 0;
+int tot_dist = 0;
+int MAX_VAL_DIST = 100;
+
 int tot = 0;
 float anchor_delay_final = 0;
-float dist = 0;
 
 void newRange()
 {
   static float last_delta = 0.0;
   // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), DEC);
 
-  dist = DW1000Ranging.getDistantDevice()->getRange();
+  if (tot_dist < MAX_VAL_DIST){
+    dist += DW1000Ranging.getDistantDevice()->getRange();
+    // Serial.println(dist/(tot_dist+1));
+    tot_dist ++;}
+  else{
+    dist = dist/MAX_VAL_DIST;
+    tot_dist = 0;
+    Serial.print("Dist: "); Serial.println(dist);
 
-  // Serial.println(dist);
-  // Serial.println(this_anchor_Adelay);
-  if (Adelay_delta < 1) {
-    if(tot==100){while (1){Serial.println(anchor_delay_final/tot); delay(1000);};}
-    Serial.print("final Adelay n°");
-    Serial.print(tot);
-    Serial.print(": ");
-    tot ++;
-    anchor_delay_final = anchor_delay_final + this_anchor_Adelay;
-    Serial.println(anchor_delay_final/tot);
-    Serial.println(this_anchor_Adelay);
+    // Serial.println(dist);
+    // Serial.println(this_anchor_Adelay);
+    if (Adelay_delta < 1) {
+      if(tot==100){while (1);}//{Serial.println(anchor_delay_final/tot); delay(1000);};}
+      Serial.print("final Adelay n°");
+      Serial.print(tot);
+      Serial.print(": ");
+      tot ++;
+      // anchor_delay_final = anchor_delay_final + this_anchor_Adelay;
+      // Serial.println(anchor_delay_final/tot);
+      Serial.println(this_anchor_Adelay);
 
-    // Restart the test :
-    this_anchor_Adelay = 15000; //starting value
-    Adelay_delta = 100;
+      // Restart the test :
+      this_anchor_Adelay = 15000; //starting value
+      Adelay_delta = 100;
+    }
+
+    float this_delta = dist - this_anchor_target_distance;  //error in measured distance
+
+    if ( this_delta * last_delta < 0.0) Adelay_delta = Adelay_delta / 2; //sign changed, reduce step size
+      last_delta = this_delta;
+    
+    if (this_delta > 0.0 ) this_anchor_Adelay += Adelay_delta; //new trial Adelay
+    else this_anchor_Adelay -= Adelay_delta;
+    
+    DW1000.setAntennaDelay(this_anchor_Adelay);
+    dist = 0;
   }
-
-  float this_delta = dist - this_anchor_target_distance;  //error in measured distance
-
-  if ( this_delta * last_delta < 0.0) Adelay_delta = Adelay_delta / 2; //sign changed, reduce step size
-    last_delta = this_delta;
-  
-  if (this_delta > 0.0 ) this_anchor_Adelay += Adelay_delta; //new trial Adelay
-  else this_anchor_Adelay -= Adelay_delta;
-  
-  DW1000.setAntennaDelay(this_anchor_Adelay);
 }
 
 void newDevice(DW1000Device *device)

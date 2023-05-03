@@ -86,7 +86,7 @@ def load_data(filename):
 
 def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,display_allan=1, display_dbm=1, display_quality=1):
     # Tracer la distance en fonction du temps sans mask
-    idx_start = 0 #time.shape[0]//4
+    idx_start = time.shape[0]//4
     idx_end = -1 # dist.shape[0] - time.shape[0]//7 #-1 #
     time = time[idx_start:idx_end] - time[idx_start]
     dist = dist[idx_start:idx_end]
@@ -143,7 +143,7 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
     with contextlib.redirect_stdout(None), contextlib.suppress(ImportError):
         import qrunch
 
-    Frequency = 1/np.mean(np.diff(time))
+    Frequency = 1 #/np.mean(np.diff(time))
     T, data, std = qrunch.allan_deviation(dist,Frequency)
 
     print(f"Frequency = {Frequency}\n")
@@ -194,7 +194,7 @@ if __name__ == "__main__":
     filenames = []
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_24_03_2023_16_44_05.csv")] #anchor 80 LOS, moyenne sur trois données
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_05_04_2023_17_23_38.csv")] #80/81 LOS
-    filenames = [os.path.join(THIS_FOLDER, "Long_log_07_04_2023_17_09_02.csv")] #80/81/82/83 LOS
+    # filenames = [os.path.join(THIS_FOLDER, "Long_log_07_04_2023_17_09_02.csv")] #80/81/82/83 LOS
     # LOS_80 = os.path.join(THIS_FOLDER, "Long_log_04_04_2023_17_18_22.csv") #anchor 80 LOS, donnée brute
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_11_04_2023_17_10_41.csv")] #80 LOS 7h
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_13_04_2023_17_28_39.csv")] #82 LOS 13h
@@ -204,14 +204,15 @@ if __name__ == "__main__":
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_21_04_2023_17_53_22.csv")] #los/nlos : 80 bureau thomas, 81 salle réu, 82/82 en LOS
     # NLOS_80 = os.path.join(THIS_FOLDER, "Long_log_27_04_2023_16_48_12.csv") #anchor 80 NLOS
     # filenames = [LOS_80, NLOS_80]
-    
+    filenames = [os.path.join(THIS_FOLDER, "Long_log_02_05_2023_17_19_06.csv")] #anchor 80 LOS, f = 10Hz, mean of 3 datas
+
     for filename in filenames:
         time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
-        
+        time = np.arange(0,dist.shape[0],1)
         masked = 0
         display_allan = 1
-        display_quality = 1
-        display_dbm = 1
+        display_quality = 0
+        display_dbm = 0
 
         # plot_data(ids, time, dist, RX, with_RX)
         val_idx = np.unique(ids)
@@ -262,5 +263,5 @@ if __name__ == "__main__":
                     new_RX = RX[ids == idx]
                     plot_data(new_ids, new_time, new_dist, new_RX, with_RX, np.array([]), np.array([]), False)
                 else:
-                    plot_data(new_ids, new_time, new_dist, np.array([]), False, np.array([]), np.array([]), False)
+                    plot_data(ids, time, dist, np.array([]), False, np.array([]), np.array([]), False)
     plt.show()

@@ -142,22 +142,22 @@ void loop()
 
 void newRange()
 {
-    // Serial.print("from: ");
-    // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
-    // Serial.print("\t Range: ");
-    // Serial.print(DW1000Ranging.getDistantDevice()->getRange());
-    // Serial.print(" m");
-    // Serial.print("\t RX power: ");
-    // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
-    // Serial.print(" dBm");
-    // Serial.print("\t FP power: ");
-    // Serial.print(DW1000.getFirstPathPower());
-    // Serial.print(" dBm");
-    // Serial.print("\t Diff power: ");
-    // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower() - DW1000.getFirstPathPower());
-    // Serial.print(" dBm");
-    // Serial.print("\t Quality: ");
-    // Serial.println(DW1000.getReceiveQuality());
+    Serial.print("from: ");
+    Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
+    Serial.print("\t Range: ");
+    Serial.print(DW1000Ranging.getDistantDevice()->getRange());
+    Serial.print(" m");
+    Serial.print("\t RX power: ");
+    Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
+    Serial.print(" dBm");
+    Serial.print("\t FP power: ");
+    Serial.print(DW1000.getFirstPathPower());
+    Serial.print(" dBm");
+    Serial.print("\t Quality: ");
+    Serial.print(DW1000.getReceiveQuality());
+    Serial.print("\t Timer: ");
+    long unsigned int timer = millis();
+    Serial.println(timer);
 
     // fresh_link(uwb_data, DW1000Ranging.getDistantDevice()->getShortAddress(), DW1000Ranging.getDistantDevice()->getRange(), DW1000Ranging.getDistantDevice()->getRXPower());
     fresh_link(uwb_data, DW1000Ranging.getDistantDevice()->getShortAddress(), DW1000Ranging.getDistantDevice()->getRange(), \

@@ -60,15 +60,14 @@ def write_data(f, data):
     ch += str(data[-1]) + "\n"
     f.write(ch)
 
+
 def main(t_start):
-    t0 = time.time()
 
     #Fichier pour sauvegarder les données
     date_str = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
     f = open(f"{THIS_FOLDER}/Long_log_{date_str}.csv","w")
     # f = open(f"{THIS_FOLDER}/TO_DELETE.csv","w")
     f.write(f"Num of Anchor; Time [ms]; Data Anchor; RX\n")
-    relaunch = False
     while True:
 
         list = read_data()
