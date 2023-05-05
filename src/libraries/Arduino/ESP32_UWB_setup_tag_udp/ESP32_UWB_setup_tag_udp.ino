@@ -46,7 +46,7 @@ Adafruit_SSD1306 display(128, 64, &Wire, -1);
 // #include "link.h"
 const char *ssid = "iXGuest";
 const char *password = "URWelcome";
-const char *host = "10.123.0.186"; //"SG_72BVTL3";
+const char *host = "10.123.0.166"; //"SG_72BVTL3";
 WiFiClient client;
 String all_json = "";
 

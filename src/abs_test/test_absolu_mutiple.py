@@ -172,7 +172,9 @@ if __name__ == '__main__':
         file.close()
 
     else:
-        filenames = [f"{THIS_FOLDER}/2023_05_03_16_12_38_Test_multiple_points.csv"]
+        # filenames = [f"{THIS_FOLDER}/2023_05_02_15_09_14_Test_multiple_points.csv", f"{THIS_FOLDER}/2023_05_03_16_12_38_Test_multiple_points.csv",\
+        #              f"{THIS_FOLDER}/2023_04_27_14_17_12_Test_multiple_points.csv"]
+        filenames = [f"{THIS_FOLDER}/2023_05_02_15_09_14_Test_multiple_points.csv"]
         for filename in filenames:
             data = np.genfromtxt(filename, delimiter=';', skip_header=1)
 
@@ -187,6 +189,7 @@ if __name__ == '__main__':
             show_all = 0
             cancel_adjust = 0
             add_filter = 0
+            add_offset = 0
 
             L_new_d_measured = []; L_D_mean_mes = []; L_new_d_real = []; L_D = []
             for idx in np.unique(ids):
@@ -209,7 +212,7 @@ if __name__ == '__main__':
                 new_d_measured = d_measured[ids == idx][~false_value] + offset[idx]
                 
                 # Add offset when we start
-                # new_d_measured = new_d_measured + (np.mean(new_d_real[new_d_real == D[0]] - new_d_measured[new_d_real == D[0]]))
+                if add_offset : new_d_measured = new_d_measured + (np.mean(new_d_real[new_d_real == D[0]] - new_d_measured[new_d_real == D[0]]))
                 
                 new_RX = RX[ids == idx][~false_value]
                 new_FP = FP[ids == idx][~false_value]
@@ -277,8 +280,6 @@ if __name__ == '__main__':
                     plt.title("RX - FP - Anchor {}".format(idx))
                     plt.grid()
                 
-                plt.show()
-
             ### DISPLAY
             fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
             fig.suptitle(filename[-44:])
@@ -294,4 +295,4 @@ if __name__ == '__main__':
                     ax.scatter(L_new_d_measured[idx], L_new_d_real[idx], label = 'data', s = 0.4)
                     ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
                     plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1])
-            plt.show()
+        plt.show()

@@ -33,7 +33,7 @@ if __name__ == "__main__":
     sigma_rw = 0.00005
 
     # nombre de mesures
-    nb_j = 0.1
+    nb_j = 3
     N = int(nb_j*24*60*60)
 
     # simulation du capteur 

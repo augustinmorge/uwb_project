@@ -195,24 +195,24 @@ if __name__ == "__main__":
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_24_03_2023_16_44_05.csv")] #anchor 80 LOS, moyenne sur trois données
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_05_04_2023_17_23_38.csv")] #80/81 LOS
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_07_04_2023_17_09_02.csv")] #80/81/82/83 LOS
-    # LOS_80 = os.path.join(THIS_FOLDER, "Long_log_04_04_2023_17_18_22.csv") #anchor 80 LOS, donnée brute
+    LOS_80 = os.path.join(THIS_FOLDER, "Long_log_04_04_2023_17_18_22.csv") #anchor 80 LOS, donnée brute
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_11_04_2023_17_10_41.csv")] #80 LOS 7h
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_13_04_2023_17_28_39.csv")] #82 LOS 13h
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_17_04_2023_17_26_57.csv")] #los/nlos
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_18_04_2023_17_15_32.csv")] #?    
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_19_04_2023_17_26_08.csv")] #?
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_21_04_2023_17_53_22.csv")] #los/nlos : 80 bureau thomas, 81 salle réu, 82/82 en LOS
-    # NLOS_80 = os.path.join(THIS_FOLDER, "Long_log_27_04_2023_16_48_12.csv") #anchor 80 NLOS
-    # filenames = [LOS_80, NLOS_80]
-    filenames = [os.path.join(THIS_FOLDER, "Long_log_02_05_2023_17_19_06.csv")] #anchor 80 LOS, f = 10Hz, mean of 3 datas
+    NLOS_80 = os.path.join(THIS_FOLDER, "Long_log_27_04_2023_16_48_12.csv") #anchor 80 NLOS
+    filenames = [LOS_80, NLOS_80]
+    # filenames = [os.path.join(THIS_FOLDER, "Long_log_02_05_2023_17_19_06.csv")] #anchor 80 LOS, f = 10Hz, mean of 3 datas
 
     for filename in filenames:
         time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
         time = np.arange(0,dist.shape[0],1)
         masked = 0
-        display_allan = 1
-        display_quality = 0
-        display_dbm = 0
+        display_allan = 0
+        display_quality = 1
+        display_dbm = 1
 
         # plot_data(ids, time, dist, RX, with_RX)
         val_idx = np.unique(ids)

@@ -137,12 +137,12 @@ if __name__ == "__main__":
     display_bot = 0
 
     display_allan = 1
-    display_dbm = 0
+    display_dbm = 1
     display_quality = 1
 
     UWB = 1
     # Size of simu
-    day = 0.1
+    day = 3
     tmax = int(day*24*60*60)
     T = np.arange(0, tmax, dt)
     N = len(T)
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     X = np.array([[0.], [0.], [0.], [0.], [0.]])
     Xhat = X
 
-    sigma_bb = 1
+    sigma_bb = 0.05
     sigma_rw = 0.0001
     noise = [noise_sensor(tmax, sigma_bb, sigma_rw) for _ in range(Wps.shape[1])]
 
@@ -169,8 +169,8 @@ if __name__ == "__main__":
     PMatrix = np.zeros((N,25))
     
     for t in tqdm(T):
-        u = control(X,t)
-        # u = np.array([[0],[0],[0]])
+        # u = control(X,t)
+        u = np.array([[0],[0],[0]])
 
         X = X + dt*f(X,u)
         
@@ -220,5 +220,8 @@ if __name__ == "__main__":
     INNOV_NORM = np.delete(INNOV_NORM, indices)
     T = np.delete(T, indices)
 
+    plt.show()
     plot_data(np.array([0]), T, INNOV_NORM, np.array([]), False, np.array([]), np.array([]), False, sigma_rw, display_allan, display_dbm, display_quality)
+    plt.title("Innovation normalisée")
+    plt.suptitle("TAG")
     plt.show()

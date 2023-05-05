@@ -49,14 +49,14 @@ def main(file, sec = 60):
 
         while time.time() - t0 < sec:
             try :
-                line = ser.readline().decode().split()
+                line = ser.readline().decode().split(',')
 
-                num = float(line[1])
-                data_anchor = float(line[3])
-                RX_anchor = float(line[7])
-                FP_anchor = float(line[11])
-                Q_anchor = float(line[14])
-                time_anchor = float(line[16])
+                num = int(line[0])
+                data_anchor = float(line[1])
+                RX_anchor = float(line[2])
+                FP_anchor = float(line[3])
+                Q_anchor = float(line[4])
+                time_anchor = float(line[5])
 
                 # Affichage des informations à l'écran
                 print(f"from: {num} - Range: {data_anchor} m, RX power: {RX_anchor} dBm, FP power: {FP_anchor} dBm, Quality: {Q_anchor}, Timer : {time_anchor}")
@@ -79,13 +79,14 @@ if __name__ == "__main__":
     offset = {1780 : 0, 1781 : 0, 1782 : 0, 1783 : 0}
     # offset = {1780 : 0.086, 1781 : -0.419, 1782 : -0.910, 1783 : 0.659}
     coords = {1780 : {'x' : 1.29, 'y' : 12.543, 'z' : 1.348}, 1781 : {'x' : 0, 'y' : 0, 'z' : 1.342}, \
-              1782 : {'x' : -3.167, 'y' : -11.36, 'z' : 1.213}, 1783 : {'x' : 1.1, 'y' : -28.066, 'z' : -1.502}}
+              1782 : {'x' : -3.167, 'y' : -11.36, 'z' : 1.213}, 1783 : {'x' : 1.1, 'y' : -28.066, 'z' : 1.502}}
     def f_distance(id,d): 
         ###
         # id : l'identifiant de l'ancre
         # d : la distance mesurée entre lancre A et le tag (cf schéma)
         ###
-        return np.sqrt((coords[id]['x'] - coords[1780]['x'])**2 + (coords[id]['y'] - (coords[1780]['y'] - d))**2 + (coords[id]['z'] - np.sqrt((coords[1780]['z']**2-0.2294**2)))**2)
+        # return np.sqrt((coords[id]['x'] - coords[1780]['x'])**2 + (coords[id]['y'] - (coords[1780]['y'] - d))**2 + (coords[id]['z'] - (coords[1780]['z']-0.2294))**2)
+        return np.sqrt((coords[id]['x'] - coords[1780]['x'])**2 + (coords[id]['y'] - (coords[1780]['y'] - np.sqrt(d**2 - (coords[1780]['z']-0.2294)**2)))**2 + (coords[id]['z'] - (coords[1780]['z']-0.2294))**2)
     
 
     date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
@@ -104,6 +105,7 @@ if __name__ == "__main__":
         file.close()
 
     else:
+        # filenames = [f"{THIS_FOLDER}/2023_05_03_16_12_38_Serial_Test_multiple_points.csv"]
         filenames = [f"{THIS_FOLDER}/2023_05_03_16_12_38_Serial_Test_multiple_points.csv"]
         for filename in filenames:
             data = np.genfromtxt(filename, delimiter=';', skip_header=1)
@@ -213,7 +215,7 @@ if __name__ == "__main__":
 
             ### DISPLAY
             fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
-            fig.suptitle(filename[-44:])
+            fig.suptitle(filename[-51:])
             for i in range(2):
                 for j in range(2):
                     ax = axs[i,j]
@@ -227,3 +229,33 @@ if __name__ == "__main__":
                     ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
                     plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1])
             plt.show()
+
+
+# import serial
+# import struct
+# import datetime
+# import os, time
+
+# # Définir le port série et le baudrate
+# ser = serial.Serial('COM5', 115200)
+
+# THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+# date_str = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
+# filename = f"{THIS_FOLDER}/Serial_long_log_{date_str}.csv"
+# i = 0
+
+# # Ouvrir le fichier en mode écriture
+# with open(filename, "wb") as f:
+#     f.write(b"Short Address; Range [m]; RX power [dBm]; FP power [dBm]; Quality; Timer [ms]\n")
+
+#     # Écouter les données binaires reçues depuis l'Arduino
+#     while True:
+#         buffer = ser.read(20)
+#         try:
+#             # Décodage des données binaires
+#             shortAddress, range, RXPower, FPPower, quality, timer = struct.unpack("<HffffL", buffer)
+
+#             # Affichage des informations à l'écran
+#             print(f"from: {shortAddress} - Range: {range} m, RX power: {RXPower} dBm, FP power: {FPPower} dBm, Quality: {quality}, Timer : {timer}")
+#         except:
+#             pass

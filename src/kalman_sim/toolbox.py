@@ -46,7 +46,7 @@ def plot_error(INNOV_NORM, ERR, T, col, UWB):
     """
     plt.figure()
     plt.suptitle("Get(UWB) : red; else : blue")
-    ax = plt.subplot2grid((2, 1), (0, 0))
+    ax = plt.subplot2grid((1, 1), (0, 0))
     if UWB:
         ax.scatter(T/60/60, ERR, color=np.array(col), s=1, label="balise UWB détectée")
     else:
@@ -56,7 +56,8 @@ def plot_error(INNOV_NORM, ERR, T, col, UWB):
     ax.set_title("Error")
     ax.legend()
 
-    ax1 = plt.subplot2grid((2, 1), (1, 0))
+    plt.figure()
+    ax1 = plt.subplot2grid((1, 1), (0, 0))
     INNOV_NORM = np.array(INNOV_NORM)
     # Enlever les valeurs 'None' dans INNOV_NORM et les indices correspondants dans T
     indices = [i for i, x in enumerate(INNOV_NORM) if x is None]

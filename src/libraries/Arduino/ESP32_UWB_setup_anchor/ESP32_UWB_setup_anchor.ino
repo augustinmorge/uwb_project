@@ -12,7 +12,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-int selected_anchor = 80;
+int selected_anchor = 82;
 String str_display = "";
 String  anchorAddress = "";
 char ANCHOR_ADD[24];
@@ -42,7 +42,7 @@ void starting_parameters(){
       // Adelay = 16520;
       // Adelay = 16535;
       // Adelay = 16529.41;
-      Adelay = 16542;
+      Adelay = 16580.47;
       str_display =  "UWB Anchor 80 ";
       break;
     case 81:
@@ -52,7 +52,7 @@ void starting_parameters(){
       // Adelay = 16550;
       // Adelay = 16535.48;
       // Adelay = 16530;
-      Adelay = 16548;
+      Adelay = 16585.16;
       str_display =  "UWB Anchor 81 ";
       break;
     case 82:
@@ -60,7 +60,7 @@ void starting_parameters(){
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
       // Adelay = 16445;
       // Adelay = 16550; //16549.71;
-      Adelay = 16566;
+      Adelay = 16602;
       str_display =  "UWB Anchor 82 ";
       break;
     case 83:
@@ -70,13 +70,13 @@ void starting_parameters(){
       // Adelay = 16540;
       // Adelay = 16533; //16532.50;
       // Adelay = 16560;
-      Adelay = 16537;
+      Adelay = 16580;
       str_display =  "UWB Anchor 83 ";
       break;
     default:
       anchorAddress = "80:17:5B:D5:A9:9A:E2:9C";
       anchorAddress.toCharArray(ANCHOR_ADD, 24);
-      Adelay = 16530;
+      Adelay = 16580.47;
       str_display =  "UWB Anchor 80 ";
       break;
   }
@@ -150,7 +150,7 @@ float f = 0; float t0 = millis(); float tk = t0; int ct = 0;
 void newRange()
 {
     // Serial.println("\nNew values:");
-    // Serial.println(DW1000Ranging.getDistantDevice()->getRange());
+    Serial.println(DW1000Ranging.getDistantDevice()->getRange());
     // Serial.println(DW1000Ranging.getDistantDevice()->getShortAddress());
     // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
     // Serial.println(DW1000Ranging.getDistantDevice()->getFPPower());
