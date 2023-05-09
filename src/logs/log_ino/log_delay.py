@@ -10,7 +10,7 @@ delays = []
 # Read data from the serial port
 i = 0
 while 1:
-    if i == 0 : ser = serial.Serial('COM8', 115200); i+=1
+    if i == 0 : ser = serial.Serial('COM4', 115200); i+=1
     try:
         line = ser.readline().decode().strip()
         print(line)
@@ -23,7 +23,7 @@ while 1:
             # print("Delay: ", delay)
 
             # Store the delay value in a text file
-            with open(f"{THIS_FOLDER}/delays_82_M100HB2.txt", "a") as f:
+            with open(f"{THIS_FOLDER}/finals/delay_80.txt", "a") as f:
                 f.write(str(delay) + "\n")
                 f.flush()
 

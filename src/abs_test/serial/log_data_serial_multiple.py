@@ -60,6 +60,7 @@ def plot_polynomial_regression(ax, x, y, degrees):
         eqn = f"y = {c[-1]:.3f} + {' + '.join([f'{c[j]:.3f}x^{len(c)-j-1}' if len(c)-j-1 > 1 else f'{c[j]:.3f}x' if len(c)-j-1 == 1 else f'{c[j]:.3f}' for j in range(len(c)-2, -1, -1)])}" if len(c) > 1 else f"y = {c[-1]:.3f}"
         ax.plot(line_x, line_y, label=f'Degree {degrees[i]}: {eqn} (R² = {r_squared:.3f})')
     ax.legend(loc='upper left')
+    return coeffs
 
 
 
@@ -133,13 +134,24 @@ def main(file, sec = 60):
 
 if __name__ == '__main__':
     import datetime, sys
-    doing_test = 1
-    nb_anchor = 1
+    # doing_test = input("Doing some tests? (y/n) ")
+    # while doing_test not in ['y', 'n']:
+    #     doing_test = input("Please enter 'y' or 'n'")
+    # doing_test = 1 if doing_test == 'y' else 0
+
+    doing_test = 0
+
+    #post processing
+    show_all = 0
+    cancel_adjust = 0
+    add_filter = 0
+    add_offset = 0
 
     offset = {1780 : 0, 1781 : 0, 1782 : 0, 1783 : 0}
     # offset = {1780 : 0.086, 1781 : -0.419, 1782 : -0.910, 1783 : 0.659}
-    coords = {1780 : {'x' : 1.29, 'y' : 12.543, 'z' : 1.348}, 1781 : {'x' : 0, 'y' : 0, 'z' : 1.342}, \
-              1782 : {'x' : -3.167, 'y' : -11.36, 'z' : 1.213}, 1783 : {'x' : 1.1, 'y' : -28.066, 'z' : -1.502}}
+    dec = 0.01
+    coords = {1780 : {'x' : 1.29-dec, 'y' : 12.543, 'z' : 1.348}, 1781 : {'x' : 0, 'y' : 0-dec, 'z' : 1.342}, \
+              1782 : {'x' : -3.167, 'y' : -11.36, 'z' : 1.213-dec}, 1783 : {'x' : 1.1, 'y' : -28.066, 'z' : -1.502-dec}}
     def f_distance(id,d): 
         ###
         # id : l'identifiant de l'ancre
@@ -162,9 +174,7 @@ if __name__ == '__main__':
         file.close()
 
     else:
-        # filenames = [f"{THIS_FOLDER}/2023_05_02_15_09_14_Test_multiple_points.csv", f"{THIS_FOLDER}/2023_05_03_16_12_38_Test_multiple_points.csv",\
-        #              f"{THIS_FOLDER}/2023_04_27_14_17_12_Test_multiple_points.csv"]
-        filenames = [f"{THIS_FOLDER}/2023_05_02_15_09_14_Test_multiple_points.csv"]
+        filenames = [f"{THIS_FOLDER}/Fusion_0509.csv"]
         for filename in filenames:
             data = np.genfromtxt(filename, delimiter=';', skip_header=1)
 
@@ -175,11 +185,6 @@ if __name__ == '__main__':
             RX = data[:,4]
             FP = data[:,5]
             Q = data[:,6]
-
-            show_all = 0
-            cancel_adjust = 0
-            add_filter = 0
-            add_offset = 0
 
             L_new_d_measured = []; L_D_mean_mes = []; L_new_d_real = []; L_D = []
             for idx in np.unique(ids):
@@ -273,6 +278,7 @@ if __name__ == '__main__':
             ### DISPLAY
             fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
             fig.suptitle(filename[-44:])
+            coeffs_ini = []; val = 5
             for i in range(2):
                 for j in range(2):
                     ax = axs[i,j]
@@ -285,4 +291,27 @@ if __name__ == '__main__':
                     ax.scatter(L_new_d_measured[idx], L_new_d_real[idx], label = 'data', s = 0.4)
                     ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
                     plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1])
+
+                    coeffs_ini.append(plot_polynomial_regression(ax, L_D_mean_mes[idx][:val], L_D[idx][:val], [1]))
+            
+            plt.show()
+            fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+            fig.suptitle(filename[-44:] + "after transfo")
+            for i in range(2):
+                for j in range(2):
+                    ai, bi = coeffs_ini[2*i+j][0].flatten()
+                    for k in range(len(L_new_d_measured)): L_new_d_measured[k] = 1/ai*(L_new_d_measured[k] - bi)
+                    L_D_mean_mes = 1/ai*(L_D_mean_mes - bi)
+
+                    ax = axs[i,j]
+                    idx = 2*i + j
+                    ax.set_xlabel("Distance (m)")
+                    ax.set_ylabel("Measured Range (m)")
+                    ax.set_title("Anchor n°{}".format(80 + idx))
+                    ax.set_xlim([0, int(np.max(D)+5)])
+                    ax.set_ylim([0, int(np.max(D)+5)])
+                    ax.scatter(L_new_d_measured[idx], L_new_d_real[idx], label = 'data', s = 0.4)
+                    ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
+                    plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1])
+
         plt.show()
