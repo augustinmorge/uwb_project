@@ -87,7 +87,7 @@ def load_data(filename):
 def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,display_allan=1, display_dbm=1, display_quality=1):
     # Tracer la distance en fonction du temps sans mask
     idx_start = 0 #time.shape[0]//4
-    idx_end = -1 # dist.shape[0] - time.shape[0]//7 #-1 #
+    idx_end = -1 #dist.shape[0] - 10*time.shape[0]//25 #-1 #
     time = time[idx_start:idx_end] - time[idx_start]
     dist = dist[idx_start:idx_end]
 
@@ -127,6 +127,26 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
             ax.set_title("Measurements")
             ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
             ax.grid()
+
+            ### Pour afficher une déviation linéaire au cours du temps
+            # fig, ax = plt.subplots()
+            # ax.scatter(time/60/60, dist, s=0.1)
+            # ax.set_xlabel("Time [h]")
+            # ax.set_ylabel("m")
+            # ax.set_title("Measurements")
+            # ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
+            # ax.grid()
+            # def plot_polynomial_regression(ax, x, y, degrees, label = ""):
+            #     coeffs = [np.polyfit(x, y, degree) for degree in degrees]
+            #     ax.scatter(x, y, label='Mean data '+label)
+            #     for i, c in enumerate(coeffs):
+            #         line_x = np.linspace(min(x), max(x), 10000)
+            #         line_y = np.polyval(c, line_x)
+            #         r_squared = r2_score(y, np.polyval(c, x))
+            #         eqn = f"y = {c[-1]:.3f} + {' + '.join([f'{c[j]:.3f}x^{len(c)-j-1}' if len(c)-j-1 > 1 else f'{c[j]:.3f}x' if len(c)-j-1 == 1 else f'{c[j]:.3f}' for j in range(len(c)-2, -1, -1)])}" if len(c) > 1 else f"y = {c[-1]:.3f}"
+            #         ax.plot(line_x, line_y, label=f'Degree {degrees[i]}: {eqn} (R² = {r_squared:.3f}) \n'+label)
+            #     ax.legend(loc='upper left')
+            # plot_polynomial_regression(ax, time/60/60, dist, [1])
         else:
             fig, ax = plt.subplots(1,1)
             fig.suptitle(f"Déviation d'Allan for anchor {int(ids[0])}")
@@ -205,7 +225,7 @@ if __name__ == "__main__":
     # NLOS_80 = os.path.join(THIS_FOLDER, "Long_log_27_04_2023_16_48_12.csv") #anchor 80 NLOS
     # filenames = [LOS_80, NLOS_80]
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_02_05_2023_17_19_06.csv")] #anchor 80 LOS, f = 10Hz, mean of 3 datas
-    filenames = [os.path.join(THIS_FOLDER, "Long_log_05_05_2023_17_20_26.csv")] #anchor 80 LOS on battery
+    # filenames = [os.path.join(THIS_FOLDER, "Long_log_05_05_2023_17_20_26.csv")] #anchor 80 LOS on battery
     
 
     for filename in filenames:

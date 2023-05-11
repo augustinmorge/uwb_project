@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import os
+import os,sys
 import numpy as np
 import matplotlib.pyplot as plt
 from log_data_udp import plot_polynomial_regression
@@ -10,7 +10,7 @@ date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
-doing_test = 1
+doing_test = 0
 nb_anchor = 1
 
 def f_distance(id, d):
@@ -63,29 +63,29 @@ def plot_anchor_data(D, idx, new_d_real, new_RX, new_FP, new_Q, show_all):
         means_FP = [np.mean(new_FP[(new_d_real == d)]) for d in D]
         means_Q = [np.mean(new_Q[(new_d_real == d)]) for d in D]
 
-        plt.figure()
-        plt.xlabel("Distance [m]")
-        plt.ylabel("RX")
-        plt.scatter(new_d_real, new_RX)                    
-        plt.plot(D, means_RX, color = 'red')
-        plt.title("RX - Anchor {}".format(idx))
-        plt.grid()
+        # plt.figure()
+        # plt.xlabel("Distance [m]")
+        # plt.ylabel("RX")
+        # plt.scatter(new_d_real, new_RX)                    
+        # plt.plot(D, means_RX, color = 'red')
+        # plt.title("RX - Anchor {}".format(idx))
+        # plt.grid()
 
-        plt.figure()
-        plt.xlabel("Distance [m]")
-        plt.ylabel("FP")
-        plt.scatter(new_d_real, new_FP)                    
-        plt.plot(D, means_FP, color = 'red')
-        plt.title("FP - Anchor {}".format(idx))
-        plt.grid()
+        # plt.figure()
+        # plt.xlabel("Distance [m]")
+        # plt.ylabel("FP")
+        # plt.scatter(new_d_real, new_FP)                    
+        # plt.plot(D, means_FP, color = 'red')
+        # plt.title("FP - Anchor {}".format(idx))
+        # plt.grid()
 
-        plt.figure()
-        plt.xlabel("Distance [m]")
-        plt.ylabel("Q")
-        plt.scatter(new_d_real, new_Q)                    
-        plt.plot(D, means_Q, color = 'red')
-        plt.title("Q - Anchor {}".format(idx))
-        plt.grid()
+        # plt.figure()
+        # plt.xlabel("Distance [m]")
+        # plt.ylabel("Q")
+        # plt.scatter(new_d_real, new_Q)                    
+        # plt.plot(D, means_Q, color = 'red')
+        # plt.title("Q - Anchor {}".format(idx))
+        # plt.grid()
 
         plt.figure()
         plt.xlabel("Distance [m]")
@@ -97,7 +97,6 @@ def plot_anchor_data(D, idx, new_d_real, new_RX, new_FP, new_Q, show_all):
     else:
         # do something else if show_all is False
         pass
-
 
 if doing_test:
 
@@ -134,21 +133,25 @@ else:
     # filenames = [f"{THIS_FOLDER}/udp/2023_04_27_14_17_12_Test_multiple_points.csv"]
     # filenames = [f"{THIS_FOLDER}/udp/2023_05_02_15_09_14_Test_multiple_points.csv"]
     # filenames = [f"{THIS_FOLDER}/udp/2023_05_03_16_12_38_Test_multiple_points.csv"]
-    filenames = [f"{THIS_FOLDER}/serial/2023_05_03_16_12_38_Serial_Test_multiple_points.csv"] 
+    # filenames = [f"{THIS_FOLDER}/serial/2023_05_03_16_12_38_Serial_Test_multiple_points.csv"] 
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_42_31_Serial_Test_multiple_points.csv"] #Proche de la première ancre 2023_05_03_16_12_38_Serial_Test_multiple_points
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_55_34_Serial_Test_multiple_points.csv"] #Loin de la première ancre
-
-    show_all = 0
+    filenames = [f"{THIS_FOLDER}/serial/Fusion_0509.csv"] #Fusion
+    # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_42_31_Serial_Test_multiple_points.csv", \
+    #              f"{THIS_FOLDER}/serial/2023_05_09_15_55_34_Serial_Test_multiple_points.csv"]
+# 
+    show_all = 1
     cancel_adjust = 0
-    add_filter = 1
+    add_filter = 0
     add_offset = 0
+    calibrate = 0
     
+    if filenames == []: sys.exit()
     for filename in filenames:
         data = np.genfromtxt(filename, delimiter=';', skip_header=1)
         ids,d_real,t,d_measured,RX,FP,Q = load_data(data)
         
         L_new_d_measured = []; L_D_mean_mes = []; L_new_d_real = []; L_D = []
-
         for idx in np.unique(ids):
 
             D_mean_real = []
@@ -190,7 +193,14 @@ else:
             print(f"Ecart-type des résidus = {np.std(D_mean_mes - D)}")
             print(f"Moyenne des résidus = {np.mean(D_mean_mes - D)}\n")
 
-            plot_anchor_data(D, idx, new_d_real, new_RX, new_FP, new_Q, show_all=False)
+            # plt.figure()
+            # plt.plot(D, np.abs(D_mean_mes - D))
+            # plt.title(f"abs(res) for anchor {idx}")
+            # plt.xlabel("dist [m]")
+            # plt.ylabel("err [m]")
+            # plt.show()
+
+            plot_anchor_data(D, idx, new_d_real, new_RX, new_FP, new_Q, show_all)
             
         ### DISPLAY
         fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
@@ -207,75 +217,74 @@ else:
                 ax.scatter(L_new_d_measured[idx], L_new_d_real[idx], label = 'data', s = 0.4)
                 ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
                 plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1])
-    plt.show()
 
+        mean_res_error = []
+        mean_res_error_at = []
+        VAL = range(2,len(D)+2)
+        import copy
+        for val in VAL:
+            m_r_e = 0
+            m_r_e_at = 0
+            # fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+            # fig.suptitle(f"after transfo, val = {val}")
+            coeffs_ini = [];
 
-    mean_res_error = []
-    mean_res_error_at = []
-    VAL = range(2,len(D)+2)
-    import copy
-    for val in VAL:
-        m_r_e = 0
-        m_r_e_at = 0
-        # fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
-        # fig.suptitle(f"after transfo, val = {val}")
-        coeffs_ini = [];
+            for i in range(2):
+                for j in range(2):
+                    idx = 2*i + j
+                    ai, bi = [np.polyfit(L_D_mean_mes[idx][:val], L_D[idx][:val], degree) for degree in [1]][0].flatten()
+                    m_r_e += np.linalg.norm(L_D_mean_mes[idx] - L_D[idx])
+                    m_r_e_at += np.linalg.norm(ai*L_D_mean_mes[idx] + bi - L_D[idx])
 
-        for i in range(2):
-            for j in range(2):
-                idx = 2*i + j
-                ai, bi = [np.polyfit(L_D_mean_mes[idx][:val], L_D[idx][:val], degree) for degree in [1]][0].flatten()
-                m_r_e += np.linalg.norm(L_D_mean_mes[idx] - L_D[idx])
-                m_r_e_at += np.linalg.norm(ai*L_D_mean_mes[idx] + bi - L_D[idx])
+                    # #display
+                    # ax = axs[i,j]
+                    # ax.set_xlabel("Distance (m)")
+                    # ax.set_ylabel("Measured Range (m)")
+                    # ax.set_title("Anchor n°{}".format(80 + idx))
+                    # ax.set_xlim([0, int(np.max(D)+5)])
+                    # ax.set_ylim([0, int(np.max(D)+5)])
+                    # ax.scatter(ai*L_new_d_measured[idx] + bi, L_new_d_real[idx], label = 'data', s = 0.4)
+                    # ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
+                    # plot_polynomial_regression(ax, ai*L_D_mean_mes[idx] + bi, L_D[idx], [1])
 
-                # #display
-                # ax = axs[i,j]
-                # ax.set_xlabel("Distance (m)")
-                # ax.set_ylabel("Measured Range (m)")
-                # ax.set_title("Anchor n°{}".format(80 + idx))
-                # ax.set_xlim([0, int(np.max(D)+5)])
-                # ax.set_ylim([0, int(np.max(D)+5)])
-                # ax.scatter(ai*L_new_d_measured[idx] + bi, L_new_d_real[idx], label = 'data', s = 0.4)
-                # ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
-                # plot_polynomial_regression(ax, ai*L_D_mean_mes[idx] + bi, L_D[idx], [1])
+            mean_res_error_at.append(m_r_e_at/4)
+            mean_res_error.append(m_r_e/4)
 
-        mean_res_error_at.append(m_r_e_at/4)
-        mean_res_error.append(m_r_e/4)
+        plt.figure()
+        plt.title("Moyenne des résidus")
+        plt.xlabel("valeurs initiales prises")
+        plt.ylabel("Erreurs")
+        plt.ylim([0,10])
+        plt.plot(VAL,mean_res_error,label='before transfo')
+        plt.plot(VAL,mean_res_error_at, label = 'after transfo')
+        plt.legend()
+        if calibrate:
+            try : 
+                val = int(input("How many values for calibration ?"))
+            except :
+                val = 10
+            def tf(x,a,b):
+                return(a*x+b)
+                
+            fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+            fig.suptitle(filename[-44:])
+            for i in range(2):
+                for j in range(2):
+                    ax = axs[i,j]
+                    idx = 2*i + j
+                    ai, bi = [np.polyfit(L_D_mean_mes[idx][:val], L_D[idx][:val], degree) for degree in [1]][0].flatten()
+                    ax.set_xlabel("Distance (m)")
+                    ax.set_ylabel("Measured Range (m)")
+                    ax.set_title("Anchor n°{}".format(80 + idx))
+                    ax.set_xlim([0, int(np.max(D)+5)])
+                    ax.set_ylim([0, int(np.max(D)+5)])
+                    ax.scatter(L_new_d_measured[idx], L_new_d_real[idx], label = 'data bc', s = 0.4)
+                    ax.scatter(tf(L_new_d_measured[idx],ai,bi), L_new_d_real[idx], label = 'after bc', s = 0.4)
+                    ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
+                    plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1], label='before calibration')
+                    plot_polynomial_regression(ax, tf(L_D_mean_mes[idx],ai,bi), L_D[idx], [1],label='after calibration')
 
-    plt.figure()
-    plt.title("Moyenne des résidus")
-    plt.xlabel("valeurs initiales prises")
-    plt.ylabel("Erreurs")
-    plt.ylim([0,10])
-    plt.plot(VAL,mean_res_error,label='before transfo')
-    plt.plot(VAL,mean_res_error_at, label = 'after transfo')
-    plt.legend()
-    plt.show()
-
-    try : 
-        val = int(input("How many values for calibration ?"))
-    except :
-        val = 10
-
-    fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
-    fig.suptitle(filename[-44:])
-    for i in range(2):
-        for j in range(2):
-            ax = axs[i,j]
-            idx = 2*i + j
-            ai, bi = [np.polyfit(L_D_mean_mes[idx][:val], L_D[idx][:val], degree) for degree in [1]][0].flatten()
-            ax.set_xlabel("Distance (m)")
-            ax.set_ylabel("Measured Range (m)")
-            ax.set_title("Anchor n°{}".format(80 + idx))
-            ax.set_xlim([0, int(np.max(D)+5)])
-            ax.set_ylim([0, int(np.max(D)+5)])
-            ax.scatter(L_new_d_measured[idx], L_new_d_real[idx], label = 'data bc', s = 0.4)
-            ax.scatter(ai*L_new_d_measured[idx]+bi, L_new_d_real[idx], label = 'after bc', s = 0.4)
-            ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
-            plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1], label='before calibration')
-            plot_polynomial_regression(ax, ai*L_D_mean_mes[idx]+bi, L_D[idx], [1],label='after calibration')
-
-            print(f"Résidus = {(ai*L_D_mean_mes[idx]+bi - L_D[idx])}")
-            print(f"Ecart-type des résidus = {np.std(ai*L_D_mean_mes[idx]+bi - L_D[idx])}")
-            print(f"Moyenne des résidus = {np.mean(ai*L_D_mean_mes[idx]+bi - L_D[idx])}\n")
+                    print(f"Résidus = {(tf(L_D_mean_mes[idx],ai,bi) - L_D[idx])}")
+                    print(f"Ecart-type des résidus = {np.std(tf(L_D_mean_mes[idx],ai,bi) - L_D[idx])}")
+                    print(f"Moyenne des résidus = {np.mean(tf(L_D_mean_mes[idx],ai,bi) - L_D[idx])}\n")
     plt.show()

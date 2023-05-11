@@ -144,30 +144,30 @@ void loop()
 }
 
 // float t0 = millis();
-float mean_dist = 0.;float tot = 0.;
-float dist = 0.;
-float f = 0; float t0 = millis(); float tk = t0; int ct = 0;
+// float mean_dist = 0.;float tot = 0.;
+// float dist = 0.;
+// float f = 0; float t0 = millis(); float tk = t0; int ct = 0;
 void newRange()
 {
     // Serial.println("\nNew values:");
-    // Serial.println(DW1000Ranging.getDistantDevice()->getRange());
+    Serial.println(DW1000Ranging.getDistantDevice()->getRange());
     // Serial.println(DW1000Ranging.getDistantDevice()->getShortAddress());
     // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
     // Serial.println(DW1000Ranging.getDistantDevice()->getFPPower());
     // Serial.println(DW1000Ranging.getDistantDevice()->getQuality());
-    mean_dist += DW1000Ranging.getDistantDevice()->getRange();
-    tot++;
-    if(tot==10){Serial.println(mean_dist/10);tot=0;mean_dist=0;}
+    // mean_dist += DW1000Ranging.getDistantDevice()->getRange();
+    // tot++;
+    // if(tot==10){Serial.println(mean_dist/10);tot=0;mean_dist=0;}
 }
 
 void newDevice(DW1000Device *device)
 {
-  Serial.print("Device added: ");
-  Serial.println(device->getShortAddress(), HEX);
+  // Serial.print("Device added: ");
+  // Serial.println(device->getShortAddress(), HEX);
 }
 
 void inactiveDevice(DW1000Device *device)
 {
-  Serial.print("Delete inactive device: ");
-  Serial.println(device->getShortAddress(), HEX);
+  // Serial.print("Delete inactive device: ");
+  // Serial.println(device->getShortAddress(), HEX);
 }
