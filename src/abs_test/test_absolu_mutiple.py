@@ -140,11 +140,11 @@ else:
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_42_31_Serial_Test_multiple_points.csv", \
     #              f"{THIS_FOLDER}/serial/2023_05_09_15_55_34_Serial_Test_multiple_points.csv"]
 # 
-    show_all = 1
+    show_all = 0
     cancel_adjust = 0
     add_filter = 0
     add_offset = 0
-    calibrate = 0
+    calibrate = 1
     
     if filenames == []: sys.exit()
     for filename in filenames:
@@ -218,51 +218,51 @@ else:
                 ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
                 plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1])
 
-        mean_res_error = []
-        mean_res_error_at = []
-        VAL = range(2,len(D)+2)
-        import copy
-        for val in VAL:
-            m_r_e = 0
-            m_r_e_at = 0
-            # fig, axs = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
-            # fig.suptitle(f"after transfo, val = {val}")
-            coeffs_ini = [];
+        
 
+        
+        if calibrate:
+
+            import random
+
+            fig, axs = plt.subplots(2,2)
+            VAL = range(1, len(D) + 1)
+            IDX = []
             for i in range(2):
                 for j in range(2):
-                    idx = 2*i + j
-                    ai, bi = [np.polyfit(L_D_mean_mes[idx][:val], L_D[idx][:val], degree) for degree in [1]][0].flatten()
-                    m_r_e += np.linalg.norm(L_D_mean_mes[idx] - L_D[idx])
-                    m_r_e_at += np.linalg.norm(ai*L_D_mean_mes[idx] + bi - L_D[idx])
+                    idx = 2 * i + j
+                    ax = axs[i, j]
+                    ax.set_title(f"Anchor {80+2*i+j}")
+                    ax.set_xlabel("valeurs initiales prises")
+                    ax.set_ylabel("Erreurs")
+                    ax.set_ylim([0, 10])
 
-                    # #display
-                    # ax = axs[i,j]
-                    # ax.set_xlabel("Distance (m)")
-                    # ax.set_ylabel("Measured Range (m)")
-                    # ax.set_title("Anchor n°{}".format(80 + idx))
-                    # ax.set_xlim([0, int(np.max(D)+5)])
-                    # ax.set_ylim([0, int(np.max(D)+5)])
-                    # ax.scatter(ai*L_new_d_measured[idx] + bi, L_new_d_real[idx], label = 'data', s = 0.4)
-                    # ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
-                    # plot_polynomial_regression(ax, ai*L_D_mean_mes[idx] + bi, L_D[idx], [1])
+                    m_r_e_vals = []  # stocker les normes pour chaque valeur de val
+                    m_r_e_at_vals = []
 
-            mean_res_error_at.append(m_r_e_at/4)
-            mean_res_error.append(m_r_e/4)
+                    for val in VAL:
+                        indices = random.sample(range(len(D)), val)  # sélectionner m indices aléatoires
+                        IDX.append(indices)
+                        L_D_mean_mes_sampled = [L_D_mean_mes[idx][i] for i in indices]  # sélectionner les éléments correspondants de L_D_mean_mes
+                        L_D_sampled = [L_D[idx][i] for i in indices]  # sélectionner les éléments correspondants de L_D
+                        ai, bi = [np.polyfit(L_D_mean_mes_sampled, L_D_sampled, degree) for degree in [1]][0].flatten()
+                        m_r_e = np.linalg.norm(L_D_mean_mes[idx] - L_D[idx])
+                        m_r_e_at = np.linalg.norm(ai * L_D_mean_mes[idx] + bi - L_D[idx])
 
-        plt.figure()
-        plt.title("Moyenne des résidus")
-        plt.xlabel("valeurs initiales prises")
-        plt.ylabel("Erreurs")
-        plt.ylim([0,10])
-        plt.plot(VAL,mean_res_error,label='before transfo')
-        plt.plot(VAL,mean_res_error_at, label = 'after transfo')
-        plt.legend()
-        if calibrate:
-            try : 
-                val = int(input("How many values for calibration ?"))
-            except :
-                val = 10
+                        m_r_e_vals.append(m_r_e)
+                        m_r_e_at_vals.append(m_r_e_at)
+
+                    ax.plot(VAL, m_r_e_vals, label='before transfo')
+                    ax.plot(VAL, m_r_e_at_vals, label='after transfo')
+                    if i == 0 and j == 0:
+                        ax.legend()
+            
+            # try : 
+            #     val = int(input("How many values for calibration ?"))
+            # except :
+            #     val = 10
+            
+            val = 10
             def tf(x,a,b):
                 return(a*x+b)
                 
@@ -272,7 +272,13 @@ else:
                 for j in range(2):
                     ax = axs[i,j]
                     idx = 2*i + j
-                    ai, bi = [np.polyfit(L_D_mean_mes[idx][:val], L_D[idx][:val], degree) for degree in [1]][0].flatten()
+
+                    L_D_mean_mes_sampled = [L_D_mean_mes[idx][i] for i in IDX[val]]  # sélectionner les éléments correspondants de L_D_mean_mes
+                    L_D_sampled = [L_D[idx][i] for i in IDX[val]]  # sélectionner les éléments correspondants de L_D
+
+                    # ai, bi = [np.polyfit(L_D_mean_mes[idx][:val], L_D[idx][:val], degree) for degree in [1]][0].flatten()
+                    ai, bi = [np.polyfit(L_D_mean_mes_sampled, L_D_sampled, degree) for degree in [1]][0].flatten()
+
                     ax.set_xlabel("Distance (m)")
                     ax.set_ylabel("Measured Range (m)")
                     ax.set_title("Anchor n°{}".format(80 + idx))
@@ -281,10 +287,64 @@ else:
                     ax.scatter(L_new_d_measured[idx], L_new_d_real[idx], label = 'data bc', s = 0.4)
                     ax.scatter(tf(L_new_d_measured[idx],ai,bi), L_new_d_real[idx], label = 'after bc', s = 0.4)
                     ax.plot(range(0,int(np.max(D))+5),range(0,int(np.max(D))+5))
-                    plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1], label='before calibration')
+                    # plot_polynomial_regression(ax, L_D_mean_mes[idx], L_D[idx], [1], label='before calibration')
                     plot_polynomial_regression(ax, tf(L_D_mean_mes[idx],ai,bi), L_D[idx], [1],label='after calibration')
 
                     print(f"Résidus = {(tf(L_D_mean_mes[idx],ai,bi) - L_D[idx])}")
                     print(f"Ecart-type des résidus = {np.std(tf(L_D_mean_mes[idx],ai,bi) - L_D[idx])}")
                     print(f"Moyenne des résidus = {np.mean(tf(L_D_mean_mes[idx],ai,bi) - L_D[idx])}\n")
     plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            # VAL = range(2,len(D)+1)
+            # IDX = []
+            # fig, axs = plt.subplots(2,2)
+
+            # for val in VAL:
+            #     m_r_e = 0
+            #     m_r_e_at = 0
+            #     coeffs_ini = [];
+
+            #     # for i in range(2):
+            #     #     for j in range(2):
+            #     #         idx = 2*i + j
+            #     #         ai, bi = [np.polyfit(L_D_mean_mes[idx][:val], L_D[idx][:val], degree) for degree in [1]][0].flatten()
+            #     #         m_r_e += np.linalg.norm(L_D_mean_mes[idx] - L_D[idx])
+            #     #         m_r_e_at += np.linalg.norm(ai*L_D_mean_mes[idx] + bi - L_D[idx])
+
+            #     for i in range(2):
+            #         for j in range(2):
+            #             idx = 2*i + j
+            #             indices = random.sample(range(len(D)), val)  # sélectionner m indices aléatoires
+            #             IDX.append(indices)
+            #             L_D_mean_mes_sampled = [L_D_mean_mes[idx][i] for i in indices]  # sélectionner les éléments correspondants de L_D_mean_mes
+            #             L_D_sampled = [L_D[idx][i] for i in indices]  # sélectionner les éléments correspondants de L_D
+            #             ai, bi = [np.polyfit(L_D_mean_mes_sampled, L_D_sampled, degree) for degree in [1]][0].flatten()
+            #             m_r_e = np.linalg.norm(L_D_mean_mes[idx] - L_D[idx])
+            #             m_r_e_at = np.linalg.norm(ai*L_D_mean_mes[idx] + bi - L_D[idx])
+
+            #             ax = axs[i,j]
+            #             ax.set_title("Moyenne des résidus")
+            #             ax.set_xlabel("valeurs initiales prises")
+            #             ax.set_ylabel("Erreurs")
+            #             ax.set_ylim([0,10])
+            #             ax.plot(val, m_r_e,label='before transfo')
+            #             ax.plot(val, m_r_e_at, label = 'after transfo')
+            #             if val == 2 : ax.legend()
+            # plt.show()

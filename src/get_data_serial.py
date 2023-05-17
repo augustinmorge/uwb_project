@@ -1,7 +1,7 @@
 import serial
 import struct
 
-def receive_data_bits(ser):
+def receive_data_bits(file, ser):
     # Taille totale du buffer d'envoi en bytes
     buffer_size = 26
     
@@ -31,6 +31,7 @@ def receive_data_bits(ser):
     # fp_power = struct.unpack('f', buffer[range_size+rx_power_size:range_size+rx_power_size+fp_power_size])[0]
     # quality = struct.unpack('f', buffer[range_size+rx_power_size+fp_power_size:range_size+rx_power_size+fp_power_size+quality_size])[0]
     timer = struct.unpack('d', buffer[range_size+rx_power_size+fp_power_size+quality_size:range_size+rx_power_size+fp_power_size+quality_size+timer_size])[0]
+    # file.write(str(short_address) + ";"+ str(timer) + ";"+ str(range_value) + ";" + str(rx_power) + ";" + str(fp_power) + ";" + str(quality) + "\n")
     # Retourner un dictionnaire contenant les données
     return {
         'short_address': short_address,
@@ -43,9 +44,9 @@ def receive_data_bits(ser):
 
 if __name__ == "__main__":
     # Ouvrir une connexion série sur le port COM5
-    ser = serial.Serial('COM5', 115200)
+    
     import time, tqdm
-    # i = 0
+    
     # t0 = time.time();
     # f = 0
     # for i in tqdm.tqdm(range(100)):
@@ -55,11 +56,36 @@ if __name__ == "__main__":
     #     t0 = time.time()
     #     i+=1
     # print(1/(f/(1000-1)))
+    import os
+    logging = 1
+    if logging:
+        ser = serial.Serial('COM5', 115200)
+        THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+        # f = open(f"{THIS_FOLDER}/time_long.csv","w")
+        i = 0
+        while 1:
+            r_data = receive_data_bits(None, ser)
+            print(r_data)
+        #     if i %100 == 0: f.flush()
+        #     i += 1
+        # f.close()
 
-    t_max = 0
-    while 1:
-        r_data = receive_data_bits(ser)
-        t = r_data['timer']
-        if t > t_max:
-            t_max = t
-            print(t_max)
+    else:
+        i = 0
+        # Pour visualiser le temps #
+        import numpy as np
+        import os
+        import matplotlib.pyplot as plt
+
+        # Chemin du fichier CSV
+        THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+
+        # Lecture des données du fichier CSV
+        T = np.loadtxt(f"{THIS_FOLDER}/time3.csv")
+
+        # Affichage du graphique
+        plt.plot(T)
+        plt.xlabel("itération")
+        plt.ylabel("temps [s]")
+        plt.title("Temps envoyé par une ancre")
+        plt.show()

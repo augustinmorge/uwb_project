@@ -128,14 +128,14 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
             ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
             ax.grid()
 
-            ### Pour afficher une déviation linéaire au cours du temps
-            # fig, ax = plt.subplots()
-            # ax.scatter(time/60/60, dist, s=0.1)
-            # ax.set_xlabel("Time [h]")
-            # ax.set_ylabel("m")
-            # ax.set_title("Measurements")
-            # ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
-            # ax.grid()
+            ## Pour afficher une déviation linéaire au cours du temps
+            fig, ax = plt.subplots()
+            ax.scatter(time/60/60, dist,s=1)#, s = 1)
+            ax.set_xlabel("Time [h]")
+            ax.set_ylabel("m")
+            ax.set_title("Measurements")
+            ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
+            ax.grid()
             # def plot_polynomial_regression(ax, x, y, degrees, label = ""):
             #     coeffs = [np.polyfit(x, y, degree) for degree in degrees]
             #     ax.scatter(x, y, label='Mean data '+label)
@@ -226,12 +226,20 @@ if __name__ == "__main__":
     # filenames = [LOS_80, NLOS_80]
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_02_05_2023_17_19_06.csv")] #anchor 80 LOS, f = 10Hz, mean of 3 datas
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_05_05_2023_17_20_26.csv")] #anchor 80 LOS on battery
+
+    filenames = [os.path.join(THIS_FOLDER, "../../time_long.csv")]
     
 
     for filename in filenames:
         time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
+        time = time/100
+        dist = dist/100
+        RX = RX/100
+        FP = FP/100
+        Q = Q/100
         time = np.arange(0,dist.shape[0],1)
-        masked = 0
+
+        masked = 1
         display_allan = 0
         display_quality = 1
         display_dbm = 1
@@ -246,8 +254,10 @@ if __name__ == "__main__":
                 alp = 1
                 # print(alp*np.std(dist) + np.mean(dist))
                 # mask = np.abs(dist[ids == idx] - np.mean(dist[ids == idx])) > alp*np.std(dist[ids == idx])
-                mask = np.abs(np.diff(dist[ids == idx])) > 10
-                mask = np.hstack((True, mask))
+                # mask = np.abs(np.diff(dist[ids == idx])) > 10
+                # mask = np.hstack((True, mask))
+
+                mask = dist < 0
                 # mask = (RX - FP < 0) #mask |
                 # mask = mask | (Q < 80)
                 # mask = mask | (dist <= 0) #

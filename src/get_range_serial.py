@@ -36,9 +36,9 @@ def plot_range(file_path):
     plt.show()
 
 if __name__ == "__main__":
-    ser = serial.Serial('COM5', 115200)
     import os
     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    file = f"{THIS_FOLDER}/get_range.csv"
-    log_range_to_csv(file, ser)
-    # plot_range(f"{THIS_FOLDER}/get_range.csv")
+    # ser = serial.Serial('COM5', 115200)
+    # file = f"{THIS_FOLDER}/get_range.csv"
+    # log_range_to_csv(file, ser)
+    plot_range(f"{THIS_FOLDER}/logs/log_long/Long_log_12_05_2023_10_40_54.csv")
