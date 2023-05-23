@@ -221,25 +221,19 @@ if __name__ == "__main__":
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_17_04_2023_17_26_57.csv")] #los/nlos
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_18_04_2023_17_15_32.csv")] #?    
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_19_04_2023_17_26_08.csv")] #?
-    # filenames = [os.path.join(THIS_FOLDER, "Long_log_21_04_2023_17_53_22.csv")] #los/nlos : 80 bureau thomas, 81 salle réu, 82/82 en LOS
+    filenames = [os.path.join(THIS_FOLDER, "Long_log_21_04_2023_17_53_22.csv")] #los/nlos : 80 bureau thomas, 81 salle réu, 82/82 en LOS
     # NLOS_80 = os.path.join(THIS_FOLDER, "Long_log_27_04_2023_16_48_12.csv") #anchor 80 NLOS
     # filenames = [LOS_80, NLOS_80]
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_02_05_2023_17_19_06.csv")] #anchor 80 LOS, f = 10Hz, mean of 3 datas
     # filenames = [os.path.join(THIS_FOLDER, "Long_log_05_05_2023_17_20_26.csv")] #anchor 80 LOS on battery
 
-    filenames = [os.path.join(THIS_FOLDER, "../../time_long.csv")]
+    # filenames = [os.path.join(THIS_FOLDER, "../../time_long.csv")]
     
 
     for filename in filenames:
         time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
-        time = time/100
-        dist = dist/100
-        RX = RX/100
-        FP = FP/100
-        Q = Q/100
-        time = np.arange(0,dist.shape[0],1)
 
-        masked = 1
+        masked = 0
         display_allan = 0
         display_quality = 1
         display_dbm = 1
@@ -257,7 +251,7 @@ if __name__ == "__main__":
                 # mask = np.abs(np.diff(dist[ids == idx])) > 10
                 # mask = np.hstack((True, mask))
 
-                mask = dist < 0
+                mask = dist[ids == idx] < 0
                 # mask = (RX - FP < 0) #mask |
                 # mask = mask | (Q < 80)
                 # mask = mask | (dist <= 0) #

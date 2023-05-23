@@ -12,7 +12,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-int selected_anchor = 80;
+int selected_anchor = 82;
 String str_display = "";
 String  anchorAddress = "";
 char ANCHOR_ADD[24];
@@ -151,7 +151,7 @@ void newRange()
 {
     // Serial.println("\nNew values:");
     Serial.println(DW1000Ranging.getDistantDevice()->getRange());
-    // Serial.println(DW1000Ranging.getDistantDevice()->getShortAddress());
+    // Serial.println(DW1000Ranging.getDistantDevice()->getShortAddress(),HEX);
     // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
     // Serial.println(DW1000Ranging.getDistantDevice()->getFPPower());
     // Serial.println(DW1000Ranging.getDistantDevice()->getQuality());

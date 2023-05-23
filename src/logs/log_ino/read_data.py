@@ -31,8 +31,9 @@ def receive_data_bits(file, ser):
     timer_ps = struct.unpack('f', buffer[range_size+rx_power_size+fp_power_size+quality_size:range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps])[0]
     timer_rs = struct.unpack('f', buffer[range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps:range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps+timer_size_rs])[0]
     timer_ino = struct.unpack('f', buffer[range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps+timer_size_rs:range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps+timer_size_rs+timer_size_ino])[0]
-    file.write(str(short_address) + ";"+ str(timer_ino) + ";"+ str(range_value) + ";" + str(rx_power) + ";" + str(fp_power) + ";" + str(quality) + ";" + str(timer_ps) + ";" + str(timer_rs) + "\n")
-    file.flush()
+    if logging:
+        file.write(str(short_address) + ";"+ str(timer_ino) + ";"+ str(range_value) + ";" + str(rx_power) + ";" + str(fp_power) + ";" + str(quality) + ";" + str(timer_ps) + ";" + str(timer_rs) + "\n")
+        file.flush()
     # Retourner un dictionnaire contenant les données
     return {
         'short_address': short_address,
@@ -50,14 +51,21 @@ if __name__ == "__main__":
     import datetime
     import os
     ser = serial.Serial('COM5', 115200)
+    logging = 1
     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
     date_str = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
-    f = open(f"{THIS_FOLDER}/{date_str}_log-all-with-time.csv","w")
-    f.write("Short Address;Timer Ino;Range;RX Power;FP Power;Quality;Timer PS;Timer RS\n")
-    f.flush()
+    if logging:
+        f = open(f"{THIS_FOLDER}/{date_str}_log-all-with-time.csv","w")
+        f.write("Short Address;Timer Ino;Range;RX Power;FP Power;Quality;Timer PS;Timer RS\n")
+        f.flush()
+    else:
+        f = None
     i = 0
     while 1:
-        print(receive_data_bits(f, ser))
+        r = receive_data_bits(f, ser)
+        # if r['short_address'] == '1780':
+        #     print(r)
+        print(r)
 
     # else:
     #     i = 0

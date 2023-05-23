@@ -11,8 +11,8 @@
 // #define SPI_MOSI 23
 
 // connection pins
-const uint8_t PIN_RST = 27; // reset pin
-const uint8_t PIN_IRQ = 34; // irq pin
+const uint8_t PIN_RST = 27;  // reset pin
+const uint8_t PIN_IRQ = 34;  // irq pin
 const uint8_t PIN_SS = 21;   // spi select pin
 
 // TAG antenna delay defaults to 16384
@@ -20,13 +20,12 @@ const uint8_t PIN_SS = 21;   // spi select pin
 char tag_addr[] = "7D:00:22:EA:82:60:3B:9C";
 
 // Configure serial COM RX/TX
-#define DW1000_RX_PIN 25 // Replace with the appropriate RX pin number
-#define DW1000_TX_PIN 26 // Replace with the appropriate TX pin number
-HardwareSerial dwSerial(1); // Use UART 1
+#define DW1000_RX_PIN 25     // Replace with the appropriate RX pin number
+#define DW1000_TX_PIN 26     // Replace with the appropriate TX pin number
+HardwareSerial dwSerial(1);  // Use UART 1
 const int baudRate = 115200;
 
-void setup()
-{
+void setup() {
   //Setup serial RX/TX
   dwSerial.begin(baudRate, SERIAL_8N1, DW1000_RX_PIN, DW1000_TX_PIN);
 
@@ -36,13 +35,13 @@ void setup()
 
   //init the configuration
   // SPI.begin(SPI_SCK, SPI_MISO, SPI_MOSI);
-  DW1000Ranging.initCommunication(PIN_RST, PIN_SS, PIN_IRQ); //Reset, CS, IRQ pin
+  DW1000Ranging.initCommunication(PIN_RST, PIN_SS, PIN_IRQ);  //Reset, CS, IRQ pin
 
   DW1000Ranging.attachNewRange(newRange);
   DW1000Ranging.attachNewDevice(newDevice);
   DW1000Ranging.attachInactiveDevice(inactiveDevice);
 
-// start as tag, do not assign random short address
+  // start as tag, do not assign random short address
 
   //start the module as a tag, do not assign random short address
   DW1000Ranging.startAsTag(tag_addr, DW1000.MODE_LONGDATA_RANGE_LOWPOWER, false);
@@ -54,21 +53,21 @@ void setup()
 }
 
 // int incomingByte = 0; // for incoming serial data
-void loop()
-{
+void loop() {
   DW1000Ranging.loop();
 
-   /* Time */
-	// Serial.print("timePollSent: ");Serial.println((double)DW1000Ranging.getDistantDevice()->timePollSent.getAsMicroSeconds());
-	
-	// Serial.print("timeRangeSent: ");Serial.println((double)DW1000Ranging.getDistantDevice()->timeRangeSent.getAsMicroSeconds());
+  /* Time */
+  // Serial.print("timePollSent: ");Serial.println((double)DW1000Ranging.getDistantDevice()->timePollSent.getAsMicroSeconds());
+
+  // Serial.print("timeRangeSent: ");Serial.println((double)DW1000Ranging.getDistantDevice()->timeRangeSent.getAsMicroSeconds());
 
   // Serial.print("timeINO: " ); Serial.println(millis());
-
 }
 
-void newRange()
-{ 
+float _delay = 0;
+int ct_delay = 1;
+float t_delay = millis();
+void newRange() {
   /* Values that can be displayed */
   // Serial.print("from: ");
   // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
@@ -89,17 +88,16 @@ void newRange()
   // double timer = (double) val.getTimestamp() * 1e-11;
   // Serial.println(timer);
 
-
-
+  static DW1000Device *DistantDevice = DW1000Ranging.getDistantDevice();
 
   /* Values that can be sent in binary */
-  uint16_t shortAddress = DW1000Ranging.getDistantDevice()->getShortAddress();
-  int range = (int)(DW1000Ranging.getDistantDevice()->getRange()*100);
-  int RXPower = (int)(DW1000Ranging.getDistantDevice()->getRXPower()*100);
+  uint16_t shortAddress = DistantDevice->getShortAddress();
+  int range = (int)(DistantDevice->getRange()*100);
+  int RXPower = (int)(DistantDevice->getRXPower()*100);
   int FPPower = (int)(DW1000.getFirstPathPower()*100);
   int quality = (int)(DW1000.getReceiveQuality()*100);
-  float timerpoll = DW1000Ranging.getDistantDevice()->timePollSent.getAsMicroSeconds();
-  float timersent = DW1000Ranging.getDistantDevice()->timeRangeSent.getAsMicroSeconds();
+  float timerpoll = DistantDevice->timePollSent.getAsMicroSeconds();
+  float timersent = DistantDevice->timeRangeSent.getAsMicroSeconds();
   float timerino = millis();
 
   // Encodage en binaire des données
@@ -125,9 +123,6 @@ void newRange()
 
   // Envoi des données encodées sur le port série
   Serial.write(buffer, sizeof(buffer));
-
-
-
 
   /* Values that can be sent in ASCII */
   // double latitude = 48.5357;
@@ -170,17 +165,14 @@ void newRange()
   // dwSerial.print(sentence);
 
   // delay(1000);
-
 }
 
-void newDevice(DW1000Device *device)
-{
+void newDevice(DW1000Device *device) {
   // Serial.print("Device added: ");
   // Serial.println(device->getShortAddress(), HEX);
 }
 
-void inactiveDevice(DW1000Device *device)
-{
+void inactiveDevice(DW1000Device *device) {
   // Serial.print("delete inactive device: ");
   // Serial.println(device->getShortAddress(), HEX);
 }
