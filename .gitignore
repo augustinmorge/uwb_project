@@ -1,3 +1,11 @@
 Resources
 src/.trash
 src/logs/log_ino/17_05_2023_15_35_29_log-all-with-time.csv
+
+# Ignore les fichiers volumineux
+*.tar
+*.zip
+*.gz
+*.rar
+*.csv
+*.txt
