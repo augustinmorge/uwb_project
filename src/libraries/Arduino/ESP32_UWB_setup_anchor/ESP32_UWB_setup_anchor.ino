@@ -149,15 +149,97 @@ void loop()
 // float f = 0; float t0 = millis(); float tk = t0; int ct = 0;
 void newRange()
 {
-    // Serial.println("\nNew values:");
-    Serial.println(DW1000Ranging.getDistantDevice()->getRange());
-    // Serial.println(DW1000Ranging.getDistantDevice()->getShortAddress(),HEX);
-    // Serial.println(DW1000Ranging.getDistantDevice()->getRXPower());
-    // Serial.println(DW1000Ranging.getDistantDevice()->getFPPower());
-    // Serial.println(DW1000Ranging.getDistantDevice()->getQuality());
-    // mean_dist += DW1000Ranging.getDistantDevice()->getRange();
-    // tot++;
-    // if(tot==10){Serial.println(mean_dist/10);tot=0;mean_dist=0;}
+  //  /* Values that can be displayed */
+  // Serial.print("from: ");
+  // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
+  // Serial.print("\t Range: ");
+  // Serial.println(DW1000Ranging.getDistantDevice()->getRange());
+  // Serial.print(" m");
+  // Serial.print("\t RX power: ");
+  // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
+  // Serial.print(" dBm");
+  // Serial.print("\t FP power: ");
+  // Serial.print(DW1000.getFirstPathPower());
+  // Serial.print(" dBm");
+  // Serial.print("\t Quality: ");
+  // Serial.print(DW1000.getReceiveQuality());
+
+
+  // static DW1000Device *myDistantDevice = DW1000Ranging.getDistantDevice();
+  // static DW1000Device *myDistantDevice = DW1000Ranging.getDistantDevice();
+
+  // 	// asymmetric two-way ranging (more computation intense, less error prone)
+	// DW1000Time round1 = (myDistantDevice->timePollAckReceived-myDistantDevice->timePollSent).wrap();
+	// DW1000Time reply1 = (myDistantDevice->timePollAckSent-myDistantDevice->timePollReceived).wrap();
+	// DW1000Time round2 = (myDistantDevice->timeRangeReceived-myDistantDevice->timePollAckSent).wrap();
+	// DW1000Time reply2 = (myDistantDevice->timeRangeSent-myDistantDevice->timePollAckReceived).wrap();
+
+  // Serial.print("timePollAckReceived ");myDistantDevice->timePollAckReceived.print();
+	// Serial.print("timePollSent ");myDistantDevice->timePollSent.print();
+	// Serial.print("round1 "); Serial.println((long)round1.getTimestamp());
+	
+	// Serial.print("timePollAckSent ");myDistantDevice->timePollAckSent.print();
+	// Serial.print("timePollReceived ");myDistantDevice->timePollReceived.print();
+	// Serial.print("reply1 "); Serial.println((long)reply1.getTimestamp());
+	
+	// Serial.print("timeRangeReceived ");myDistantDevice->timeRangeReceived.print();
+	// Serial.print("timePollAckSent ");myDistantDevice->timePollAckSent.print();
+	// Serial.print("round2 "); Serial.println((long)round2.getTimestamp());
+	
+	// Serial.print("timeRangeSent ");myDistantDevice->timeRangeSent.print();
+	// Serial.print("timePollAckReceived ");myDistantDevice->timePollAckReceived.print();
+	// Serial.print("reply2 "); Serial.println((long)reply2.getTimestamp());
+
+  // /* Values that can be sent in binary */
+  // static DW1000Device *myDistantDevice = DW1000Ranging.getDistantDevice();
+  // uint16_t shortAddress = myDistantDevice->getShortAddress();
+  // int range = (int)(myDistantDevice->getRange() * 100);
+  // int RXPower = (int)(myDistantDevice->getRXPower() * 100);
+  // int FPPower = (int)(DW1000.getFirstPathPower() * 100);
+  // int quality = (int)(DW1000.getReceiveQuality() * 100);
+  // float timerpollsent = myDistantDevice->timePollSent.getAsMicroSeconds();
+  // float timerpollreceived = myDistantDevice->timePollAckReceived.getAsMicroSeconds();
+  // float timerpollacksent = myDistantDevice->timePollAckSent.getAsMicroSeconds();
+  // float timerpollackreceived = myDistantDevice->timePollAckReceived.getAsMicroSeconds();
+  // float timerrangesent = myDistantDevice->timeRangeSent.getAsMicroSeconds();
+  // float timerrangereceived = myDistantDevice->timeRangeReceived.getAsMicroSeconds();
+  // float timerino = millis();
+
+  // // Encodage en binaire des données
+  // size_t buffer_size = sizeof(shortAddress) + sizeof(range) + sizeof(RXPower) + sizeof(FPPower) + sizeof(quality) +
+  //                     sizeof(timerpollsent) + sizeof(timerpollreceived) + sizeof(timerpollacksent) +
+  //                     sizeof(timerpollackreceived) + sizeof(timerrangesent) + sizeof(timerrangereceived) +
+  //                     sizeof(timerino);
+
+  // byte buffer[buffer_size];
+  // int offset = 0;
+  // memcpy(buffer + offset, &shortAddress, sizeof(shortAddress));
+  // offset += sizeof(shortAddress);
+  // memcpy(buffer + offset, &range, sizeof(range));
+  // offset += sizeof(range);
+  // memcpy(buffer + offset, &RXPower, sizeof(RXPower));
+  // offset += sizeof(RXPower);
+  // memcpy(buffer + offset, &FPPower, sizeof(FPPower));
+  // offset += sizeof(FPPower);
+  // memcpy(buffer + offset, &quality, sizeof(quality));
+  // offset += sizeof(quality);
+  // memcpy(buffer + offset, &timerpollsent, sizeof(timerpollsent));
+  // offset += sizeof(timerpollsent);
+  // memcpy(buffer + offset, &timerpollreceived, sizeof(timerpollreceived));
+  // offset += sizeof(timerpollreceived);
+  // memcpy(buffer + offset, &timerpollacksent, sizeof(timerpollacksent));
+  // offset += sizeof(timerpollacksent);
+  // memcpy(buffer + offset, &timerpollackreceived, sizeof(timerpollackreceived));
+  // offset += sizeof(timerpollackreceived);
+  // memcpy(buffer + offset, &timerrangesent, sizeof(timerrangesent));
+  // offset += sizeof(timerrangesent);
+  // memcpy(buffer + offset, &timerrangereceived, sizeof(timerrangereceived));
+  // offset += sizeof(timerrangereceived);
+  // memcpy(buffer + offset, &timerino, sizeof(timerino));
+  // offset += sizeof(timerino);
+
+  // // Envoi des données encodées sur le port série
+  // Serial.write(buffer, sizeof(buffer));
 }
 
 void newDevice(DW1000Device *device)

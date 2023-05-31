@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+    <Document id="1">
+        <Placemark id="3">
+            <name>poteau_1</name>
+            <Point id="2">
+                <coordinates>2.0646127605633806,48.899990591549304,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="5">
+            <name>poteau_2</name>
+            <Point id="4">
+                <coordinates>2.064709795555555,48.900155000000005,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="7">
+            <name>poteau_3</name>
+            <Point id="6">
+                <coordinates>2.0642782655172414,48.90029975517242,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="9">
+            <name>poteau_4</name>
+            <Point id="8">
+                <coordinates>2.063957785202864,48.900285720763726,0.0</coordinates>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>

@@ -233,8 +233,8 @@ if __name__ == "__main__":
     for filename in filenames:
         time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
 
-        masked = 0
-        display_allan = 0
+        masked = 1
+        display_allan = 1
         display_quality = 1
         display_dbm = 1
 
@@ -247,11 +247,12 @@ if __name__ == "__main__":
             if masked:
                 alp = 1
                 # print(alp*np.std(dist) + np.mean(dist))
+                mask = np.abs(dist[ids == idx] - np.mean(dist[ids == idx])) > 0.5 #alp*np.std(dist[ids == idx])
                 # mask = np.abs(dist[ids == idx] - np.mean(dist[ids == idx])) > alp*np.std(dist[ids == idx])
                 # mask = np.abs(np.diff(dist[ids == idx])) > 10
                 # mask = np.hstack((True, mask))
 
-                mask = dist[ids == idx] < 0
+                # mask = dist[ids == idx] < 0
                 # mask = (RX - FP < 0) #mask |
                 # mask = mask | (Q < 80)
                 # mask = mask | (dist <= 0) #

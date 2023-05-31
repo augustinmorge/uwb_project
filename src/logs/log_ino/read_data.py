@@ -63,26 +63,4 @@ if __name__ == "__main__":
     i = 0
     while 1:
         r = receive_data_bits(f, ser)
-        # if r['short_address'] == '1780':
-        #     print(r)
         print(r)
-
-    # else:
-    #     i = 0
-    #     # Pour visualiser le temps #
-    #     import numpy as np
-    #     import os
-    #     import matplotlib.pyplot as plt
-
-    #     # Chemin du fichier CSV
-    #     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-
-    #     # Lecture des données du fichier CSV
-    #     T = np.loadtxt(f"{THIS_FOLDER}/time3.csv")
-
-    #     # Affichage du graphique
-    #     plt.plot(T)
-    #     plt.xlabel("itération")
-    #     plt.ylabel("temps [s]")
-    #     plt.title("Temps envoyé par une ancre")
-    #     plt.show()

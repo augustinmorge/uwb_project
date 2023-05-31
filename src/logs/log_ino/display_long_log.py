@@ -213,9 +213,9 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
 if __name__ == "__main__":
     filenames = []
 
-    filenames = [os.path.join(THIS_FOLDER, "17_05_2023_15_35_29_log-all-with-time.csv")] #80: NLOS derriere reu; 81: NLOS contre mur imprimante; 82: Francoise; 83: Dans la salle réu
+    # filenames = [os.path.join(THIS_FOLDER, "17_05_2023_15_35_29_log-all-with-time.csv")] #80: NLOS derriere reu; 81: NLOS contre mur imprimante; 82: Francoise; 83: Dans la salle réu
     # filenames = [os.path.join(THIS_FOLDER, "22_05_2023_12_01_12_log-all-with-time.csv")] 
-    # filenames = [os.path.join(THIS_FOLDER, "22_05_2023_17_16_41_log-all-with-time.csv")] 
+    filenames = [os.path.join(THIS_FOLDER, "26_05_2023_17_20_07_log-all-with-time.csv")] 
 
 
     for filename in filenames:
@@ -225,7 +225,7 @@ if __name__ == "__main__":
         FP = FP/100
         Q = Q/100
 
-        masked = 0
+        masked = 1
         display_allan = 1
         display_quality = 1
         display_dbm = 1
@@ -240,9 +240,9 @@ if __name__ == "__main__":
 
                 ## Apply filter
                 if masked:
-                    alp = 1
+                    # alp = 1
                     # print(alp*np.std(dist) + np.mean(dist))
-                    # mask = np.abs(dist[ids == idx] - np.mean(dist[ids == idx])) > 0.5 #alp*np.std(dist[ids == idx])
+                    mask = np.abs(dist[ids == idx] - np.mean(dist[ids == idx])) > 1 #alp*np.std(dist[ids == idx])
                     # mask = np.abs(np.diff(dist[ids == idx])) > 10
 
 
@@ -252,7 +252,7 @@ if __name__ == "__main__":
 
 
                     # mask = mask | (RX[ids == idx] == 0)
-                    mask = dist[ids == idx] < 0
+                    # mask = dist[ids == idx] < 0
                     # mask = (RX - FP < 0) #mask |
                     # mask = mask | (Q < 80)
                     # mask = mask | (dist <= 0) #
