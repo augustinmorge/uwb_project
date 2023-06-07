@@ -7,12 +7,12 @@ THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 # data = np.genfromtxt(f'{THIS_FOLDER}/save_times.csv', delimiter=';', skip_header=1, dtype=str)
 # data[:,1] = np.float(data[:,1])
 
-# data = np.genfromtxt(f'{THIS_FOLDER}/17_05_2023_15_35_29_log-all-with-time.csv', delimiter=';', skip_header=1, dtype='str')
+# data = np.genfromtxt(f'{THIS_FOLDER}/17_05_2023_15_35_29_log-all-with-time.csv', delimiter=';', skip_header=1, dtype='str') #WITHOUT SPI
 # data = np.genfromtxt(f'{THIS_FOLDER}/26_05_2023_17_20_07_log-all-with-time.csv', delimiter=';', skip_header=1)
 
-filename = '30_05_2023_17_07_39_log-all-with-time.csv'
-data = np.genfromtxt(f'{THIS_FOLDER}/{filename}', delimiter=';', skip_header=1)
-# data = np.genfromtxt(f'{THIS_FOLDER}/30_05_2023_17_07_39_log-all-with-time.csv', delimiter=';', skip_header=1)
+# filename = '30_05_2023_17_07_39_log-all-with-time.csv'
+# data = np.genfromtxt(f'{THIS_FOLDER}/{filename}', delimiter=';', skip_header=1)
+data = np.genfromtxt(f'{THIS_FOLDER}/30_05_2023_17_07_39_log-all-with-time.csv', delimiter=';', skip_header=1)
 
 # Extraire les colonnes pertinentes
 names = data[:, 0]
@@ -125,8 +125,8 @@ timeINODiff = np.diff(timeINO)
 timePollDiff = np.diff(newtimeRangeSent)
 
 # Pour afficher les transformées de dents de scie à linéaire
-display_tf = 0
-display_diff = 0
+display_tf = 1
+display_diff = 1
 display_rest = 1
 
 if display_tf:
@@ -135,6 +135,7 @@ if display_tf:
     plt.subplot(2, 2, 1)
     plt.plot(timePollSent, 'r')
     plt.xlabel('it')
+    plt.xlim([0,1000])
     plt.ylabel('timePollSent [s]')
     plt.title("Dent de scie")
 
@@ -149,6 +150,8 @@ if display_tf:
     #Affiche les valeurs d'envoie et de reception en secondes
     plt.subplot(2, 2, 3)
     plt.plot(newtimePollSent/3600, 'r')
+    plt.xlim([0,1000])
+    plt.ylim([newtimePollSent[0]/3600,newtimePollSent[1000]/3600])
     plt.xlabel('it')
     plt.ylabel('newtimePollSent [h]')
     plt.title("Sans dent de scie")

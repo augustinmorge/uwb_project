@@ -131,12 +131,12 @@ if doing_test:
 else:
     filenames = []
     # filenames = [f"{THIS_FOLDER}/udp/2023_04_27_14_17_12_Test_multiple_points.csv"]
-    # filenames = [f"{THIS_FOLDER}/udp/2023_05_02_15_09_14_Test_multiple_points.csv"]
+    filenames = [f"{THIS_FOLDER}/udp/2023_05_02_15_09_14_Test_multiple_points.csv"]
     # filenames = [f"{THIS_FOLDER}/udp/2023_05_03_16_12_38_Test_multiple_points.csv"]
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_03_16_12_38_Serial_Test_multiple_points.csv"] 
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_42_31_Serial_Test_multiple_points.csv"] #Proche de la première ancre 2023_05_03_16_12_38_Serial_Test_multiple_points
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_55_34_Serial_Test_multiple_points.csv"] #Loin de la première ancre
-    filenames = [f"{THIS_FOLDER}/serial/Fusion_0509.csv"] #Fusion
+    # filenames = [f"{THIS_FOLDER}/serial/Fusion_0509.csv"] #Fusion
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_42_31_Serial_Test_multiple_points.csv", \
     #              f"{THIS_FOLDER}/serial/2023_05_09_15_55_34_Serial_Test_multiple_points.csv"]
 # 
@@ -189,9 +189,10 @@ else:
             L_new_d_real.append(new_d_real)
             L_D.append(D)
 
-            print(f"Résidus = {(D_mean_mes - D)}")
-            print(f"Ecart-type des résidus = {np.std(D_mean_mes - D)}")
-            print(f"Moyenne des résidus = {np.mean(D_mean_mes - D)}\n")
+            print(f"Pour l'ancre n°{idx}")
+            print(f"Résidus = {np.floor((D_mean_mes - D)*1000)/1000}")
+            print(f"Ecart-type des résidus = {np.floor(np.std(D_mean_mes - D)*1000)/1000}")
+            print(f"Moyenne des résidus = {np.floor(np.mean(D_mean_mes - D)*1000)/1000}\n")
 
             # plt.figure()
             # plt.plot(D, np.abs(D_mean_mes - D))

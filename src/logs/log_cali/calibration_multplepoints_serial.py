@@ -279,7 +279,7 @@ if __name__ == '__main__':
     else:
 
                     ## ONE ANCHOR ONLY
-        D = open(f"{THIS_FOLDER}/{date_str}_mp.csv","r")  
+        D = open(f"{THIS_FOLDER}/Test_multiple_points.csv","r")  
         D = D.readlines()
         #np.loadtxt(f"{THIS_FOLDER}/{date_str}_mp.csv", delimiter=";", skiprows=1)
 

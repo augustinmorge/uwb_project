@@ -65,34 +65,40 @@ void get_geoloc(int beacon_id, double &longitude, double &latitude, double &dept
   converter << std::hex << std::setw(4) << std::setfill('0') << beacon_id;
   std::string beacon_id_hex = converter.str();
 
+  float alt_received = -0.0; //Given by the INS in real time (?)
+  float alt_gnss = -0.987;
+  float alt_uwb = -1.738;
+  float alt_tag = -1.606;
+  float offset = -(alt_uwb - alt_gnss); // - (alt_tag - alt_gnss); //La difference d'altitude entre l'antenne GNSS et l'antenne UWB
+
   if (beacon_id_hex == "1780") {
-    latitude = 48.5357;
-    longitude = 2.0350;
-    depth = 0.5; // depth in meters
+    latitude = 48.89999011267607;
+    longitude = 2.0646126197183103;
+    depth = -92.16549295774645 + offset; // depth in- meters
     lat_hem = (latitude > 0) ? 'N' : 'S';
     lon_hem = (longitude > 0) ? 'E' : 'W';
   }
 
   if (beacon_id_hex == "1781") {
-    latitude = 48.535927083;
-    longitude = 2.035399667;
-    depth = 0.5; // depth in meters
+    latitude = 48.90015534513275;
+    longitude = 2.0647127433628314;
+    depth = -93.44716814159293 + offset; // depth in- meters
     lat_hem = (latitude > 0) ? 'N' : 'S';
     lon_hem = (longitude > 0) ? 'E' : 'W';
   }
 
   if (beacon_id_hex == "1782") {
-    latitude = 48.5357;
-    longitude = 2.0350;
-    depth = 10.5; // depth in meters
+    latitude = 48.90029947586208;
+    longitude = 2.064277434482759;
+    depth = -93.00668965517241 + offset; // depth in- meters
     lat_hem = (latitude > 0) ? 'N' : 'S';
     lon_hem = (longitude > 0) ? 'E' : 'W';
   }
 
   if (beacon_id_hex == "1783") {
-    latitude = 48.5425177;
-    longitude = 2.034726171;
-    depth = 0.5; // depth in meters
+    latitude = 48.900285428571436;
+    longitude = 2.0639608333333332;
+    depth = -92.95414285714287 + offset; // depth in- meters
     lat_hem = (latitude > 0) ? 'N' : 'S';
     lon_hem = (longitude > 0) ? 'E' : 'W';
   }
@@ -104,7 +110,7 @@ void newRange() {
   get_geoloc(beacon_id, longitude, latitude, depth, lat_hem, lon_hem);
   float beacon_range = DW1000Ranging.getDistantDevice()->getRange();
   float beacon_range_std_dev = 0.1;
-  float age = 0.045 ; //millis()/1000 - (float)DW1000Ranging.getDistantDevice()->timeRangeSent.getTimestamp()*10
+  float age = ((float)millis() - (float)DW1000Ranging.getDistantDevice()->getValidTime())/1000; //millis()/1000 - (float)DW1000Ranging.getDistantDevice()->timeRangeSent.getTimestamp()*10
   
   // LLmm.mmmm to degrees and minutes conversion
   int lat_degrees = (int)latitude;
@@ -133,6 +139,39 @@ void newRange() {
   // send the sentence over serial
   dwSerial.print(sentence);
   Serial.print(sentence);
+
+  // // Encodage en binaire des données
+  //   static DW1000Device *DistantDevice = DW1000Ranging.getDistantDevice();
+  // uint16_t shortAddress = DistantDevice->getShortAddress();
+  // int range = (int)(DistantDevice->getRange()*100);
+  // int RXPower = (int)(DistantDevice->getRXPower()*100);
+  // int FPPower = (int)(DW1000.getFirstPathPower()*100);
+  // int quality = (int)(DW1000.getReceiveQuality()*100);
+  // float timerpoll = DistantDevice->timePollSent.getAsMicroSeconds();
+  // float timersent = DistantDevice->timeRangeSent.getAsMicroSeconds();
+  // float timerino = millis();
+  // size_t buffer_size = sizeof(shortAddress) + sizeof(range) + sizeof(RXPower) + sizeof(FPPower) + sizeof(quality) + sizeof(timerpoll) + sizeof(timersent) + sizeof(timerino);
+  // byte buffer[buffer_size];
+  // int offset = 0;
+  // memcpy(buffer + offset, &shortAddress, sizeof(shortAddress));
+  // offset += sizeof(shortAddress);
+  // memcpy(buffer + offset, &range, sizeof(range));
+  // offset += sizeof(range);
+  // memcpy(buffer + offset, &RXPower, sizeof(RXPower));
+  // offset += sizeof(RXPower);
+  // memcpy(buffer + offset, &FPPower, sizeof(FPPower));
+  // offset += sizeof(FPPower);
+  // memcpy(buffer + offset, &quality, sizeof(quality));
+  // offset += sizeof(quality);
+  // memcpy(buffer + offset, &timerpoll, sizeof(timerpoll));
+  // offset += sizeof(timerpoll);
+  // memcpy(buffer + offset, &timersent, sizeof(timersent));
+  // offset += sizeof(timersent);
+  // memcpy(buffer + offset, &timerino, sizeof(timerino));
+  // offset += sizeof(timerino);
+
+  // // Envoi des données encodées sur le port série
+  // Serial.write(buffer, sizeof(buffer));
 }
 
 void newDevice(DW1000Device *device) {

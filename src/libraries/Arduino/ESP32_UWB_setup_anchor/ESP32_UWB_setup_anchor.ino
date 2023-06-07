@@ -12,7 +12,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-int selected_anchor = 82;
+int selected_anchor = 80;
 String str_display = "";
 String  anchorAddress = "";
 char ANCHOR_ADD[24];
@@ -166,7 +166,6 @@ void newRange()
 
 
   // static DW1000Device *myDistantDevice = DW1000Ranging.getDistantDevice();
-  // static DW1000Device *myDistantDevice = DW1000Ranging.getDistantDevice();
 
   // 	// asymmetric two-way ranging (more computation intense, less error prone)
 	// DW1000Time round1 = (myDistantDevice->timePollAckReceived-myDistantDevice->timePollSent).wrap();
@@ -190,7 +189,7 @@ void newRange()
 	// Serial.print("timePollAckReceived ");myDistantDevice->timePollAckReceived.print();
 	// Serial.print("reply2 "); Serial.println((long)reply2.getTimestamp());
 
-  // /* Values that can be sent in binary */
+  // // /* Values that can be sent in binary */
   // static DW1000Device *myDistantDevice = DW1000Ranging.getDistantDevice();
   // uint16_t shortAddress = myDistantDevice->getShortAddress();
   // int range = (int)(myDistantDevice->getRange() * 100);

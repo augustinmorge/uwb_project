@@ -89,9 +89,9 @@ if __name__ == "__main__":
     # Ouvrir une connexion série sur le port COM8
     import datetime
     import os
-    print("Opening COM8")
-    ser = serial.Serial('COM8', 115200)
-    print("COM8 opened")
+    print("Opening COM4")
+    ser = serial.Serial('COM4', 115200)
+    print("COM4 opened")
     logging = 1
     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
     date_str = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S")

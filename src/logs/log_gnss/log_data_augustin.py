@@ -88,21 +88,25 @@ if __name__ == "__main__":
     for key in data.keys():
         if key != 'dtype':
             matrix = data[key]
+
+            #Rognage
+            matrix = matrix[matrix.shape[0]//2:]
+
             iterations = np.arange(matrix.shape[0])
 
             # Calculer et afficher la valeur moyenne
             mean_value = np.mean(matrix)
             print(f"Mean value of {key}: {mean_value}")
 
-            # # Étiquettes des axes et titre du graphique
-            # plt.figure()
-            # plt.plot(iterations, matrix)
-            # plt.xlabel("Iterations")
-            # plt.ylabel("Matrix Value")
-            # plt.title(f"Graph of {key}")
+            # Étiquettes des axes et titre du graphique
+            plt.figure()
+            plt.plot(iterations, matrix)
+            plt.xlabel("Iterations")
+            plt.ylabel("Matrix Value")
+            plt.title(f"Graph of {key}")
 
-    # # Afficher le graphique
-    # plt.show()
+    # Afficher le graphique
+    plt.show()
 
     import simplekml
 

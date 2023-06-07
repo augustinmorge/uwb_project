@@ -10,8 +10,10 @@ THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 # data = np.genfromtxt(f'{THIS_FOLDER}/17_05_2023_15_35_29_log-all-with-time.csv', delimiter=';', skip_header=1, dtype='str')
 # data = np.genfromtxt(f'{THIS_FOLDER}/26_05_2023_17_20_07_log-all-with-time.csv', delimiter=';', skip_header=1)
 
-filename = 'anchor/30_05_2023_17_07_35_log-all-with-time.csv'
-data = np.genfromtxt(f'{THIS_FOLDER}/{filename}', delimiter=';', skip_header=1)
+# filename = f'{THIS_FOLDER}/anchor/30_05_2023_17_07_35_log-all-with-time.csv'
+filename = f'{THIS_FOLDER}/anchor/05_06_2023_11_58_37_log-all-with-time.csv'
+
+data = np.genfromtxt(f'{filename}', delimiter=';', skip_header=1)
 # data = np.genfromtxt(f'{THIS_FOLDER}/30_05_2023_17_07_39_log-all-with-time.csv', delimiter=';', skip_header=1)
 
 # Extraire les colonnes pertinentes
@@ -45,13 +47,13 @@ timePollAckReceived = data[:,9].astype(float)*10**(-6)
 timeRangeSent = data[:,10].astype(float)*10**(-6)
 timeRangeReceived = data[:,11].astype(float)*10**(-6)
 
-# print(f"Shape of timeINO: {timeINO.shape}")
-# print(f"Shape of timePollSent: {timePollSent.shape}")
-# print(f"Shape of timePollReceived: {timePollReceived.shape}")
-# print(f"Shape of timePollAckSent: {timePollAckSent.shape}")
-# print(f"Shape of timePollAckReceived: {timePollAckReceived.shape}")
-# print(f"Shape of timeRangeSent: {timeRangeSent.shape}")
-# print(f"Shape of timeRangeReceived: {timeRangeReceived.shape}")
+print(f"Shape of timeINO: {timeINO.shape}")
+print(f"Shape of timePollSent: {timePollSent.shape}")
+print(f"Shape of timePollReceived: {timePollReceived.shape}")
+print(f"Shape of timePollAckSent: {timePollAckSent.shape}")
+print(f"Shape of timePollAckReceived: {timePollAckReceived.shape}")
+print(f"Shape of timeRangeSent: {timeRangeSent.shape}")
+print(f"Shape of timeRangeReceived: {timeRangeReceived.shape}")
 
 
 ######################### SAWTOOTH-1 #########################
@@ -61,61 +63,28 @@ timeoverflow = 1099511627776
 timeres = 0.000015650040064103
 offset = (timestamp % timeoverflow) * timeres * 10 ** (-6)
 
-k = 0
-newtimeINO = np.zeros(timeINO.shape)
-newtimeINO[0] = timeINO[0]
-for i in range(1, timeINO.shape[0]):
-    if timeINO[i] < timeINO[i - 1]:
-        k += 1
-    newtimeINO[i] = (k * offset + timeINO[i])
+def adjust_time_array(time_array):
+    k = 0
+    new_time_array = np.zeros(time_array.shape)
+    new_time_array[0] = time_array[0]
 
-k = 0
-newtimePollSent = np.zeros(timePollSent.shape)
-newtimePollSent[0] = timePollSent[0]
-for i in range(1, timePollSent.shape[0]):
-    if timePollSent[i] < timePollSent[i - 1]:
-        k += 1
-    newtimePollSent[i] = (k * offset + timePollSent[i])
+    for i in range(1, time_array.shape[0]):
+        if time_array[i] < time_array[i - 1]:
+            k += 1
+        new_time_array[i] = (k * offset + time_array[i])
 
-k = 0
-newtimePollReceived = np.zeros(timePollReceived.shape)
-newtimePollReceived[0] = timePollReceived[0]
-for i in range(1, timePollReceived.shape[0]):
-    if timePollReceived[i] < timePollReceived[i - 1]:
-        k += 1
-    newtimePollReceived[i] = (k * offset + timePollReceived[i])
+    # new_time_array = np.cumsum((time_array < np.roll(time_array, 1)).astype(int) * offset) + time_array
 
-k = 0
-newtimePollAckSent = np.zeros(timePollAckSent.shape)
-newtimePollAckSent[0] = timePollAckSent[0]
-for i in range(1, timePollAckSent.shape[0]):
-    if timePollAckSent[i] < timePollAckSent[i - 1]:
-        k += 1
-    newtimePollAckSent[i] = (k * offset + timePollAckSent[i])
+    return new_time_array
 
-k = 0
-newtimePollAckReceived = np.zeros(timePollAckReceived.shape)
-newtimePollAckReceived[0] = timePollAckReceived[0]
-for i in range(1, timePollAckReceived.shape[0]):
-    if timePollAckReceived[i] < timePollAckReceived[i - 1]:
-        k += 1
-    newtimePollAckReceived[i] = (k * offset + timePollAckReceived[i])
+newtimeINO = adjust_time_array(timeINO)
+newtimePollSent = adjust_time_array(timePollSent)
+newtimePollReceived = adjust_time_array(timePollReceived)
+newtimePollAckSent = adjust_time_array(timePollAckSent)
+newtimePollAckReceived = adjust_time_array(timePollAckReceived)
+newtimeRangeSent = adjust_time_array(timeRangeSent)
+newtimeRangeReceived = adjust_time_array(timeRangeReceived)
 
-k = 0
-newtimeRangeSent = np.zeros(timeRangeSent.shape)
-newtimeRangeSent[0] = timeRangeSent[0]
-for i in range(1, timeRangeSent.shape[0]):
-    if timeRangeSent[i] < timeRangeSent[i - 1]:
-        k += 1
-    newtimeRangeSent[i] = (k * offset + timeRangeSent[i])
-
-k = 0
-newtimeRangeReceived = np.zeros(timeRangeReceived.shape)
-newtimeRangeReceived[0] = timeRangeReceived[0]
-for i in range(1, timeRangeReceived.shape[0]):
-    if timeRangeReceived[i] < timeRangeReceived[i - 1]:
-        k += 1
-    newtimeRangeReceived[i] = (k * offset + timeRangeReceived[i])
 
 print(f"Shape of newtimeINO: {newtimeINO.shape}")
 print(f"Shape of newtimePollSent: {newtimePollSent.shape}")
@@ -139,9 +108,14 @@ def plot_polynomial_regression(ax, x, y, degrees, label = ""):
     ax.legend(loc='upper left')
 
 
+def wrap(time):
+    for i in range(time.shape[0]):
+        if time[i] < 0:
+            time[i] += offset
+    return time
 
 ######################### ROGNAGE #########################
-idx_start = np.where(timeINO/3600 >= 1)[0][0] #1 #151720
+idx_start = np.where(timeINO/3600 >= 0.5)[0][0] #1 #151720
 idx_end = -1000 # np.where(timeINO/3600 >= 4)[0][0] #-1 #151750
 
 timeINO = timeINO[idx_start:idx_end]
@@ -152,13 +126,13 @@ newtimePollAckSent = newtimePollAckSent[idx_start:idx_end]
 newtimePollAckReceived = newtimePollAckReceived[idx_start:idx_end]
 newtimeRangeReceived = newtimeRangeReceived[idx_start:idx_end]
 
-print(f"Shape of newtimePollSent: {newtimePollSent.shape}")
-print(f"Shape of newtimeRangeSent: {newtimeRangeSent.shape}")
-print(f"Shape of timeINO: {timeINO.shape}")
-print(f"Shape of timePollReceived: {timePollReceived.shape}")
-print(f"Shape of timePollAckSent: {timePollAckSent.shape}")
-print(f"Shape of timePollAckReceived: {timePollAckReceived.shape}")
-print(f"Shape of timeRangeReceived: {timeRangeReceived.shape}")
+# print(f"Shape of newtimePollSent: {newtimePollSent.shape}")
+# print(f"Shape of newtimeRangeSent: {newtimeRangeSent.shape}")
+# print(f"Shape of timeINO: {timeINO.shape}")
+# print(f"Shape of timePollReceived: {timePollReceived.shape}")
+# print(f"Shape of timePollAckSent: {timePollAckSent.shape}")
+# print(f"Shape of timePollAckReceived: {timePollAckReceived.shape}")
+# print(f"Shape of timeRangeReceived: {timeRangeReceived.shape}")
 
 it = np.arange(newtimeRangeSent.shape[0])
 it_ino = np.arange(timeINO.shape[0])
@@ -181,6 +155,7 @@ ax.set_xlabel("it")
 ax.set_ylabel("time [s]")
 plot_polynomial_regression(ax, it, newtimeRangeSent,[1],"newtimeRangeSent")
 plot_polynomial_regression(ax, it, newtimePollSent,[1],"newtimePollSent")
+plot_polynomial_regression(ax, it, newtimeRangeReceived,[1],"newtimeRangeReceived")
 plot_polynomial_regression(ax, it_ino, timeINO,[1],"timeINO")
 ax.set_xlabel("it")
 ax.set_ylabel("time [s]")
@@ -193,9 +168,9 @@ timeINODiff = np.diff(timeINO)
 timePollDiff = np.diff(newtimeRangeSent)
 
 # Pour afficher les transformées de dents de scie à linéaire
-display_tf = 0
+display_tf = 1
 display_diff = 0
-display_rest = 1
+display_rest = 0
 
 if display_tf:
     #Affiche les valeurs d'envoie et de reception en secondes
@@ -268,8 +243,123 @@ if display_rest:
     plt.ylabel("time [s]")
     plt.scatter(it[1:], np.diff(timeINO - newtimeRangeSent), s = 1)
 
+    # fig,ax = plt.subplots()
+    # plot_polynomial_regression(ax, it, timeINO - newtimeRangeSent,[1],"diff(timeINO - timeRangeSent)")
+    # plt.show()
 
 
-    fig,ax = plt.subplots()
-    plot_polynomial_regression(ax, it, timeINO - newtimeRangeSent,[1],"diff(timeINO - timeRangeSent)")
-    plt.show()
+
+# Données des variables
+time_diffs_1 = [
+    newtimePollReceived - newtimePollSent,
+    newtimePollAckSent - newtimePollSent,
+    newtimePollAckReceived - newtimePollSent,
+    newtimeRangeSent - newtimePollSent,
+    newtimeRangeReceived - newtimePollSent,
+    ((newtimeRangeReceived - newtimePollAckSent) + (newtimePollReceived - newtimePollSent)) - (newtimeRangeSent - newtimePollSent),
+]
+
+from display_long_log import load_data
+_, dist, ids, _, _, _, _, _ = load_data(filename)
+dist = dist #[idx_start:idx_end]
+# dist = dist[ids == np.unique(names)[0]]
+round1 = (timePollAckReceived-timePollSent) #[idx_start:idx_end]
+reply1 = (timePollAckSent-timePollReceived) #[idx_start:idx_end]
+round2 = (timeRangeReceived-timePollAckSent) #[idx_start:idx_end]
+reply2 = (timeRangeSent-timePollAckReceived) #[idx_start:idx_end]
+tof = (round1*round2-reply1*reply2)/(round1+round2+reply1+reply2)
+full_it = np.arange(0,timePollSent.shape[0],1)
+
+
+time_diffs_2 = [
+    # round1,
+    # reply1,
+    # round2,
+    # reply2,
+    # tof,
+    # dist,
+    # timeRangeReceived - timeRangeSent,
+
+    wrap(timePollReceived - timePollSent),
+    wrap(timePollAckSent - timePollSent),
+    wrap(timePollAckReceived - timePollSent),
+    wrap(timeRangeSent - timePollSent),
+    wrap(timeRangeReceived - timePollSent),
+    wrap(timeRangeReceived - timeRangeSent),
+
+    # newtimePollReceived - timeINO,
+    # newtimePollAckSent - timeINO,
+    # newtimePollAckReceived - timeINO,
+    # newtimeRangeSent - timeINO,
+    # newtimeRangeReceived - timeINO,
+    # (newtimeRangeSent - timeINO) + (newtimePollSent - timeINO),
+    # np.zeros((newtimeRangeReceived - timeINO).shape),
+]
+
+round1 = wrap(round1)
+reply1 = wrap(reply1)
+round2 = wrap(round2)
+reply2 = wrap(reply2)
+tof = (round1*round2-reply1*reply2)/(round1+round2+reply1+reply2)
+
+time_diffs_3 = [
+
+    wrap(timePollReceived - timePollReceived),
+    wrap(timePollAckSent - timePollReceived),
+    wrap(timePollAckReceived - timePollReceived),
+    wrap(timeRangeSent - timePollReceived),
+    wrap(timeRangeReceived - timePollReceived),
+    wrap(timeRangeReceived - timeRangeSent),
+
+    # round1,
+    # reply1,
+    # round2,
+    # reply2,
+    # tof,
+    # dist,
+
+    # timePollSent,
+    # timePollReceived,
+    # timePollAckSent,
+    # timePollAckReceived,
+    # timeRangeSent,
+    # timeRangeReceived,
+]
+
+print(f"max timePollSent : {np.max(timePollSent)}")
+print(f"max timePollReceived : {np.max(timePollReceived)}")
+print(f"max timePollAckSent : {np.max(timePollAckSent)}")
+print(f"max timePollAckReceived : {np.max(timePollAckReceived)}")
+print(f"max timeRangeSent : {np.max(timeRangeSent)}")
+print(f"max timeRangeReceived : {np.max(timeRangeReceived)}")
+
+
+# Titres et labels
+variable_names = [
+    "newtimePollReceived",
+    "newtimePollAckSent",
+    "newtimePollAckReceived",
+    "newtimeRangeSent",
+    "newtimeRangeReceived",
+    "Test"
+]
+
+fig, axs = plt.subplots(len(time_diffs_1), 3, figsize=(12, 15))
+axs[0, 0].set_title("Plot de X - newtimePollSent")
+axs[0, 1].set_title("Plot de X - timeINO")
+axs[-1,0].set_xlabel("iteration")
+axs[-1,1].set_xlabel("iteration")
+# Tracer les sous-graphiques
+for i in range(len(time_diffs_1)):
+    axs[i, 0].plot(it, time_diffs_1[i])
+    axs[i, 1].plot(full_it, time_diffs_2[i])
+    axs[i, 2].plot(full_it, time_diffs_3[i])
+    axs[i, 0].set_ylabel(f"X = {variable_names[i]} [s]")
+
+plt.tight_layout()
+# plt.show()
+
+plt.figure()
+plt.scatter(it, (newtimeRangeSent - newtimePollSent), s = 1)
+print(np.mean((newtimeRangeSent - newtimePollSent)))
+plt.show()
