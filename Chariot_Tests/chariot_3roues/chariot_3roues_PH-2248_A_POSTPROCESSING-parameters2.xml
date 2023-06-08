@@ -1,0 +1,48 @@
+<?xml version="1.0" standalone="yes"?>
+<postproInsParameters>
+	<inputFile path=".\chariot_3roues_PH-2248_A_POSTPROCESSING-ins.xpf" id="file01" timeOffset="0.000000"/>
+	<outputFile id="output" path=".\chariot_3roues_PH-2248_A_POSTPROCESSING-replay.xpf"/>
+	<ins>
+		<roughMisalignment>front-left-top</roughMisalignment>
+		<fineMisalignment heading="0" roll="0" pitch="0"/>
+		<dataSource path="file01.IMU"/>
+	</ins>
+	<rangeMeter label="lbl" enabled="yes">
+		<dataSource path="file01.LBL"/>
+		<leverArm xv1="0.08" xv2="0.62" xv3="1.333"/>
+		<beacons>
+			<beacon id="6016" latitude="48.89999" longitude="2.06461253333333" depth="-91.414" enabled="yes"/>
+			<beacon id="6017" latitude="48.90015495" longitude="2.0647127" depth="-92.696" enabled="yes"/>
+			<beacon id="6018" latitude="48.90029995" longitude="2.06427743333333" depth="-92.256" enabled="yes"/>
+			<beacon id="6019" latitude="48.90028495" longitude="2.06396076666667" depth="-92.203" enabled="yes"/>
+		</beacons>
+	</rangeMeter>
+	<insProcessing algorithm="basic" processingMode="navigation" initialDirection="forward" system="airborne" gnssQualityFilter="62" outOfStraightness="false">
+		<initialConditions>
+			<position mode="user-defined">
+				<latitude>48.90000934000</latitude>
+				<longitude>2.06413416000</longitude>
+				<altitude>94.870000</altitude>
+			</position>
+		</initialConditions>
+		<positionPriority mode="none"/>
+	</insProcessing>
+	<vehicleModels>
+		<virtualSensorsConfig>
+			<alZupt>
+				<leverArm xv1="0" xv2="0" xv3="0"/>
+			</alZupt>
+		</virtualSensorsConfig>
+	</vehicleModels>
+	<output label="primary" userSpeed="true" heave="off" altitudeReference="geoid">
+		<leverArm xv1="0" xv2="0" xv3="0"/>
+		<misalignment heading="0" roll="0" pitch="0"/>
+		<rate value="1" synchro="utc"/>
+	</output>
+	<advancedParameters/>
+
+	<advancedOutputs enabled="true">
+		<output name="RANGE_KAL_MEAS" enabled="true"/>
+	</advancedOutputs>
+	
+</postproInsParameters>

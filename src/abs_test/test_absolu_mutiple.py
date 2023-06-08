@@ -131,9 +131,9 @@ if doing_test:
 else:
     filenames = []
     # filenames = [f"{THIS_FOLDER}/udp/2023_04_27_14_17_12_Test_multiple_points.csv"]
-    filenames = [f"{THIS_FOLDER}/udp/2023_05_02_15_09_14_Test_multiple_points.csv"]
+    # filenames = [f"{THIS_FOLDER}/udp/2023_05_02_15_09_14_Test_multiple_points.csv"]
     # filenames = [f"{THIS_FOLDER}/udp/2023_05_03_16_12_38_Test_multiple_points.csv"]
-    # filenames = [f"{THIS_FOLDER}/serial/2023_05_03_16_12_38_Serial_Test_multiple_points.csv"] 
+    filenames = [f"{THIS_FOLDER}/serial/2023_05_03_16_12_38_Serial_Test_multiple_points.csv"] 
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_42_31_Serial_Test_multiple_points.csv"] #Proche de la première ancre 2023_05_03_16_12_38_Serial_Test_multiple_points
     # filenames = [f"{THIS_FOLDER}/serial/2023_05_09_15_55_34_Serial_Test_multiple_points.csv"] #Loin de la première ancre
     # filenames = [f"{THIS_FOLDER}/serial/Fusion_0509.csv"] #Fusion
@@ -210,8 +210,8 @@ else:
             for j in range(2):
                 ax = axs[i,j]
                 idx = 2*i + j
-                ax.set_xlabel("Distance (m)")
-                ax.set_ylabel("Measured Range (m)")
+                ax.set_ylabel("Distance (m)")
+                ax.set_xlabel("Measured Range (m)")
                 ax.set_title("Anchor n°{}".format(80 + idx))
                 ax.set_xlim([0, int(np.max(D)+5)])
                 ax.set_ylim([0, int(np.max(D)+5)])

@@ -1,0 +1,218 @@
+<html><head>
+<META http-equiv="Content-Type" content="text/html">
+<title>INS configuration log</title><style type="text/css"> 
+body
+{
+	font-family: Sans-Serif;
+	font-size: 10pt;
+}
+.main-title
+{
+	color: #646464;
+	font-size: 16pt;
+	font-weight: bold;
+}
+h1
+{
+	color: #005192;
+	font-size: 14pt;
+	font-weight: bold;
+    cursor:pointer;
+}
+h2
+{
+	color: #005192;
+	font-size: 12pt;
+	font-weight: bold;
+    cursor:pointer;
+}
+h3
+{
+	color: #005192;
+	font-size: 11pt;
+	font-weight: bold;
+    cursor:pointer;
+}
+h4
+{
+	color: #005192;
+	font-size: 10pt;
+	font-weight: bold;
+    cursor:pointer;
+}
+table
+{
+	font-size: 10pt;
+	border-collapse: collapse;
+}
+th.sensor
+{
+	background-color:#005192;
+	color:white;
+	padding-left:1em;
+	padding-right:1em;
+}
+td.sensor
+{
+	padding-left:1em;
+	padding-right:1em;
+	border-bottom-style:solid;
+	border-bottom-width:1;
+	border-bottom-color:#005192;
+}
+.added
+{
+	color: green;
+}
+.changed
+{
+	color: blue;
+}
+.notChanged
+{
+}
+.deleted
+{
+	color: red;
+	text-decoration: line-through;
+}
+.indent
+{
+  margin-left:1em;
+}
+ </style><script language="javascript"> 
+function P_toggle(p_O_object)
+{
+	var	l_O_div = p_O_object.nextSibling;
+
+	if (l_O_div.style.display != "none")
+	{
+		l_O_div.style.display = "none";
+	}
+	else
+	{
+		l_O_div.style.display = "block";
+	}
+}
+ </script></head><body><p class="main-title">
+					INS configuration log
+				</p><p>
+					This document is produced by processing the configuration
+					telegrams embedded in a post-processing file recorded from
+					an iXBlue INS.
+				</p><p>
+					It displays the configuration of the equipment and changes
+					made along time during the operation. The changes are highlighted
+					using the following color code:
+				</p><ul><li><span class="added">green</span> - new data added in the current configuration</li><li><span class="changed">blue</span> - data changed from the previous configuration</li><li><span class="deleted">red</span> - data deleted in the current configuration</li><li><span>black</span> - the data is identical to the previous configuration value.</li></ul><p>
+					Click on headers to expand or collapse sections.
+				</p><hr><h1 onclick="P_toggle(this)">
+			INS configuration 2023-06-06T12:54:58.288</h1><div class="indent"><h2 onclick="P_toggle(this)" class="added">
+			System identification
+		</h2><div class="indent"><table><tr><td class="added">Equipment</td><td class="changed">phins-7io</td></tr><tr><td class="added">Generation</td><td class="changed">III</td></tr><tr><td class="added">Mechanics</td><td class="changed">phins3</td></tr><tr><td class="added">Gyro</td><td class="changed">fog-120</td></tr><tr><td class="added">Accelerometer</td><td class="changed">qa-750</td></tr><tr><td class="added">Saturation mode</td><td class="changed">sea</td></tr><tr><td class="added">Embedded GNSS</td><td class="changed">none</td></tr><tr><td class="added">Vehicle dynamics</td><td class="changed">maritime</td></tr><tr><td class="added">Serial number</td><td class="changed">PH-2248</td></tr><tr><td class="">Pack number</td><td class="changed"></td></tr><tr><td class="added">Version DSP</td><td class="changed">6.60</td></tr><tr><td class="added">Version CINT</td><td class="changed">7.5</td></tr><tr><td class="added">Version Algorithm</td><td class="changed">2.25</td></tr></table></div><h2 onclick="P_toggle(this)" class="added">
+			System configuration
+		</h2><div class="indent"><table><tr><td class="added">Starting mode</td><td class="changed">immediate-run</td></tr><tr><td class="added">ZUPT mode</td><td class="changed">none</td></tr><tr><td class="added">Altitude mode</td><td class="changed">none</td></tr><tr><td class="added">Heave mode</td><td class="changed">slight</td></tr><tr><td class="added">Rough misalignment</td><td class="changed">front-left-top</td></tr><tr><td class="added">Fine misalignment (heading, roll, pitch)
+			</td><td>
+				[<span class="changed">0</span>,
+				<span class="changed">0</span>,
+				<span class="changed">0</span>]
+			</td></tr><tr><td class="added">Primary lever arm [xv1, xv2, xv3]
+			</td><td>
+				[<span class="changed">0</span>,
+				<span class="changed">0</span>,
+				<span class="changed">0</span>]
+			</td></tr><tr><td class="added">Secondary-A lever arm [xv1, xv2, xv3]
+			</td><td>
+				[<span class="changed">0</span>,
+				<span class="changed">0</span>,
+				<span class="changed">0</span>]
+			</td></tr><tr><td class="added">Secondary-B lever arm [xv1, xv2, xv3]
+			</td><td>
+				[<span class="changed">0</span>,
+				<span class="changed">0</span>,
+				<span class="changed">0</span>]
+			</td></tr><tr><td class="added">Secondary-C lever arm [xv1, xv2, xv3]
+			</td><td>
+				[<span class="changed">0</span>,
+				<span class="changed">0</span>,
+				<span class="changed">0</span>]
+			</td></tr><tr><td class="added">Center of gravity lever arm [xv1, xv2, xv3]
+			</td><td>
+				[<span class="changed">0</span>,
+				<span class="changed">0</span>,
+				<span class="changed">0</span>]
+			</td></tr></table><h3 onclick="P_toggle(this)" class="added">
+			Current Modeling
+		</h3><div class="indent"><table><tr><td class="added">Amplitude</td><td class="changed">1</td></tr><tr><td class="added">Time</td><td class="changed">10800</td></tr></table></div><h3 onclick="P_toggle(this)" class="added">
+			Initial position
+		</h3><div class="indent"><table><tr><td class="added">Latitude</td><td class="changed">48.899100171402</td></tr><tr><td class="added">Longitude</td><td class="changed">2.063501765952</td></tr><tr><td class="added">Altitude</td><td class="changed">0.000</td></tr></table></div></div><h2 onclick="P_toggle(this)">
+				Aiding sensors
+			</h2><div class="indent"><table class="sensor"><tr class="sensor"><th class="sensor">Type</th><th class="sensor">id</th><th class="sensor">Data received</th><th class="sensor">Lever arm<br>(XV1, XV2, XV3)</th><th class="sensor">Misalignment<br>(heading, roll, pitch)</th><th class="sensor">Scale factor</th><th class="sensor">Transponder id</th></tr><tr class="sensor"><td class="sensor"><span class="added">gps</span></td><td class="sensor">1</td><td class="sensor"><span class="changed">yes</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"></td><td class="sensor"></td><td class="sensor"></td></tr><tr class="sensor"><td class="sensor"><span class="added">gps</span></td><td class="sensor">2</td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"></td><td class="sensor"></td><td class="sensor"></td></tr><tr class="sensor"><td class="sensor"><span class="added">gps</span></td><td class="sensor">manual</td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"></td><td class="sensor"></td><td class="sensor"></td></tr><tr class="sensor"><td class="sensor"><span class="added">dvl</span></td><td class="sensor">1</td><td class="sensor">
+							Bottom track:
+							<span class="changed">no</span><br>
+							Water track:
+							<span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"><span class="changed">0.000000</span></td><td class="sensor"></td></tr><tr class="sensor"><td class="sensor"><span class="added">depth</span></td><td class="sensor"></td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"></td><td class="sensor"></td><td class="sensor"></td></tr><tr class="sensor"><td class="sensor"><span class="added">lbl</span></td><td class="sensor"></td><td class="sensor"><span class="changed">yes</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"></td><td class="sensor"></td><td class="sensor"></td></tr><tr class="sensor"><td class="sensor"><span class="added">usbl</span></td><td class="sensor">1</td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"></td><td class="sensor"></td><td class="sensor"><span class="changed"></span></td></tr><tr class="sensor"><td class="sensor"><span class="added">usbl</span></td><td class="sensor">2</td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"></td><td class="sensor"></td><td class="sensor"><span class="changed"></span></td></tr><tr class="sensor"><td class="sensor"><span class="added">usbl</span></td><td class="sensor">3</td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"></td><td class="sensor"></td><td class="sensor"><span class="changed"></span></td></tr><tr class="sensor"><td class="sensor"><span class="added">emLog</span></td><td class="sensor">1</td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"><span class="changed">0.000000</span></td><td class="sensor"></td></tr><tr class="sensor"><td class="sensor"><span class="added">emLog</span></td><td class="sensor">2</td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"><span class="changed">0.000000</span></td><td class="sensor"></td></tr><tr class="sensor"><td class="sensor"><span class="added">dmi</span></td><td class="sensor"></td><td class="sensor"><span class="changed">no</span></td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor">
+							[<span class="changed">0</span>,
+							<span class="changed">0</span>,
+							<span class="changed">0</span>]
+						</td><td class="sensor"><span class="changed">0.000000</span></td><td class="sensor"></td></tr></table></div></div></body></html>
