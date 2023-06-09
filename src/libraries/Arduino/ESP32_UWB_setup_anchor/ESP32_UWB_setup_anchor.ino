@@ -12,7 +12,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-int selected_anchor = 80;
+int selected_anchor = 82;
 String str_display = "";
 String  anchorAddress = "";
 char ANCHOR_ADD[24];
@@ -42,7 +42,8 @@ void starting_parameters(){
       // Adelay = 16520;
       // Adelay = 16535;
       // Adelay = 16529.41;
-      Adelay = 16569; //at 13m
+      // Adelay = 16569; //at 13m
+      Adelay = 16573.3975; //at 12.105m avec 8 valeurs de 100 distances en moyenne (autocalib)
       str_display =  "UWB Anchor 80 ";
       break;
     case 81:
@@ -52,7 +53,8 @@ void starting_parameters(){
       // Adelay = 16550;
       // Adelay = 16535.48;
       // Adelay = 16530;
-      Adelay = 16585.16; //at 13m
+      // Adelay = 16585.16; //at 13m
+      Adelay = 16567; //at 12.10m outside
       str_display =  "UWB Anchor 81 ";
       break;
     case 82:
@@ -61,7 +63,8 @@ void starting_parameters(){
       // Adelay = 16445;
       // Adelay = 16550; //16549.71;
       // Adelay = 16602;
-      Adelay = 16585; //at 13m
+      // Adelay = 16586.487; //at 13m7
+      Adelay = 16578.01; //outside 
       str_display =  "UWB Anchor 82 ";
       break;
     case 83:
@@ -70,7 +73,8 @@ void starting_parameters(){
       // Adelay = 16505;
       // Adelay = 16540;
       // Adelay = 16533; //16532.50;
-      Adelay = 16572; //at 13m
+      // Adelay = 16572; //at 13m
+      Adelay = 16555; //outside
       str_display =  "UWB Anchor 83 ";
       break;
     default:
