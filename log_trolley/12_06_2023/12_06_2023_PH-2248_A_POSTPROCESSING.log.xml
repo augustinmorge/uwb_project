@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="yes"?>
+<postproDecodeLog>
+	<log>
+		<info type="ins">IMU data frequency is 100 Hz.</info>
+		<info type="ins">INS generation III detected.</info>
+		<info type="ins">INS equipment type is PHINS-7IO.</info>
+		<info type="ins">INS synchronization method is 'time only'.</info>
+		<info type="ins">the drift of the INS clock will not be compensated.</info>
+		<info type="ins">the LBL beacon id 6019 is assigned to the transponder code '6019'.</info>
+		<info type="ins">the LBL beacon id 6016 is assigned to the transponder code '6016'.</info>
+		<info type="ins">the LBL beacon id 6018 is assigned to the transponder code '6018'.</info>
+		<warning type="ins">duplicated telegram date in channel LBL, the packet will be skipped.</warning>
+		<info type="ins">the LBL beacon id 6017 is assigned to the transponder code '6017'.</info>
+	</log>
+	<inputFile path="C:\Users\augustin.morge\Documents\uwb_project\log_trolley\12_06_2023\12_06_2023_PH-2248_A_POSTPROCESSING.log"/>
+	<ins data="C:\Users\augustin.morge\Documents\uwb_project\log_trolley\12_06_2023\12_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf" conf="C:\Users\augustin.morge\Documents\uwb_project\log_trolley\12_06_2023\12_06_2023_PH-2248_A_POSTPROCESSING-ins.conf.xml" from="2023-06-12T12:52:10.196" to="2023-06-12T13:21:54.458"/>
+	<result>success</result>
+</postproDecodeLog>

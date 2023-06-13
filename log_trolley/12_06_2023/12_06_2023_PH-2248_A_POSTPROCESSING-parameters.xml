@@ -1,0 +1,51 @@
+<?xml version="1.0" standalone="yes"?>
+<postproInsParameters>
+	<inputFile path=".\12_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf" id="file01" timeOffset="0.000000"/>
+	<outputFile id="output" path=".\12_06_2023_PH-2248_A_POSTPROCESSING-replay.xpf"/>
+	<ins>
+		<roughMisalignment>front-left-top</roughMisalignment>
+		<fineMisalignment heading="0" roll="0" pitch="0"/>
+		<dataSource path="file01.IMU"/>
+	</ins>
+	<gps label="gps1" enabled="yes">
+		<leverArm xv1="-0.492" xv2="0.169" xv3="0.728"/>
+		<operatingMode mode="on"/>
+		<operatingMode from="30" mode="on"/>
+	</gps>
+	<rangeMeter label="lbl" enabled="yes">
+		<dataSource path="file01.LBL"/>
+		<leverArm xv1="0.08" xv2="0.211" xv3="1.183"/>
+		<operatingMode mode="off"/>
+		<operatingMode from="1200" mode="off"/>
+		<userSd mode="fixed" value="0.1"/>
+		<beacons>
+			<beacon id="6016" latitude="48.8999149833333" longitude="2.06481596666667" depth="-93.721" enabled="yes"/>
+			<beacon id="6017" latitude="48.8998382833333" longitude="2.06539498333333" depth="-93.446" enabled="yes"/>
+			<beacon id="6018" latitude="48.9003583" longitude="2.06422018333333" depth="-93.063" enabled="yes"/>
+			<beacon id="6019" latitude="48.9002516" longitude="2.06391273333333" depth="-93.205" enabled="yes"/>
+		</beacons>
+	</rangeMeter>
+	<insProcessing algorithm="basic" processingMode="navigation" initialDirection="forward" system="maritime" gnssQualityFilter="62" outOfStraightness="false">
+		<initialConditions>
+			<position mode="automatic"/>
+		</initialConditions>
+		<positionPriority mode="none"/>
+	</insProcessing>
+	<vehicleModels>
+		<virtualSensorsConfig>
+			<alZupt>
+				<leverArm xv1="0" xv2="0" xv3="0"/>
+			</alZupt>
+		</virtualSensorsConfig>
+	</vehicleModels>
+	<output label="primary" userSpeed="true" heave="off" altitudeReference="geoid">
+		<leverArm xv1="0" xv2="0" xv3="0"/>
+		<misalignment heading="0" roll="0" pitch="0"/>
+		<rate value="1" synchro="utc"/>
+	</output>
+	<advancedParameters/>
+<advancedOutputs enabled="true"> 
+   <output name="RANGE_KAL_MEAS" enabled="true"/> 
+   <output name="POS_KAL_MEAS" enabled="true"/> 
+</advancedOutputs> 
+</postproInsParameters> 

@@ -10,13 +10,13 @@
 	<gps label="gps1" enabled="yes">
 		<leverArm xv1="-0.55" xv2="0.174" xv3="0.521"/>
 		<operatingMode to="600" mode="on"/>
-		<operatingMode from="600" mode="off"/>
+		<operatingMode from="600" mode="on"/>
 	</gps>
 	<rangeMeter label="lbl" enabled="yes">
 		<dataSource path="file01.LBL"/>
 		<leverArm xv1="0.08" xv2="0.62" xv3="1.333"/>
-		<operatingMode to="600" mode="off"/>
-		<operatingMode from="600" mode="on"/>
+		<operatingMode mode="off"/>
+		<operatingMode from="180" mode="off"/>
 		<beacons>
 			<beacon id="6016" latitude="48.89999" longitude="2.06461253333333" depth="-91.414" enabled="yes"/>
 			<beacon id="6017" latitude="48.90015495" longitude="2.0647127" depth="-92.696" enabled="yes"/>
@@ -32,18 +32,9 @@
 				<altitude>94.870000</altitude>
 			</position>
 		</initialConditions>
+		<altitudeMode mode="gps"/>
 		<positionPriority mode="none"/>
 	</insProcessing>
-	<gnssProcessing enabled="true" outputGnssPvt="false" ixgnss="true" ppp="false">
-		<rover path=".\chariot.obs">
-			<antenna/>
-		</rover>
-		<elevationMask>10</elevationMask>
-		<commands continueOnErrors="false"># This file can be used to store the additionnal commands that must be sent to the
-# GNSS post-processing engine.</commands>
-		<constellations names="GPS;GLONASS;GALILEO;BEIDOU;"/>
-		<ephemeris path=".\Rinex\COD22652.EPH_P"/>
-	</gnssProcessing>
 	<vehicleModels>
 		<virtualSensorsConfig>
 			<alZupt>
@@ -57,11 +48,8 @@
 		<rate value="1" synchro="utc"/>
 	</output>
 	<advancedParameters/>
-
-
-	<advancedOutputs enabled="true">
-		<output name="RANGE_KAL_MEAS" enabled="true"/>
-		<output name="POS_KAL_MEAS" enabled="true"/>
-	</advancedOutputs>
-	
-</postproInsParameters>
+<advancedOutputs enabled="true"> 
+   <output name="RANGE_KAL_MEAS" enabled="true"/> 
+   <output name="POS_KAL_MEAS" enabled="true"/> 
+</advancedOutputs> 
+</postproInsParameters> 

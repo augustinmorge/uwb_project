@@ -66,39 +66,53 @@ void get_geoloc(int beacon_id, double &longitude, double &latitude, double &dept
   std::string beacon_id_hex = converter.str();
 
   float alt_received = -0.0; //Given by the INS in real time (?)
-  float alt_gnss = -0.987;
-  float alt_uwb = -1.738;
-  float alt_tag = -1.606;
-  float offset = -(alt_uwb - alt_gnss); // - (alt_tag - alt_gnss); //La difference d'altitude entre l'antenne GNSS et l'antenne UWB
+  // float alt_gnss = -0.987;
+  float alt_gnss = 0.177;
+  float alt_uwb = 1.738;
+  float red_b = 0.85;
+  // float alt_tag = -1.606;
+  float offset = alt_uwb - alt_gnss; // - (alt_tag - alt_gnss); //La difference d'altitude entre l'antenne GNSS et l'antenne UWB
 
   if (beacon_id_hex == "1780") {
-    latitude = 48.89999011267607;
-    longitude = 2.0646126197183103;
-    depth = -92.16549295774645 + offset; // depth in- meters
+    // latitude = 48.89999011267607;
+    // longitude = 2.0646126197183103;
+    // depth = -92.16549295774645 + offset; // depth in- meters
+    latitude = 48.899915;
+    longitude = 2.064816;
+    depth = - (93.01 + (offset - red_b));
     lat_hem = (latitude > 0) ? 'N' : 'S';
     lon_hem = (longitude > 0) ? 'E' : 'W';
   }
 
   if (beacon_id_hex == "1781") {
-    latitude = 48.90015534513275;
-    longitude = 2.0647127433628314;
-    depth = -93.44716814159293 + offset; // depth in- meters
+    // latitude = 48.90015534513275;
+    // longitude = 2.0647127433628314;
+    // depth = -93.44716814159293 + offset; // depth in- meters
+    latitude = 48.899839;
+    longitude = 2.065395;
+    depth = - (91.885 + offset);
     lat_hem = (latitude > 0) ? 'N' : 'S';
     lon_hem = (longitude > 0) ? 'E' : 'W';
   }
 
   if (beacon_id_hex == "1782") {
-    latitude = 48.90029947586208;
-    longitude = 2.064277434482759;
-    depth = -93.00668965517241 + offset; // depth in- meters
+    // latitude = 48.90029947586208;
+    // longitude = 2.064277434482759;
+    // depth = -93.00668965517241 + offset; // depth in- meters
+    latitude = 48.90035918;
+    longitude = 2.06422022;
+    depth = - (91.50227848 + offset);
     lat_hem = (latitude > 0) ? 'N' : 'S';
     lon_hem = (longitude > 0) ? 'E' : 'W';
   }
 
   if (beacon_id_hex == "1783") {
-    latitude = 48.900285428571436;
-    longitude = 2.0639608333333332;
-    depth = -92.95414285714287 + offset; // depth in- meters
+    // latitude = 48.900285428571436;
+    // longitude = 2.0639608333333332;
+    // depth = -92.95414285714287 + offset; // depth in- meters
+    latitude = 48.900252;
+    longitude = 2.06391274;
+    depth = - (91.6443299 + offset);
     lat_hem = (latitude > 0) ? 'N' : 'S';
     lon_hem = (longitude > 0) ? 'E' : 'W';
   }

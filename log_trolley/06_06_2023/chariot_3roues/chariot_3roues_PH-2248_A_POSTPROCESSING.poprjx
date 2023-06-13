@@ -212,9 +212,12 @@
 		<graphic type="enum" dataFile="output" channel="lbl-sst" field="status" enum="status">
 			<title>Sensor status for 'lbl' - Status</title>
 		</graphic>
+		<graphic type="enum" dataFile="output" channel="lbl-rmb" field="status" enum="status">
+			<title>Beacons output of sensor 'lbl' - Status</title>
+		</graphic>
 	</graphicSheet>
 	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="18.000000" automaticProjection="true" mapLayer="osm">
-		<center easting="431401.160395" northing="5416733.772812" latitude="48.899750" longitude="2.063992"/>
+		<center easting="431411.266225" northing="5416774.994096" latitude="48.900121" longitude="2.064123"/>
 		<layer type="xpfTrack" visible="true" label="Navigation at 'primary' - Processing result" dataFile="output" channel="primary-nav" latitude="latitude" longitude="longitude" displayAsPoints="false">
 			<pen style="solid" color="ff4f81bd" width="3.000000"/>
 			<marker style="none" lineColor="ff4f81bd" fillColor="ff4f81bd" size="9.000000"/>
@@ -252,19 +255,42 @@
 			</group>
 		</graphic>
 		<graphic type="measure" nature="unknown" height="198">
-			<verticalScale min="-407.229347366574" max="5.84943350926731"/>
+			<verticalScale min="-3.25660808509163" max="0.564552379209774"/>
 			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1DistNInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl1DistNInnov</curve>
 			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl2DistNInnov" scaleFactor="1" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">RANGE_KAL_MEAS - lbl2DistNInnov</curve>
 			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl3DistNInnov" scaleFactor="1" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">RANGE_KAL_MEAS - lbl3DistNInnov</curve>
 			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl4DistNInnov" scaleFactor="1" color="ff8064a2" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff8064a2" markerFillColor="ff8064a2">RANGE_KAL_MEAS - lbl4DistNInnov</curve>
 		</graphic>
 		<graphic type="measure" nature="positionSd" height="150">
-			<verticalScale min="0.349636852741241" max="50.9958190917969"/>
+			<verticalScale min="4.10867296159267E-02" max="3.22582259052433"/>
 			<curve dataFile="output" channel="primary-nav" field="northingSd" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Navigation at 'primary' - Northing sd</curve>
+			<curve dataFile="output" channel="primary-nav" field="eastingSd" scaleFactor="1" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Navigation at 'primary' - Easting sd</curve>
 		</graphic>
 		<graphic type="measure" nature="unknown" height="150">
-			<verticalScale min="-57.25243078365" max="2.80995800264915"/>
+			<verticalScale min="-2.6044128255858" max="2.93656587518798"/>
 			<curve dataFile="output" channel="POS_KAL_MEAS" field="gps1LatNInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">POS_KAL_MEAS - gps1LatNInnov</curve>
+		</graphic>
+		<graphic type="enum" dataFile="output" channel="GNSS_PVT" field="gpsMode" enum="gpsMode">
+			<title>GNSS processing result - GPS mode</title>
+		</graphic>
+	</graphicSheet>
+	<graphicSheet title="time view 3" from="-0.1356" to="1009.2017" legend="right">
+		<graphic type="enum" dataFile="file01" channel="GPS_1" field="gpsMode" enum="gpsMode">
+			<title>GPS #1 - GPS mode</title>
+		</graphic>
+		<graphic type="measure" nature="positionSd" height="150">
+			<verticalScale min="-0.438500002026558" max="1.51649995148182"/>
+			<curve dataFile="file01" channel="GPS_1" field="northingSd" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">GPS #1 - Northing sd</curve>
+			<curve dataFile="file01" channel="GPS_1" field="eastingSd" scaleFactor="1" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">GPS #1 - Easting sd</curve>
+		</graphic>
+		<graphic type="measure" nature="unknown" height="203">
+			<verticalScale min="-614.636922884903" max="236.701417398224"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1DistNInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl1DistNInnov</curve>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1DistOInnov" scaleFactor="1" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">RANGE_KAL_MEAS - lbl1DistOInnov</curve>
+		</graphic>
+		<graphic type="measure" nature="distance" height="150">
+			<verticalScale min="-273.160003662109" max="314.420013427734"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1distance" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl1distance</curve>
 		</graphic>
 	</graphicSheet>
 	<ins serialNumber="PH-2248">
@@ -273,15 +299,15 @@
 		<dataSource path="file01.IMU"/>
 	</ins>
 	<gps label="gps1" location="vehicle" enabled="true">
-		<leverArm xv1="-0.55 m" xv2="0.174 m" xv3="0.521 m"/>
+		<leverArm xv1="-0.492 m" xv2="0.169 m" xv3="0.728 m"/>
 		<operatingMode to="600 s" mode="on"/>
-		<operatingMode from="600 s" mode="off"/>
+		<operatingMode from="600 s" mode="on"/>
 	</gps>
 	<rangeMeter label="lbl" location="vehicle" enabled="true">
-		<leverArm xv1="0.08 m" xv2="0.620 m" xv3="1.333 m"/>
+		<leverArm xv1="0.08 m" xv2="0.211 m" xv3="1.183 m"/>
 		<dataSource path="file01.LBL"/>
-		<operatingMode to="600 s" mode="off"/>
-		<operatingMode from="600 s" mode="on"/>
+		<operatingMode mode="off"/>
+		<operatingMode from="180 s" mode="off"/>
 		<beacons>
 			<beacon id="6016" latitude="48°53.999400 N" longitude="002°03.876752 E" depth="-91.414 m" enabled="true"/>
 			<beacon id="6017" latitude="48°54.009297 N" longitude="002°03.882762 E" depth="-92.696 m" enabled="true"/>
@@ -308,9 +334,10 @@
 		<alZupt>
 			<leverArm xv1="0.000 m" xv2="0.000 m" xv3="0.000 m"/>
 		</alZupt>
+		<altitudeMode mode="gps"/>
 		<positionPriority mode="none"/>
 	</insProcessing>
-	<gnssProcessing enabled="true" outputGnssPvt="true" ixgnss="true" ppp="false">
+	<gnssProcessing enabled="false" outputGnssPvt="true" ixgnss="true" ppp="false">
 		<rover path=".\chariot.obs">
 			<antenna/>
 		</rover>

@@ -12,7 +12,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-int selected_anchor = 82;
+int selected_anchor = 80;
 String str_display = "";
 String  anchorAddress = "";
 char ANCHOR_ADD[24];
