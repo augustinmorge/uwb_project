@@ -163,10 +163,10 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
     with contextlib.redirect_stdout(None), contextlib.suppress(ImportError):
         import qrunch
 
-    Frequency = 1 #/np.mean(np.diff(time))
+    Frequency = 1/np.mean(np.diff(time))
     T, data, std = qrunch.allan_deviation(dist,Frequency)
 
-    print(f"Frequency = {Frequency}\n")
+    print(f"Frequency = {Frequency}")
 
     sigma_bb = std[0]
     bb = sigma_bb/np.sqrt(T)
@@ -191,6 +191,7 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
     if display_quality:
         if with_all:
             fig, ax = plt.subplots(1,2)
+            fig.suptitle(f"Anchor n°{idx}")
             ax0 = ax[0]
             ax1 = ax[1]
             ax0.plot(time/3600, RX - FP, label='diff power [dbM]')
@@ -204,6 +205,9 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
             ax1.set_ylabel("ua")
             ax1.set_xlabel("time [h]")
             ax1.legend()
+
+    print(f"Mean of RX - FP = {np.mean(RX - FP)}")
+    print(f"Mean of the Quality = {np.mean(Q)}\n__________\n")
         # except:
         #     print("Nothing remains")
         
@@ -215,7 +219,8 @@ if __name__ == "__main__":
 
     # filenames = [os.path.join(THIS_FOLDER, "17_05_2023_15_35_29_log-all-with-time.csv")] #80: NLOS derriere reu; 81: NLOS contre mur imprimante; 82: Francoise; 83: Dans la salle réu
     # filenames = [os.path.join(THIS_FOLDER, "22_05_2023_12_01_12_log-all-with-time.csv")] 
-    filenames = [os.path.join(THIS_FOLDER, "26_05_2023_17_20_07_log-all-with-time.csv")] 
+    # filenames = [os.path.join(THIS_FOLDER, "26_05_2023_17_20_07_log-all-with-time.csv")] 
+    filenames = [os.path.join(THIS_FOLDER, "15_06_2023_10_47_02_log-all-with-time.csv")] #82: LOS à 1.5m environ du tag; #80: NLOS loin derrière la B224
 
 
     for filename in filenames:
@@ -225,10 +230,10 @@ if __name__ == "__main__":
         FP = FP/100
         Q = Q/100
 
-        masked = 1
+        masked = 0
         display_allan = 1
-        display_quality = 1
-        display_dbm = 1
+        display_quality = 0
+        display_dbm = 0
 
         sigma_rw = 0.00005
 
@@ -236,7 +241,7 @@ if __name__ == "__main__":
         val_idx = np.unique(ids)
         for idx in val_idx:
             if True: #idx == 1780:
-                print("Anchor n°{}\n".format(idx))
+                print("\n__________\nAnchor n°{}\n".format(idx))
 
                 ## Apply filter
                 if masked:

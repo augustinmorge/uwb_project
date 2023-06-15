@@ -154,6 +154,17 @@ void newRange() {
   dwSerial.print(sentence);
   Serial.print(sentence);
 
+  //Faux capteur pour stocker les données de dbm
+
+  
+
+
+
+
+
+
+
+
   // // Encodage en binaire des données
   //   static DW1000Device *DistantDevice = DW1000Ranging.getDistantDevice();
   // uint16_t shortAddress = DistantDevice->getShortAddress();

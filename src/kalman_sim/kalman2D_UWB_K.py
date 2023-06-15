@@ -102,7 +102,7 @@ def g(x, Xhat, t, L_detect = 200):
             dist_hat = np.linalg.norm(a - (Xhat[0:2]).flatten())
             Hi = -np.array([[(a[0] - Xhat[0,0])/dist_hat, (a[1] - Xhat[1,0])/dist_hat, 0, 0, 0]])
             yi = dist - dist_hat + Hi@Xhat 
-
+ 
             if not wp_detected:
                 H = Hi; y = yi; 
             else:
@@ -134,7 +134,7 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
     return xbar, P, innov_norm
 
 if __name__ == "__main__":
-    display_bot = 0
+    display_bot = 1
 
     display_allan = 1
     display_dbm = 1
@@ -142,7 +142,7 @@ if __name__ == "__main__":
 
     UWB = 1
     # Size of simu
-    day = 3
+    day = 0.1
     tmax = int(day*24*60*60)
     T = np.arange(0, tmax, dt)
     N = len(T)
@@ -169,8 +169,8 @@ if __name__ == "__main__":
     PMatrix = np.zeros((N,25))
     
     for t in tqdm(T):
-        # u = control(X,t)
-        u = np.array([[0],[0],[0]])
+        u = control(X,t)
+        # u = np.array([[0],[0],[0]])
 
         X = X + dt*f(X,u)
         
