@@ -1,0 +1,64 @@
+<?xml version="1.0" standalone="yes"?>
+<postproInsParameters>
+	<inputFile path=".\19_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf" id="file01" timeOffset="0.000000"/>
+	<inputFile path=".\anchor_19_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" id="file02" timeOffset="0.000000"/>
+	<outputFile id="output" path=".\19_06_2023_PH-2248_A_POSTPROCESSING-replay.xpf"/>
+	<ins>
+		<roughMisalignment>front-left-top</roughMisalignment>
+		<fineMisalignment heading="0" roll="0" pitch="0"/>
+		<dataSource path="file01.IMU"/>
+	</ins>
+	<gps label="gps1" enabled="yes">
+		<leverArm xv1="-1.016" xv2="-0.123" xv3="0.829"/>
+		<operatingMode mode="on"/>
+		<operatingMode from="10" mode="on"/>
+	</gps>
+	<rangeMeter label="anchor" enabled="yes">
+		<dataSource path="file02.LBL"/>
+		<leverArm xv1="0.08" xv2="0.211" xv3="1.183"/>
+		<userSd mode="fixed" value="0.08"/>
+	</rangeMeter>
+	<insProcessing algorithm="basic" processingMode="navigation" initialDirection="forward" system="maritime" gnssQualityFilter="62" outOfStraightness="false">
+		<initialConditions>
+			<position mode="automatic"/>
+			<attitude>
+				<heading>115.520000</heading>
+				<roll>-2.760000</roll>
+				<pitch>-1.670000</pitch>
+			</attitude>
+			<speed>
+				<north>0.000000</north>
+				<east>0.000000</east>
+				<up>0.000000</up>
+			</speed>
+		</initialConditions>
+		<positionPriority mode="usbl"/>
+	</insProcessing>
+	<gnssProcessing enabled="true" outputGnssPvt="false" ixgnss="true" ppp="false">
+		<rover path=".\19_06_2023.obs">
+			<antenna/>
+		</rover>
+		<elevationMask>10</elevationMask>
+		<commands continueOnErrors="false"># This file can be used to store the additionnal commands that must be sent to the
+# GNSS post-processing engine.</commands>
+		<constellations names="GPS;GLONASS;GALILEO;BEIDOU;"/>
+		<ephemeris path=".\Rinex\COD22671.EPH_P"/>
+	</gnssProcessing>
+	<vehicleModels>
+		<virtualSensorsConfig>
+			<alZupt>
+				<leverArm xv1="0" xv2="0" xv3="0"/>
+			</alZupt>
+		</virtualSensorsConfig>
+	</vehicleModels>
+	<output label="primary" userSpeed="true" heave="off" altitudeReference="geoid">
+		<leverArm xv1="0" xv2="0" xv3="0"/>
+		<misalignment heading="0" roll="0" pitch="0"/>
+		<rate value="1" synchro="utc"/>
+	</output>
+	<advancedParameters/>
+<advancedOutputs enabled="true"> 
+   <output name="RANGE_KAL_MEAS" enabled="true"/> 
+   <output name="POS_KAL_MEAS" enabled="true"/> 
+</advancedOutputs> 
+</postproInsParameters> 

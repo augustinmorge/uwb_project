@@ -152,51 +152,41 @@ void newRange() {
 
   // send the sentence over serial
   dwSerial.print(sentence);
-  Serial.print(sentence);
-
-  //Faux capteur pour stocker les données de dbm
-
   
+  // Serial.print(sentence);
+  Serial.print("Get data from : ");
+  Serial.print("Anchor : ");
+  Serial.println(beacon_id);
 
+                    // // // // // Faux capteur pour stocker les données de dbm -> LBL // // // // //
 
+  int beacon_id2 = DW1000Ranging.getDistantDevice()->getShortAddress() - 6000;
+  // get_geoloc(beacon_id, longitude, latitude, depth, lat_hem, lon_hem);
+  float RXPower = -DW1000Ranging.getDistantDevice()->getRXPower(); //latitude
+  float FPPower = -DW1000.getFirstPathPower(); //longitude
+  float Quality = DW1000.getReceiveQuality(); //depth
+  float RXFP =  DW1000Ranging.getDistantDevice()->getRXPower() - DW1000.getFirstPathPower(); //range
+  float Quality2 = DW1000.getReceiveQuality2(); //beacon_range_std_dev
+  
+    // construct the ASCII sentence
+  char sentence2[100];
+  int sentence_length2 = sprintf(sentence2, "$BFLBL,%.3f,%c,%.3f,%c,%.3f,%d,%.3f,%.3f,%.3f",
+                                FPPower, lat_hem,
+                                RXPower, lon_hem,
+                                Quality, beacon_id2, RXFP, Quality2, age);
+  // calculate the checksum
+  int checksum2 = 0;
+  for (int i = 1; i < sentence_length2; i++) {
+      checksum2 ^= sentence2[i];
+  }
 
+  // append the checksum and end-of-sentence characters
+  sentence_length2 += sprintf(sentence2 + sentence_length2, "*%02X\r\n", checksum2);
 
+  // send the sentence over serial
+  dwSerial.print(sentence2);
+  Serial.print(sentence2);
 
-
-
-
-  // // Encodage en binaire des données
-  //   static DW1000Device *DistantDevice = DW1000Ranging.getDistantDevice();
-  // uint16_t shortAddress = DistantDevice->getShortAddress();
-  // int range = (int)(DistantDevice->getRange()*100);
-  // int RXPower = (int)(DistantDevice->getRXPower()*100);
-  // int FPPower = (int)(DW1000.getFirstPathPower()*100);
-  // int quality = (int)(DW1000.getReceiveQuality()*100);
-  // float timerpoll = DistantDevice->timePollSent.getAsMicroSeconds();
-  // float timersent = DistantDevice->timeRangeSent.getAsMicroSeconds();
-  // float timerino = millis();
-  // size_t buffer_size = sizeof(shortAddress) + sizeof(range) + sizeof(RXPower) + sizeof(FPPower) + sizeof(quality) + sizeof(timerpoll) + sizeof(timersent) + sizeof(timerino);
-  // byte buffer[buffer_size];
-  // int offset = 0;
-  // memcpy(buffer + offset, &shortAddress, sizeof(shortAddress));
-  // offset += sizeof(shortAddress);
-  // memcpy(buffer + offset, &range, sizeof(range));
-  // offset += sizeof(range);
-  // memcpy(buffer + offset, &RXPower, sizeof(RXPower));
-  // offset += sizeof(RXPower);
-  // memcpy(buffer + offset, &FPPower, sizeof(FPPower));
-  // offset += sizeof(FPPower);
-  // memcpy(buffer + offset, &quality, sizeof(quality));
-  // offset += sizeof(quality);
-  // memcpy(buffer + offset, &timerpoll, sizeof(timerpoll));
-  // offset += sizeof(timerpoll);
-  // memcpy(buffer + offset, &timersent, sizeof(timersent));
-  // offset += sizeof(timersent);
-  // memcpy(buffer + offset, &timerino, sizeof(timerino));
-  // offset += sizeof(timerino);
-
-  // // Envoi des données encodées sur le port série
-  // Serial.write(buffer, sizeof(buffer));
 }
 
 void newDevice(DW1000Device *device) {
@@ -204,3 +194,40 @@ void newDevice(DW1000Device *device) {
 
 void inactiveDevice(DW1000Device *device) {
 }
+
+
+
+
+// TRASH
+ // // Encodage en binaire des données
+//   static DW1000Device *DistantDevice = DW1000Ranging.getDistantDevice();
+// uint16_t shortAddress = DistantDevice->getShortAddress();
+// int range = (int)(DistantDevice->getRange()*100);
+// int RXPower = (int)(DistantDevice->getRXPower()*100);
+// int FPPower = (int)(DW1000.getFirstPathPower()*100);
+// int quality = (int)(DW1000.getReceiveQuality()*100);
+// float timerpoll = DistantDevice->timePollSent.getAsMicroSeconds();
+// float timersent = DistantDevice->timeRangeSent.getAsMicroSeconds();
+// float timerino = millis();
+// size_t buffer_size = sizeof(shortAddress) + sizeof(range) + sizeof(RXPower) + sizeof(FPPower) + sizeof(quality) + sizeof(timerpoll) + sizeof(timersent) + sizeof(timerino);
+// byte buffer[buffer_size];
+// int offset = 0;
+// memcpy(buffer + offset, &shortAddress, sizeof(shortAddress));
+// offset += sizeof(shortAddress);
+// memcpy(buffer + offset, &range, sizeof(range));
+// offset += sizeof(range);
+// memcpy(buffer + offset, &RXPower, sizeof(RXPower));
+// offset += sizeof(RXPower);
+// memcpy(buffer + offset, &FPPower, sizeof(FPPower));
+// offset += sizeof(FPPower);
+// memcpy(buffer + offset, &quality, sizeof(quality));
+// offset += sizeof(quality);
+// memcpy(buffer + offset, &timerpoll, sizeof(timerpoll));
+// offset += sizeof(timerpoll);
+// memcpy(buffer + offset, &timersent, sizeof(timersent));
+// offset += sizeof(timersent);
+// memcpy(buffer + offset, &timerino, sizeof(timerino));
+// offset += sizeof(timerino);
+
+// // Envoi des données encodées sur le port série
+// Serial.write(buffer, sizeof(buffer));

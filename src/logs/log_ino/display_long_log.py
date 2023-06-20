@@ -13,15 +13,18 @@ def load_single_file(filename):
     FP = np.array([])
     Q = np.array([])
     # Charger le fichier CSV
-    data = np.genfromtxt(filename, delimiter=';', skip_header=1)
+    data = np.genfromtxt(filename, delimiter=';', skip_header=1, dtype='<U15')
     with_RX = False; with_all = False
     if data.shape[1] >= 4: with_RX = True
     if data.shape[1] > 4: with_all = True
 
     # Extraire les colonnes ID, temps et distance
-    ids = data[:, 0]
-    times_ms = data[:, 1]
-    distances = data[:, 2]
+    try:
+        ids = data[:, 0].astype(np.float64)
+    except:
+        ids = np.zeros(data[:,0].shape)
+    times_ms = data[:, 1].astype(np.float64)
+    distances = data[:, 2].astype(np.float64)
 
     # Convertir les temps en secondes et soustraire le temps de départ
     time = times_ms / 1000.0  #/ 60. /60.
@@ -29,15 +32,14 @@ def load_single_file(filename):
     dist = distances
 
     if with_RX:
-        RXs = data[:, 3]
+        RXs = data[:, 3].astype(np.float64)
         RX = RXs
 
     if with_all:
-        FPs = data[:, 4]
+        FPs = data[:, 4].astype(np.float64)
         FP = FPs
-        Qs = data[:, 5]
+        Qs = data[:, 5].astype(np.float64)
         Q = Qs
-
 
     return time, dist, ids, RX, with_RX, FP, Q, with_all
 
@@ -94,11 +96,13 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
     print(f"Moyenne : {np.mean(dist)}")
     print(f"Ecart-Type : {np.std(dist)}")
 
+    if with_all:
+        RX = RX[idx_start:idx_end]
+        FP = FP[idx_start:idx_end]
+        Q = Q[idx_start:idx_end]
+
     if display_dbm:
         if with_all:
-            RX = RX[idx_start:idx_end]
-            FP = FP[idx_start:idx_end]
-            Q = Q[idx_start:idx_end]
 
             #Ploting the Allan deviation
             fig, axs = plt.subplots(1,3)
@@ -190,24 +194,30 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
 
     if display_quality:
         if with_all:
+            print(time.shape)
+            print(RX.shape)
+            print(FP.shape)
             fig, ax = plt.subplots(1,2)
             fig.suptitle(f"Anchor n°{idx}")
+
             ax0 = ax[0]
             ax1 = ax[1]
-            ax0.plot(time/3600, RX - FP, label='diff power [dbM]')
+            ax0.scatter(time/3600, RX - FP, label='diff power [dbM]', s=1, marker='x')
+            # ax0.plot(time/3600, RX - FP, label='diff power [dbM]') #, s=1, marker='x')
             ax0.set_title("RX - FP")
             ax0.set_ylabel("dBM")
             ax0.set_xlabel("time [h]")
             ax0.legend()
 
-            ax1.plot(time/3600, Q, label = 'quality (FP2/STD)')
+            ax1.scatter(time/3600, Q, label = 'quality (FP2/STD)', s=1, marker='x')
+            # ax1.plot(time/3600, Q, label = 'quality (FP2/STD)') #, s=1, marker='x')
             ax1.set_title("Quality of signal")
             ax1.set_ylabel("ua")
             ax1.set_xlabel("time [h]")
             ax1.legend()
 
-    print(f"Mean of RX - FP = {np.mean(RX - FP)}")
-    print(f"Mean of the Quality = {np.mean(Q)}\n__________\n")
+        print(f"Mean of RX - FP = {np.mean(RX - FP)}; Std of RX - FP = {np.std(RX - FP)}")
+        print(f"Mean of the Quality = {np.mean(Q)}; Std of Quality = {np.std(Q)}\n__________\n")
         # except:
         #     print("Nothing remains")
         
@@ -220,7 +230,8 @@ if __name__ == "__main__":
     # filenames = [os.path.join(THIS_FOLDER, "17_05_2023_15_35_29_log-all-with-time.csv")] #80: NLOS derriere reu; 81: NLOS contre mur imprimante; 82: Francoise; 83: Dans la salle réu
     # filenames = [os.path.join(THIS_FOLDER, "22_05_2023_12_01_12_log-all-with-time.csv")] 
     # filenames = [os.path.join(THIS_FOLDER, "26_05_2023_17_20_07_log-all-with-time.csv")] 
-    filenames = [os.path.join(THIS_FOLDER, "15_06_2023_10_47_02_log-all-with-time.csv")] #82: LOS à 1.5m environ du tag; #80: NLOS loin derrière la B224
+    # filenames = [os.path.join(THIS_FOLDER, "15_06_2023_11_56_58_log-all-with-time.csv")] #82: LOS à 1.5m environ du tag; #80: NLOS loin derrière la B224
+    filenames = [os.path.join(THIS_FOLDER, "anchor/30_05_2023_17_07_35_log-all-with-time.csv")] 
 
 
     for filename in filenames:
@@ -231,8 +242,8 @@ if __name__ == "__main__":
         Q = Q/100
 
         masked = 0
-        display_allan = 1
-        display_quality = 0
+        display_allan = 0
+        display_quality = 1
         display_dbm = 0
 
         sigma_rw = 0.00005

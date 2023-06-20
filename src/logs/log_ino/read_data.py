@@ -24,10 +24,10 @@ def receive_data_bits(file, ser):
     # Lire les données disponibles depuis la connexion série
     buffer = ser.read(buffer_size-short_address_size) # Lire le reste du buffer, moins l'octet déjà reçu
 
-    range_value = struct.unpack('i', buffer[:range_size])[0]
-    rx_power = struct.unpack('i', buffer[range_size:range_size+rx_power_size])[0]
-    fp_power = struct.unpack('i', buffer[range_size+rx_power_size:range_size+rx_power_size+fp_power_size])[0]
-    quality = struct.unpack('i', buffer[range_size+rx_power_size+fp_power_size:range_size+rx_power_size+fp_power_size+quality_size])[0]
+    range_value = struct.unpack('f', buffer[:range_size])[0]
+    rx_power = struct.unpack('f', buffer[range_size:range_size+rx_power_size])[0]
+    fp_power = struct.unpack('f', buffer[range_size+rx_power_size:range_size+rx_power_size+fp_power_size])[0]
+    quality = struct.unpack('f', buffer[range_size+rx_power_size+fp_power_size:range_size+rx_power_size+fp_power_size+quality_size])[0]
     timer_ps = struct.unpack('f', buffer[range_size+rx_power_size+fp_power_size+quality_size:range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps])[0]
     timer_rs = struct.unpack('f', buffer[range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps:range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps+timer_size_rs])[0]
     timer_ino = struct.unpack('f', buffer[range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps+timer_size_rs:range_size+rx_power_size+fp_power_size+quality_size+timer_size_ps+timer_size_rs+timer_size_ino])[0]

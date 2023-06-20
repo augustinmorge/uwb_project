@@ -153,20 +153,28 @@ void loop()
 // float f = 0; float t0 = millis(); float tk = t0; int ct = 0;
 void newRange()
 {
-  //  /* Values that can be displayed */
-  // Serial.print("from: ");
-  // Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
-  // Serial.print("\t Range: ");
-  // Serial.println(DW1000Ranging.getDistantDevice()->getRange());
-  // Serial.print(" m");
-  // Serial.print("\t RX power: ");
-  // Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
-  // Serial.print(" dBm");
-  // Serial.print("\t FP power: ");
-  // Serial.print(DW1000.getFirstPathPower());
-  // Serial.print(" dBm");
-  // Serial.print("\t Quality: ");
-  // Serial.print(DW1000.getReceiveQuality());
+   /* Values that can be displayed */
+  Serial.print("from: ");
+  Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
+  Serial.print("\t Range: ");
+  Serial.print(DW1000Ranging.getDistantDevice()->getRange());
+  Serial.print(" m");
+  Serial.print("\t RX power: ");
+  Serial.print(DW1000Ranging.getDistantDevice()->getRXPower());
+  Serial.print(" dBm");
+  Serial.print("\t FP power: ");
+  Serial.print(DW1000.getFirstPathPower());
+  Serial.print("\t FP power - RX power: ");
+  Serial.print(DW1000Ranging.getDistantDevice()->getRXPower() - DW1000.getFirstPathPower());
+  Serial.print(" dBm");
+  Serial.print("\t Quality: ");
+  Serial.print(DW1000.getReceiveQuality());
+  Serial.print(" dBm");
+  Serial.print("\t Quality2: ");
+  Serial.print(DW1000.getReceiveQuality2());
+  Serial.println(" dBm");
+  // Serial.print("\t delay: ");
+  // Serial.println(millis() - DW1000Ranging.getDistantDevice()->getValidTime());
 
 
   // static DW1000Device *myDistantDevice = DW1000Ranging.getDistantDevice();
