@@ -1,8 +1,0 @@
-### CALIBRATION ANCHORS ###
-
-Antenna delay for anchor with default antenna delay for TAG
-
-80 : 16520
-81 : 16539
-82 : 16545
-83 : 16505

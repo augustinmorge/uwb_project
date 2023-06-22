@@ -69,7 +69,7 @@ void get_geoloc(int beacon_id, double &longitude, double &latitude, double &dept
   // float alt_gnss = -0.987;
   float alt_gnss = 0.177;
   float alt_uwb = 1.738;
-  float red_b = 0.85;
+  float red_b = 0.85; 
   // float alt_tag = -1.606;
   float offset = alt_uwb - alt_gnss; // - (alt_tag - alt_gnss); //La difference d'altitude entre l'antenne GNSS et l'antenne UWB
 
@@ -185,7 +185,7 @@ void newRange() {
 
   // send the sentence over serial
   dwSerial.print(sentence2);
-  Serial.print(sentence2);
+  // Serial.print(sentence2);
 
 }
 

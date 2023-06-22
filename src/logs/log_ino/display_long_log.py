@@ -88,8 +88,8 @@ def load_data(filename):
 
 def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,display_allan=1, display_dbm=1, display_quality=1):
     # Tracer la distance en fonction du temps sans mask
-    idx_start = time.shape[0]//4
-    idx_end = dist.shape[0] - 10*time.shape[0]//25 #-1 #
+    idx_start = 0 #time.shape[0]//4
+    idx_end = -1 #dist.shape[0] - 10*time.shape[0]//25 #-1 #
     time = time[idx_start:idx_end] - time[idx_start]
     dist = dist[idx_start:idx_end]
 
@@ -140,6 +140,36 @@ def plot_data(ids, time, dist, RX, with_RX, FP, Q, with_all, sigma_rw = 0.00005,
             ax.set_title("Measurements")
             ax.set_xlim([np.min(time/60/60), np.max(time/60/60)])
             ax.grid()
+            for i in range(len(time) - 1):
+                if time[i+1] - time[i] > 2:
+                    ax.axvline(x=time[i]/60/60, color='red', linestyle='--')
+
+            # Indices des coupures
+            cutoff_indices = np.where(np.diff(time) > 2)[0]
+
+            
+            # Affichage de l'écart de temps entre chaque coupure
+            print("\nÉcart de temps entre chaque coupure (en minutes):")
+            for i, index in enumerate(cutoff_indices):
+                time_diff = (time[index+1] - time[index]) / 60
+                print(f"Coupure {i+1}: {time_diff} minutes")
+            print()
+
+            # Calcul de la moyenne et de l'écart type de dist pour chaque partie
+            for i in range(len(cutoff_indices) + 1):
+                if i == 0:
+                    part_dist = dist[:cutoff_indices[i]+1]
+                elif i == len(cutoff_indices):
+                    part_dist = dist[cutoff_indices[i-1]+1:]
+                else:
+                    part_dist = dist[cutoff_indices[i-1]+1:cutoff_indices[i]+1]
+
+                print(f"\nPartie {i+1}:")
+                print("Moyenne de dist:", np.mean(part_dist))
+                print("Écart type de dist:", np.std(part_dist))
+                print()
+
+
             # def plot_polynomial_regression(ax, x, y, degrees, label = ""):
             #     coeffs = [np.polyfit(x, y, degree) for degree in degrees]
             #     ax.scatter(x, y, label='Mean data '+label)
@@ -231,20 +261,23 @@ if __name__ == "__main__":
     # filenames = [os.path.join(THIS_FOLDER, "22_05_2023_12_01_12_log-all-with-time.csv")] 
     # filenames = [os.path.join(THIS_FOLDER, "26_05_2023_17_20_07_log-all-with-time.csv")] 
     # filenames = [os.path.join(THIS_FOLDER, "15_06_2023_11_56_58_log-all-with-time.csv")] #82: LOS à 1.5m environ du tag; #80: NLOS loin derrière la B224
-    filenames = [os.path.join(THIS_FOLDER, "anchor/30_05_2023_17_07_35_log-all-with-time.csv")] 
+    # filenames = [os.path.join(THIS_FOLDER, "anchor/30_05_2023_17_07_35_log-all-with-time.csv")]
+    filenames = [os.path.join(THIS_FOLDER, "22_06_2023_11_39_47_log-all-with-time.csv"), os.path.join(THIS_FOLDER, "22_06_2023_14_58_05_log-all-with-time.csv")] 
 
 
     for filename in filenames:
         time, dist, ids, RX, with_RX, FP, Q, with_all = load_data(filename)
-        dist = dist/100
-        RX = RX/100
-        FP = FP/100
-        Q = Q/100
+        dist = dist #/100
+        RX = RX #/100
+        FP = FP #/100
+        Q = Q #/100
+
+        print(dist)
 
         masked = 0
         display_allan = 0
-        display_quality = 1
-        display_dbm = 0
+        display_quality = 0
+        display_dbm = 1
 
         sigma_rw = 0.00005
 
@@ -313,4 +346,4 @@ if __name__ == "__main__":
                         plot_data(new_ids, new_time, new_dist, new_RX, with_RX, np.array([]), np.array([]), False, sigma_rw, display_allan, display_dbm, display_quality)
                     else:
                         plot_data(ids, time, dist, np.array([]), False, np.array([]), np.array([]), False, sigma_rw, display_allan, display_dbm, display_quality)
-        plt.show()
+    plt.show()

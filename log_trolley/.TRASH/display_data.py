@@ -7,7 +7,7 @@ def percent(array, mask, name = ""):
     print(f"Use {array[mask].shape[0]/array.shape[0]*100}% of data for {name}")
 
 # Créer un objet de projection cartésienne
-cartesian_proj = pyproj.Proj(proj='cart', ellps='WGS84', datum='WGS84')
+cartesian_proj = pyproj.Proj(proj='cart', ellps='ECEF', datum='ECEF')
 
 # Chemin absolu du fichier
 current_directory = os.path.dirname(__file__)
@@ -19,13 +19,13 @@ current_directory = os.path.dirname(__file__)
 # file_name = f"{test}\chariot_3roues_PH-2248_R_PHINS_STANDARD.log"
 
 test = '12_06_2023'
-file_name = f"{test}\{test}_PH-2248_R_PHINS_STANDARD.log"
+file_name = f"{current_directory}\\..\\{test}\{test}_PH-2248_R_PHINS_STANDARD.log"
 
-file_path = os.path.join(current_directory, file_name)
+# file_path = os.path.join(current_directory, file_name)
 
 ######################### RECUPERATION DU HEADER #########################
 
-with open(file_path, 'r') as file:
+with open(file_name, 'r') as file:
     header_lines = [next(file) for _ in range(4)]
 header = ''.join(header_lines).rstrip('\t\n')
 header_arr = np.array(header_lines[-1].split("\t"))
@@ -33,7 +33,7 @@ header_arr = np.array(header_lines[-1].split("\t"))
 ######################### RECUPERATION DES DONNES UTILES #########################
 
 # Charger les données à partir du fichier en utilisant genfromtxt de numpy
-data = np.genfromtxt(file_path, delimiter='\t', skip_header = 4, dtype='<U15')
+data = np.genfromtxt(file_name, delimiter='\t', skip_header = 4, dtype='<U15')
 lbl_range = np.float64(data[:, np.where(header_arr == 'LBL - Range (m)')[0][0]])
 for i in range(1,lbl_range.shape[0]): 
     if lbl_range[i] < 0 : lbl_range[i] = lbl_range[i - 1]

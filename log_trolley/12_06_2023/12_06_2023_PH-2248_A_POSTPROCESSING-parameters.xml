@@ -16,7 +16,7 @@
 	<rangeMeter label="lbl_etal" enabled="yes">
 		<dataSource path="file02.LBL"/>
 		<leverArm xv1="0.08" xv2="0.211" xv3="1.183"/>
-		<userSd mode="fixed" value="0.5"/>
+		<userSd mode="fixed" value="0.2"/>
 		<beacons>
 			<beacon id="6016" latitude="48.8999149833333" longitude="2.06481596666667" depth="-93.721" enabled="yes"/>
 			<beacon id="6017" latitude="48.8998382833333" longitude="2.06539498333333" depth="-93.446" enabled="yes"/>
@@ -48,4 +48,8 @@
 		<rate value="1" synchro="utc"/>
 	</output>
 	<advancedParameters/>
-</postproInsParameters>
+<advancedOutputs enabled="true"> 
+   <output name="RANGE_KAL_MEAS" enabled="true"/> 
+   <output name="POS_KAL_MEAS" enabled="true"/> 
+</advancedOutputs> 
+</postproInsParameters> 

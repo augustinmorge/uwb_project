@@ -191,8 +191,45 @@
 		<jobAttribute id="software-name" name="Software name">Delph INS Research &amp; Development</jobAttribute>
 		<jobAttribute id="software-version" name="Software version">3.6.0</jobAttribute>
 	</jobContext>
-	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="20.000000" automaticProjection="true" mapLayer="osm">
-		<center easting="431423.487172" northing="5416764.342283" latitude="48.900027" longitude="2.064292"/>
+	<graphicSheet title="time view 8" from="1450.2985225" to="1657.4825973" legend="right">
+		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
+			<title>Beacons output of sensor 'anchor' - Status</title>
+		</graphic>
+		<graphic type="measure" nature="distance" height="150">
+			<verticalScale min="-0.768775120377541" max="0.775930747389793"/>
+			<group dataFile="output" channel="anchor-rmb" field="residual" groupingField="beaconId" scaleFactor="1">
+				<label>Beacons output of sensor 'anchor' - Residual</label>
+				<hide value="6019"/>
+				<curve groupingValue="6016" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 6016 Beacons output of sensor 'anchor' - Residual</curve>
+				<curve groupingValue="6017" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 6017 Beacons output of sensor 'anchor' - Residual</curve>
+				<curve groupingValue="6018" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 6018 Beacons output of sensor 'anchor' - Residual</curve>
+			</group>
+		</graphic>
+		<graphic type="measure" nature="range" height="150">
+			<group dataFile="file03" channel="LBL" field="range" groupingField="beaconId" scaleFactor="1">
+				<label>Range-meter / LBL - Range</label>
+				<hide value="17"/>
+				<hide value="18"/>
+				<hide value="19"/>
+				<curve groupingValue="16" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 16 Range-meter / LBL - Range</curve>
+			</group>
+		</graphic>
+		<graphic type="measure" nature="immersion" height="150">
+			<group dataFile="file03" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
+				<label>Range-meter / LBL - Depth</label>
+				<hide value="17"/>
+				<hide value="18"/>
+				<hide value="19"/>
+				<curve groupingValue="16" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 16 Range-meter / LBL - Depth</curve>
+			</group>
+		</graphic>
+		<graphic type="measure" nature="unknown" height="150">
+			<verticalScale min="-0.366050037712352" max="0.373712862421855"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl1DistOInnov</curve>
+		</graphic>
+	</graphicSheet>
+	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="19.000000" automaticProjection="true" mapLayer="osm">
+		<center easting="431457.118835" northing="5416726.058433" latitude="48.899686" longitude="2.064757"/>
 		<layer type="xpfTrack" visible="true" label="Navigation at 'primary' - Processing result" dataFile="output" channel="primary-nav" latitude="latitude" longitude="longitude" displayAsPoints="false">
 			<pen style="solid" color="ff4f81bd" width="3.000000"/>
 			<marker style="none" lineColor="ff4f81bd" fillColor="ff4f81bd" size="9.000000"/>
@@ -209,9 +246,10 @@
 			<colorMode mode="none" low="0.100000" high="0.300000"/>
 		</layer>
 	</plan>
-	<graphicSheet title="Quality" from="0" to="1657.482597" legend="right">
-		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
-			<title>Beacons output of sensor 'anchor' - Status</title>
+	<graphicSheet title="time view 2" from="828.4898501" to="1656.9797001" legend="right">
+		<graphic type="measure" nature="unknown" height="150">
+			<verticalScale min="-0.541587863359238" max="0.457436300770139"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl3DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl3DistOInnov</curve>
 		</graphic>
 		<graphic type="measure" nature="immersion" height="150">
 			<group dataFile="file03" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
@@ -222,53 +260,7 @@
 				<curve groupingValue="16" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 16 Range-meter / LBL - Depth</curve>
 			</group>
 		</graphic>
-		<graphic type="measure" nature="immersion" height="150">
-			<verticalScale min="-57.9546236395836" max="615.897360384464"/>
-			<group dataFile="file03" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Depth</label>
-				<hide value="16"/>
-				<hide value="18"/>
-				<hide value="19"/>
-				<curve groupingValue="17" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 17 Range-meter / LBL - Depth</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="immersion" height="150">
-			<verticalScale min="5.02799987792969" max="288.859008789063"/>
-			<group dataFile="file03" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Depth</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="19"/>
-				<curve groupingValue="18" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 18 Range-meter / LBL - Depth</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="immersion" height="150">
-			<verticalScale min="6.54500007629395" max="663.5"/>
-			<group dataFile="file03" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Depth</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="18"/>
-				<curve groupingValue="19" color="ff8064a2" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff8064a2" markerFillColor="ff8064a2">Beacon ID = 19 Range-meter / LBL - Depth</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="distance" height="150">
-			<verticalScale min="-0.644359067082405" max="0.662788733839989"/>
-			<group dataFile="output" channel="anchor-rmb" field="residual" groupingField="beaconId" scaleFactor="1">
-				<label>Beacons output of sensor 'anchor' - Residual</label>
-				<hide value="6016"/>
-				<hide value="6017"/>
-				<hide value="6019"/>
-				<curve groupingValue="6018" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 6018 Beacons output of sensor 'anchor' - Residual</curve>
-			</group>
-		</graphic>
-	</graphicSheet>
-	<graphicSheet title="RX-FP" from="1243.1119478" to="1657.4825972" legend="right">
-		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
-			<title>Beacons output of sensor 'anchor' - Status</title>
-		</graphic>
 		<graphic type="measure" nature="range" height="150">
-			<verticalScale min="1.852623625" max="27.256123125"/>
 			<group dataFile="file03" channel="LBL" field="range" groupingField="beaconId" scaleFactor="1">
 				<label>Range-meter / LBL - Range</label>
 				<hide value="17"/>
@@ -277,197 +269,13 @@
 				<curve groupingValue="16" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 16 Range-meter / LBL - Range</curve>
 			</group>
 		</graphic>
-		<graphic type="measure" nature="range" height="150">
-			<verticalScale min="1.01387475" max="29.18962425"/>
-			<group dataFile="file03" channel="LBL" field="range" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Range</label>
-				<hide value="16"/>
-				<hide value="18"/>
-				<hide value="19"/>
-				<curve groupingValue="17" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 17 Range-meter / LBL - Range</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="range" height="150">
-			<verticalScale min="-17.200001" max="33.606998"/>
-			<group dataFile="file03" channel="LBL" field="range" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Range</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="19"/>
-				<curve groupingValue="18" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 18 Range-meter / LBL - Range</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="range" height="150">
-			<verticalScale min="0.316687500000003" max="28.5954375"/>
-			<group dataFile="file03" channel="LBL" field="range" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Range</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="18"/>
-				<curve groupingValue="19" color="ff8064a2" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff8064a2" markerFillColor="ff8064a2">Beacon ID = 19 Range-meter / LBL - Range</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="distance" height="150">
-			<verticalScale min="-1.13234684395138E-02" max="0.29759836892481"/>
-			<group dataFile="output" channel="anchor-rmb" field="residual" groupingField="beaconId" scaleFactor="1">
-				<label>Beacons output of sensor 'anchor' - Residual</label>
-				<hide value="6016"/>
-				<hide value="6017"/>
-				<hide value="6019"/>
-				<curve groupingValue="6018" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 6018 Beacons output of sensor 'anchor' - Residual</curve>
-			</group>
-		</graphic>
-	</graphicSheet>
-	<graphicSheet title="Total" from="0.01" to="1656.9797" legend="right">
-		<graphic type="enum" dataFile="output" channel="anchor-sst" field="status" enum="status">
-			<title>Sensor status for 'anchor' - Status</title>
-		</graphic>
-		<graphic type="enum" dataFile="output" channel="gps1-sst" field="horizontalStatus" enum="horizontalStatus">
-			<title>Sensor status for 'gps1' - Horizontal status</title>
-		</graphic>
-		<graphic type="enum" dataFile="output" channel="gps1-sst" field="verticalStatus" enum="verticalStatus">
-			<title>Sensor status for 'gps1' - Vertical status</title>
-		</graphic>
-	</graphicSheet>
-	<graphicSheet title="Quality2" from="0.01" to="1657.482597" legend="right">
-		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
-			<title>Beacons output of sensor 'anchor' - Status</title>
-		</graphic>
-		<graphic type="measure" nature="rangeSd" height="150">
-			<verticalScale min="-6.49999976158142E-02" max="1.46000003814697"/>
-			<group dataFile="file03" channel="LBL" field="rangeSd" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Range sd</label>
-				<hide value="17"/>
-				<hide value="18"/>
-				<hide value="19"/>
-				<curve groupingValue="16" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 16 Range-meter / LBL - Range sd</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="rangeSd" height="150">
-			<verticalScale min="-0.142000004649162" max="1.02100002765656"/>
-			<group dataFile="file03" channel="LBL" field="rangeSd" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Range sd</label>
-				<hide value="16"/>
-				<hide value="18"/>
-				<hide value="19"/>
-				<curve groupingValue="17" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 17 Range-meter / LBL - Range sd</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="rangeSd" height="150">
-			<verticalScale min="4.00000018998981E-03" max="0.539000013493933"/>
-			<group dataFile="file03" channel="LBL" field="rangeSd" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Range sd</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="19"/>
-				<curve groupingValue="18" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 18 Range-meter / LBL - Range sd</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="rangeSd" height="150">
-			<verticalScale min="-0.195999994874001" max="1.04700005054474"/>
-			<group dataFile="file03" channel="LBL" field="rangeSd" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Range sd</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="18"/>
-				<curve groupingValue="19" color="ff8064a2" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff8064a2" markerFillColor="ff8064a2">Beacon ID = 19 Range-meter / LBL - Range sd</curve>
-			</group>
-		</graphic>
-	</graphicSheet>
-	<graphicSheet title="RX" from="1243.1119478" to="1657.4825972" legend="right">
-		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
-			<title>Beacons output of sensor 'anchor' - Status</title>
-		</graphic>
-		<graphic type="measure" nature="latitude" height="150">
-			<verticalScale min="60.0725989183413" max="104.579723901116"/>
-			<group dataFile="file03" channel="LBL" field="latitude" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Latitude</label>
-				<hide value="17"/>
-				<hide value="18"/>
-				<hide value="19"/>
-				<curve groupingValue="16" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 16 Range-meter / LBL - Latitude</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="latitude" height="150">
-			<verticalScale min="-34.5080833788955" max="143.524449924006"/>
-			<group dataFile="file03" channel="LBL" field="latitude" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Latitude</label>
-				<hide value="16"/>
-				<hide value="18"/>
-				<hide value="19"/>
-				<curve groupingValue="17" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 17 Range-meter / LBL - Latitude</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="latitude" height="150">
-			<verticalScale min="-34.5050416700545" max="143.523458261044"/>
-			<group dataFile="file03" channel="LBL" field="latitude" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Latitude</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="19"/>
-				<curve groupingValue="18" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 18 Range-meter / LBL - Latitude</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="latitude" height="150">
-			<verticalScale min="-34.5050416700545" max="143.523458261044"/>
-			<group dataFile="file03" channel="LBL" field="latitude" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Latitude</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="18"/>
-				<curve groupingValue="19" color="ff8064a2" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff8064a2" markerFillColor="ff8064a2">Beacon ID = 19 Range-meter / LBL - Latitude</curve>
-			</group>
-		</graphic>
-	</graphicSheet>
-	<graphicSheet title="FP" from="0.376297" to="1657.482597" legend="right">
-		<graphic type="measure" nature="longitude" height="150">
-			<verticalScale min="54.016166646034" max="98.0036666058"/>
-			<group dataFile="file03" channel="LBL" field="longitude" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Longitude</label>
-				<hide value="17"/>
-				<hide value="18"/>
-				<hide value="19"/>
-				<curve groupingValue="16" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 16 Range-meter / LBL - Longitude</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="longitude" height="150">
-			<group dataFile="file03" channel="LBL" field="longitude" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Longitude</label>
-				<hide value="16"/>
-				<hide value="18"/>
-				<hide value="19"/>
-				<curve groupingValue="17" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 17 Range-meter / LBL - Longitude</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="longitude" height="150">
-			<verticalScale min="64.011666644365" max="128.01199994981"/>
-			<group dataFile="file03" channel="LBL" field="longitude" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Longitude</label>
-				<hide value="16"/>
-				<hide value="17"/>
-				<hide value="19"/>
-				<curve groupingValue="18" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 18 Range-meter / LBL - Longitude</curve>
-			</group>
-		</graphic>
-		<graphic type="measure" nature="longitude" height="150">
-			<verticalScale min="0" max="102.00216659344"/>
-			<group dataFile="file03" channel="LBL" field="longitude" groupingField="beaconId" scaleFactor="1">
-				<label>Range-meter / LBL - Longitude</label>
-				<hide value="17"/>
-				<hide value="18"/>
-				<hide value="16"/>
-				<curve groupingValue="19" color="ff8064a2" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff8064a2" markerFillColor="ff8064a2">Beacon ID = 19 Range-meter / LBL - Longitude</curve>
-			</group>
-		</graphic>
-		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
-			<title>Beacons output of sensor 'anchor' - Status</title>
-		</graphic>
 	</graphicSheet>
 	<instantValues>
-		<measure dataFile="file03" channel="LBL" field="depth" nature="immersion"/>
 		<measure dataFile="file01" channel="INS_NAV" field="heading" nature="attitude"/>
 		<measure dataFile="file01" channel="INS_NAV" field="roll" nature="attitude"/>
 		<measure dataFile="file01" channel="INS_NAV" field="pitch" nature="attitude"/>
+		<measure dataFile="output" channel="RANGE_KAL_MEAS" field="lbl4distance" nature="distance"/>
+		<measure dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1distance" nature="distance"/>
 	</instantValues>
 	<ins serialNumber="PH-2248">
 		<roughMisalignment>front-left-top</roughMisalignment>
@@ -475,14 +283,24 @@
 		<dataSource path="file01.IMU"/>
 	</ins>
 	<gps label="gps1" location="vehicle" enabled="true">
-		<leverArm xv1="-1.016 m" xv2="-0.123 m" xv3="0.829 m"/>
+		<leverArm xv1="-0.974 m" xv2="-0.123 m" xv3="0.829 m"/>
 		<operatingMode mode="on"/>
-		<operatingMode from="10 s" mode="on"/>
+		<operatingMode from="21 min" mode="off"/>
 	</gps>
 	<rangeMeter label="anchor" location="vehicle" enabled="true">
 		<leverArm xv1="0.08 m" xv2="0.211 m" xv3="1.183 m"/>
 		<dataSource path="file02.LBL"/>
-		<userSd mode="fixed" value="0.08 m"/>
+		<userSd from="25 min" mode="fixed" value="0.2 m"/>
+		<beacons>
+			<beacon id="16" latitude="81°00.253999 N" longitude="070°00.169996 E" depth="468.225 m" enabled="true"/>
+			<beacon id="17" latitude="11°03.825996 N" longitude="100°00.929998 E" depth="34.150 m" enabled="true"/>
+			<beacon id="18" latitude="81°00.022995 N" longitude="081°00.139998 E" depth="181.926 m" enabled="true"/>
+			<beacon id="19" latitude="00°00.000000 N" longitude="093°00.019995 E" depth="292.306 m" enabled="true"/>
+			<beacon id="6016" latitude="48°53.994899 N" longitude="002°03.888958 E" depth="-93.721 m" enabled="true"/>
+			<beacon id="6017" latitude="48°53.990297 N" longitude="002°03.923699 E" depth="-93.446 m" enabled="true"/>
+			<beacon id="6018" latitude="48°54.021498 N" longitude="002°03.853211 E" depth="-93.063 m" enabled="true"/>
+			<beacon id="6019" latitude="48°54.015096 N" longitude="002°03.834764 E" depth="-93.205 m" enabled="true"/>
+		</beacons>
 	</rangeMeter>
 	<insProcessing algorithm="basic" initialDirection="forward" system="maritime" gnssQualityFilter="62">
 		<initialConditions>
@@ -515,7 +333,7 @@
 		</alZupt>
 		<positionPriority mode="usbl"/>
 	</insProcessing>
-	<gnssProcessing enabled="true" outputGnssPvt="true" ixgnss="true" ppp="false">
+	<gnssProcessing enabled="false" outputGnssPvt="true" ixgnss="true" ppp="false">
 		<rover path=".\19_06_2023.obs">
 			<antenna/>
 		</rover>
