@@ -20,7 +20,7 @@ import numpy as np
 # Chemin absolu du fichier
 current_directory = os.path.dirname(__file__)
 
-date = "19_06_2023"
+date = "28_06_2023"
 filename = f'{date}_PH-2248_A_POSTPROCESSING-ins.xpf.txt'
 file_name = f"{date}\\{filename}"
 
@@ -41,11 +41,10 @@ new_file_anchor_path = os.path.join(current_directory, f"{date}\\anchor_{filenam
 filtered_data_anchor = data[np.isin(data[:, 2].astype(float), anchor_id)]
 if filtered_data_anchor[0, 5].astype(float) > -100:
     filtered_data_anchor[:, 5] = (filtered_data_anchor[:, 5].astype(float) - 47.26).astype(str) # Conversion en chaînes de caractères
-# Modifier la valeur de rangeSd pour l'ancre 6016
 filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6016), 7] = '0.2'
-# filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6017), 7] = '1.0'
-# filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6018), 7] = '1.0'
-# filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6019), 7] = '1.0'
+filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6017), 7] = '0.2'
+filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6018), 7] = '0.2'
+filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6019), 7] = '0.2'
 np.savetxt(new_file_anchor_path, filtered_data_anchor, delimiter='\t', fmt='%s', newline='\n', header=header, comments='')
 
 

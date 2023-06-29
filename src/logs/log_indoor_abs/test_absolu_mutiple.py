@@ -10,7 +10,7 @@ date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
-doing_test = 0
+doing_test = 1
 nb_anchor = 1
 
 def f_distance(id, d):
@@ -118,7 +118,7 @@ if doing_test:
 
     else:
         from log_data_serial import *
-        ser = serial.Serial('COM5', 115200)
+        ser = serial.Serial('COM4', 115200)
 
         print("Start test..")
         file = open(f"{THIS_FOLDER}/serial/{date_str}_Serial_Test_multiple_points.csv", "w")
@@ -144,7 +144,7 @@ else:
     cancel_adjust = 0
     add_filter = 0
     add_offset = 0
-    calibrate = 1
+    calibrate = 0
     
     if filenames == []: sys.exit()
     for filename in filenames:

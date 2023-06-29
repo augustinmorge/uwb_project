@@ -5,10 +5,8 @@ import numpy as np
 # Chemin absolu du fichier
 current_directory = os.path.dirname(__file__)
 
-test = '19_06_2023'
-file_name = f"{test}\\anchor_{test}_PH-2248_A_POSTPROCESSING-ins.xpf.txt"
-
-file_path = os.path.join(current_directory, file_name)
+test = '28_06_2023'
+file_path = current_directory + f"\\..\\{test}\\anchor_{test}_PH-2248_A_POSTPROCESSING-ins.xpf.txt"
 
 # Chemin absolu du fichier d'offset
 offset_file_name = "offset.txt"
@@ -50,10 +48,10 @@ for i in range(len(new_data)):
 # Ecrire un nouveau fichier
 new_file_path = os.path.join(current_directory, f"{test}\\new_{test}_PH-2248_A_POSTPROCESSING-ins.xpf.txt")
 
-with open(new_file_path, 'w') as new_file:
-    # Écrire le header dans le nouveau fichier
-    new_file.write(header + '\n')
-    # Écrire les données modifiées dans le nouveau fichier
-    np.savetxt(new_file, new_data, delimiter='\t', fmt='%s')
+# with open(new_file_path, 'w') as new_file:
+#     # Écrire le header dans le nouveau fichier
+#     new_file.write(header + '\n')
+#     # Écrire les données modifiées dans le nouveau fichier
+#     np.savetxt(new_file, new_data, delimiter='\t', fmt='%s')
 
-print("Data saved.")
+# print("Data saved.")

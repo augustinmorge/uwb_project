@@ -187,6 +187,8 @@ void newRange() {
   dwSerial.print(sentence2);
   // Serial.print(sentence2);
 
+  
+
 }
 
 void newDevice(DW1000Device *device) {

@@ -37,7 +37,7 @@
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
 #define ANCHOR_ADD "81:17:5B:D5:A9:9:E2:9C"
-float this_anchor_target_distance = 12.105; //measured distance to anchor in m
+float this_anchor_target_distance = 6.916; //measured distance to anchor in m
 
 float this_anchor_Adelay = 16550; //starting value
 float Adelay_delta = 20; //initial binary search step size
