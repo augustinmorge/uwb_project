@@ -1,0 +1,409 @@
+<?xml version="1.0" standalone="yes"?>
+<delphInsProject>
+	<edition>RD</edition>
+	<adaptors decimalSeparator=".">
+		<processingTime mode="elapsedTime">
+			<elapsedTime notation="dayHourMinuteSecond" precision="3" active="s">
+				<unit symbol="h" multiplier="3600" divisor="1" offset="0">hour</unit>
+				<unit symbol="min" multiplier="60" divisor="1" offset="0">minute</unit>
+				<unit symbol="ms" multiplier="1" divisor="1000" offset="0">millisecond</unit>
+				<unit symbol="s" multiplier="1" divisor="1" offset="0">second</unit>
+			</elapsedTime>
+			<utc notation="dayMonthYear" precision="3"/>
+		</processingTime>
+		<adaptor data="duration" active="s">
+			<unit symbol="d" multiplier="86400" divisor="1" offset="0">day</unit>
+			<unit symbol="h" multiplier="3600" divisor="1" offset="0">hour</unit>
+			<unit symbol="min" multiplier="60" divisor="1" offset="0">minute</unit>
+			<unit symbol="ms" multiplier="1" divisor="1000" offset="0">millisecond</unit>
+			<unit symbol="s" multiplier="1" divisor="1" offset="0">second</unit>
+			<unit symbol="µs" multiplier="1" divisor="1000000" offset="0">microsecond</unit>
+		</adaptor>
+		<adaptor data="altitude" active="m">
+			<unit symbol="cm" multiplier="1" divisor="100" offset="0">centimeter</unit>
+			<unit symbol="km" multiplier="1000" divisor="1" offset="0">kilometer</unit>
+			<unit symbol="m" multiplier="1" divisor="1" offset="0">meter</unit>
+		</adaptor>
+		<adaptor data="sound-velocity" active="m/s">
+			<unit symbol="m/s" multiplier="1" divisor="1" offset="0">meter per second</unit>
+		</adaptor>
+		<adaptor data="attitude" active="°">
+			<unit symbol="mil" multiplier="360" divisor="6400" offset="0">mil</unit>
+			<unit symbol="rad" multiplier="180" divisor="3.14159265358979" offset="0">radian</unit>
+			<unit symbol="°" multiplier="1" divisor="1" offset="0">degree</unit>
+		</adaptor>
+		<adaptor data="attitude-sd" active="°">
+			<unit symbol="mil" multiplier="360" divisor="6400" offset="0">mil</unit>
+			<unit symbol="rad" multiplier="180" divisor="3.14159265358979" offset="0">radian</unit>
+			<unit symbol="°" multiplier="1" divisor="1" offset="0">degree</unit>
+		</adaptor>
+		<adaptor data="distance" active="m">
+			<unit symbol="cm" multiplier="1" divisor="100" offset="0">centimeter</unit>
+			<unit symbol="ft" multiplier="30.48" divisor="100" offset="0">foot</unit>
+			<unit symbol="in" multiplier="2.54" divisor="100" offset="0">inch</unit>
+			<unit symbol="km" multiplier="1000" divisor="1" offset="0">kilometer</unit>
+			<unit symbol="m" multiplier="1" divisor="1" offset="0">meter</unit>
+			<unit symbol="mi" multiplier="1609.344" divisor="1" offset="0">mile</unit>
+			<unit symbol="nm" multiplier="1852" divisor="1" offset="0">nautical mile</unit>
+			<unit symbol="us-ft" multiplier="30.4800609601219" divisor="100" offset="0">US survey foot</unit>
+			<unit symbol="yd" multiplier="91.44" divisor="100" offset="0">yard</unit>
+		</adaptor>
+		<adaptor data="angular-speed" active="°/h">
+			<unit symbol="rad/s" multiplier="1" divisor="1" offset="0">radian per second</unit>
+			<unit symbol="°/h" multiplier="3.14159265358979" divisor="648000" offset="0">degree per hour</unit>
+			<unit symbol="°/s" multiplier="3.14159265358979" divisor="180" offset="0">degree per second</unit>
+		</adaptor>
+		<adaptor data="linear-acceleration" active="m/s²">
+			<unit symbol="ft/s²" multiplier="30.48" divisor="100" offset="0">feet per second squared</unit>
+			<unit symbol="g" multiplier="9.80665" divisor="1" offset="0">standard gravity</unit>
+			<unit symbol="m/s²" multiplier="1" divisor="1" offset="0">meter per second squared</unit>
+			<unit symbol="µg" multiplier="9.80665" divisor="1000000" offset="0">micro standard gravity</unit>
+		</adaptor>
+		<adaptor data="linear-speed" active="m/s">
+			<unit symbol="km/h" multiplier="1" divisor="3.6" offset="0">kilometer per hour</unit>
+			<unit symbol="kn" multiplier="1852" divisor="3600" offset="0">knot</unit>
+			<unit symbol="m/s" multiplier="1" divisor="1" offset="0">meter per second</unit>
+		</adaptor>
+		<adaptor data="linear-speed-sd" active="m/s">
+			<unit symbol="km/h" multiplier="1" divisor="3.6" offset="0">kilometer per hour</unit>
+			<unit symbol="kn" multiplier="1852" divisor="3600" offset="0">knot</unit>
+			<unit symbol="m/s" multiplier="1" divisor="1" offset="0">meter per second</unit>
+		</adaptor>
+		<adaptor data="geographic-position" notation="degreesMinutes" precision="6" useMathematicalSign="false" omitLastSeparator="true" degreesSeparator="°" minutesSeparator="'" secondsSeparator="'"/>
+		<adaptor data="projected-position" active="m">
+			<unit symbol="cm" multiplier="1" divisor="100" offset="0">centimeter</unit>
+			<unit symbol="ft" multiplier="30.48" divisor="100" offset="0">foot</unit>
+			<unit symbol="in" multiplier="2.54" divisor="100" offset="0">inch</unit>
+			<unit symbol="km" multiplier="1000" divisor="1" offset="0">kilometer</unit>
+			<unit symbol="m" multiplier="1" divisor="1" offset="0">meter</unit>
+			<unit symbol="mi" multiplier="1609.344" divisor="1" offset="0">mile</unit>
+			<unit symbol="nm" multiplier="1852" divisor="1" offset="0">nautical mile</unit>
+			<unit symbol="us-ft" multiplier="30.4800609601219" divisor="100" offset="0">US survey foot</unit>
+			<unit symbol="yd" multiplier="91.44" divisor="100" offset="0">yard</unit>
+		</adaptor>
+		<adaptor data="scale-factor" active="%">
+			<unit symbol="%" multiplier="1" divisor="100" offset="0">percent</unit>
+			<unit symbol="ppm" multiplier="1" divisor="1000000" offset="0">parts per million</unit>
+		</adaptor>
+		<adaptor data="time-drift" active="ms">
+			<unit symbol="ms" multiplier="1" divisor="1000" offset="0">millisecond</unit>
+			<unit symbol="s" multiplier="1" divisor="1" offset="0">second</unit>
+			<unit symbol="µs" multiplier="1" divisor="1000000" offset="0">microsecond</unit>
+		</adaptor>
+		<adaptor data="cross-variance" active="m²">
+			<unit symbol="m²" multiplier="1" divisor="1" offset="0">square meter</unit>
+		</adaptor>
+		<adaptor data="raw-fog-measurment" active="rad">
+			<unit symbol="mrad" multiplier="648000" divisor="3.14159265358979" offset="0">milliradian</unit>
+			<unit symbol="rad" multiplier="648000000" divisor="3.14159265358979" offset="0">radian</unit>
+			<unit symbol="°" multiplier="3600000" divisor="1" offset="0">degree</unit>
+			<unit symbol="µrad" multiplier="648" divisor="3.14159265358979" offset="0">microradian</unit>
+		</adaptor>
+		<adaptor data="raw-acc-measurment" active="m/s">
+			<unit symbol="m/s" multiplier="10000000" divisor="1" offset="0">meter per second</unit>
+			<unit symbol="mm/s" multiplier="10000" divisor="1" offset="0">millimeter per second</unit>
+			<unit symbol="µm/s" multiplier="10" divisor="1" offset="0">micrometer per second</unit>
+		</adaptor>
+		<adaptor data="travel-time" active="ms">
+			<unit symbol="ms" multiplier="1" divisor="1000" offset="0">millisecond</unit>
+			<unit symbol="s" multiplier="1" divisor="1" offset="0">second</unit>
+			<unit symbol="µs" multiplier="1" divisor="1000000" offset="0">microsecond</unit>
+		</adaptor>
+		<adaptor data="signal-to-noise-ratio" active="db">
+			<unit symbol="db" multiplier="1" divisor="1" offset="0">decibel</unit>
+		</adaptor>
+		<adaptor data="phase" active="rad">
+			<unit symbol="rad" multiplier="1" divisor="1" offset="0">radian</unit>
+			<unit symbol="°" multiplier="180" divisor="3.14159265358979" offset="0">degree</unit>
+		</adaptor>
+		<adaptor data="range" active="m">
+			<unit symbol="cm" multiplier="1" divisor="100" offset="0">centimeter</unit>
+			<unit symbol="ft" multiplier="30.48" divisor="100" offset="0">foot</unit>
+			<unit symbol="km" multiplier="1000" divisor="1" offset="0">kilometer</unit>
+			<unit symbol="m" multiplier="1" divisor="1" offset="0">meter</unit>
+			<unit symbol="mm" multiplier="1" divisor="1000" offset="0">millimeter</unit>
+			<unit symbol="us-ft" multiplier="30.4800609601219" divisor="100" offset="0">US survey foot</unit>
+		</adaptor>
+		<adaptor data="range-sd" active="m">
+			<unit symbol="cm" multiplier="1" divisor="100" offset="0">centimeter</unit>
+			<unit symbol="m" multiplier="1" divisor="1" offset="0">meter</unit>
+			<unit symbol="mm" multiplier="1" divisor="1000" offset="0">millimeter</unit>
+		</adaptor>
+		<adaptor data="misalignment" active="°">
+			<unit symbol="mil" multiplier="360" divisor="6400" offset="0">mil</unit>
+			<unit symbol="rad" multiplier="180" divisor="3.14159265358979" offset="0">radian</unit>
+			<unit symbol="°" multiplier="1" divisor="1" offset="0">degree</unit>
+		</adaptor>
+		<adaptor data="lever-arm" active="m">
+			<unit symbol="cm" multiplier="1" divisor="100" offset="0">centimeter</unit>
+			<unit symbol="m" multiplier="1" divisor="1" offset="0">meter</unit>
+			<unit symbol="mm" multiplier="1" divisor="1000" offset="0">millimeter</unit>
+		</adaptor>
+		<adaptor data="speed-bias" active="m/s">
+			<unit symbol="kn" multiplier="1852" divisor="3600" offset="0">knot</unit>
+			<unit symbol="m/s" multiplier="1" divisor="1" offset="0">meter per second</unit>
+		</adaptor>
+		<adaptor data="position-sd" active="m">
+			<unit symbol="cm" multiplier="1" divisor="100" offset="0">centimeter</unit>
+			<unit symbol="m" multiplier="1" divisor="1" offset="0">meter</unit>
+			<unit symbol="mm" multiplier="1" divisor="1000" offset="0">millimeter</unit>
+		</adaptor>
+		<adaptor data="generic-angle" active="°">
+			<unit symbol="mil" multiplier="360" divisor="6400" offset="0">mil</unit>
+			<unit symbol="rad" multiplier="180" divisor="3.14159265358979" offset="0">radian</unit>
+			<unit symbol="°" multiplier="1" divisor="1" offset="0">degree</unit>
+		</adaptor>
+		<adaptor data="pressure" active="dbar">
+			<unit symbol="Pa" multiplier="1" divisor="1" offset="0">pascal</unit>
+			<unit symbol="atm" multiplier="101325" divisor="1" offset="0">atmosphere</unit>
+			<unit symbol="bar" multiplier="100000" divisor="1" offset="0">bar</unit>
+			<unit symbol="dbar" multiplier="10000" divisor="1" offset="0">decibar</unit>
+			<unit symbol="hPa" multiplier="100" divisor="1" offset="0">hectopascal</unit>
+			<unit symbol="mbar" multiplier="100" divisor="1" offset="0">millibar</unit>
+			<unit symbol="psi" multiplier="4.4482216152605" divisor="0.00064516" offset="0">pounds per square inch</unit>
+		</adaptor>
+		<adaptor data="density" active="mS/cm">
+			<unit symbol="g/cm³" multiplier="1000" divisor="1" offset="0">gram per cubic centimeter</unit>
+			<unit symbol="kg/l" multiplier="1000" divisor="1" offset="0">kilogram per liter</unit>
+			<unit symbol="kg/m³" multiplier="1" divisor="1" offset="0">kilogram per cubic meter</unit>
+			<unit symbol="mS/cm" multiplier="1" divisor="1" offset="0">millisiemens per centimeter</unit>
+			<unit symbol="t/m³" multiplier="1000" divisor="1" offset="0">metric ton per cubic meter</unit>
+		</adaptor>
+		<adaptor data="conductivity" active="mS/cm">
+			<unit symbol="S/m" multiplier="1000" divisor="100" offset="0">siemens per meter</unit>
+			<unit symbol="mS/cm" multiplier="1" divisor="1" offset="0">millisiemens per centimeter</unit>
+		</adaptor>
+		<adaptor data="temperature" active="°C">
+			<unit symbol="K" multiplier="1" divisor="1" offset="273.15">kelvin</unit>
+			<unit symbol="°C" multiplier="1" divisor="1" offset="0">celcius degree</unit>
+			<unit symbol="°F" multiplier="5" divisor="9" offset="32">fahrenheit degree</unit>
+		</adaptor>
+	</adaptors>
+	<dataFile path=".\03_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf" id="file01" timeOffset="0.000000"/>
+	<dataFile path=".\03_07_2023_PH-2248_A_POSTPROCESSING-replay.xpf" id="output" label="Processing result" timeOffset="0.000000"/>
+	<dataFile path=".\anchor_03_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" id="file02" timeOffset="0.000000"/>
+	<dataFile path=".\dbm_03_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" id="file03" timeOffset="0.000000"/>
+	<spatialReference name="WGS84 / World mercator" syntax="proj4">+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs&lt;</spatialReference>
+	<jobContext>
+		<jobAttribute id="client" name="Client"/>
+		<jobAttribute id="vessel" name="Vessel"/>
+		<jobAttribute id="job" name="Job"/>
+		<jobAttribute id="software-name" name="Software name">Delph INS Research &amp; Development</jobAttribute>
+		<jobAttribute id="software-version" name="Software version">3.6.0</jobAttribute>
+	</jobContext>
+	<graphicSheet title="time view" from="-0.007" to="4432.2214" legend="right">
+		<graphic type="measure" nature="latitude" height="150">
+			<curve dataFile="output" channel="primary-nav" field="latitude" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Navigation at 'primary' - Latitude</curve>
+		</graphic>
+		<graphic type="measure" nature="immersion" height="150">
+			<group dataFile="file03" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
+				<label>Range-meter / LBL - Depth</label>
+				<hide value="16"/>
+				<hide value="18"/>
+				<hide value="19"/>
+				<curve groupingValue="17" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 17 Range-meter / LBL - Depth</curve>
+			</group>
+		</graphic>
+		<graphic type="measure" nature="unknown" height="146">
+			<verticalScale min="-149.31915429793" max="5.00701374247137"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl1DistOInnov</curve>
+		</graphic>
+		<graphic type="measure" nature="altitude" height="150">
+			<verticalScale min="89.8864605426788" max="95.8110058307648"/>
+			<curve dataFile="file01" channel="INS_NAV" field="altitude" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">INS real-time navigation - Altitude</curve>
+		</graphic>
+		<graphic type="measure" nature="altitudeSd" height="150">
+			<verticalScale min="0.676999986171722" max="3.80800008773804"/>
+			<curve dataFile="file01" channel="GPS_1" field="altitudeSd" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">GPS #1 - Altitude sd</curve>
+		</graphic>
+		<graphic type="measure" nature="immersion" height="150">
+			<verticalScale min="-141.606002807617" max="-139.106002807617"/>
+			<group dataFile="file02" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
+				<label>Range-meter / LBL - Depth</label>
+				<curve groupingValue="6016" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 6016 Range-meter / LBL - Depth</curve>
+				<curve groupingValue="6017" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 6017 Range-meter / LBL - Depth</curve>
+				<curve groupingValue="6018" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 6018 Range-meter / LBL - Depth</curve>
+				<curve groupingValue="6019" color="ff8064a2" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff8064a2" markerFillColor="ff8064a2">Beacon ID = 6019 Range-meter / LBL - Depth</curve>
+			</group>
+		</graphic>
+		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
+			<title>Beacons output of sensor 'anchor' - Status</title>
+		</graphic>
+		<graphic type="measure" nature="immersion" height="150">
+			<group dataFile="file03" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
+				<label>Range-meter / LBL - Depth</label>
+				<hide value="16"/>
+				<hide value="18"/>
+				<hide value="19"/>
+				<curve groupingValue="17" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 17 Range-meter / LBL - Depth</curve>
+			</group>
+		</graphic>
+	</graphicSheet>
+	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="19.000000" automaticProjection="true" mapLayer="osm">
+		<center easting="431452.141653" northing="5416746.414819" latitude="48.899869" longitude="2.064686"/>
+		<layer type="xpfTrack" visible="true" label="Navigation at 'primary' - Processing result" dataFile="output" channel="primary-nav" latitude="latitude" longitude="longitude" displayAsPoints="false">
+			<pen style="solid" color="ff4f81bd" width="3.000000"/>
+			<marker style="none" lineColor="ff4f81bd" fillColor="ff4f81bd" size="9.000000"/>
+			<colorMode mode="none" low="0.100000" high="0.300000"/>
+		</layer>
+		<layer type="xpfTrack" visible="true" label="GPS #1 - 03_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf" dataFile="file01" channel="GPS_1" latitude="latitude" longitude="longitude" displayAsPoints="false">
+			<pen style="solid" color="ff9bbb59" width="3.000000"/>
+			<marker style="none" lineColor="ff9bbb59" fillColor="ff9bbb59" size="9.000000"/>
+			<colorMode mode="none" low="0.100000" high="0.300000"/>
+		</layer>
+		<layer type="xpfTrack" visible="true" label="Range-meter / LBL - anchor_03_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" dataFile="file02" channel="LBL" latitude="latitude" longitude="longitude" displayAsPoints="false">
+			<pen style="none" color="ff4f81bd" width="3.000000"/>
+			<marker style="circle" lineColor="ffff1418" fillColor="ffff1418" size="9.000000"/>
+			<colorMode mode="none" low="0.100000" high="0.300000"/>
+		</layer>
+	</plan>
+	<graphicSheet title="time view 2" from="-0.007" to="4432.2214" legend="right">
+		<graphic type="measure" nature="attitude" height="150">
+			<curve dataFile="file01" channel="INS_NAV" field="heading" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">INS real-time navigation - Heading</curve>
+		</graphic>
+		<graphic type="measure" nature="attitude" height="150">
+			<curve dataFile="file01" channel="INS_NAV" field="roll" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">INS real-time navigation - Roll</curve>
+		</graphic>
+		<graphic type="measure" nature="attitude" height="150">
+			<curve dataFile="file01" channel="INS_NAV" field="pitch" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">INS real-time navigation - Pitch</curve>
+		</graphic>
+	</graphicSheet>
+	<graphicSheet title="time view 3" from="-0.007" to="4432.2214" legend="right">
+		<graphic type="measure" nature="altitude" height="150">
+			<verticalScale min="82.9436340332031" max="106.641815185547"/>
+			<curve dataFile="file01" channel="INS_NAV" field="altitude" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">INS real-time navigation - Altitude</curve>
+		</graphic>
+		<graphic type="measure" nature="immersion" height="150">
+			<verticalScale min="-140.981002807617" max="-140.322998046875"/>
+			<group dataFile="file02" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
+				<label>Range-meter / LBL - Depth</label>
+				<curve groupingValue="6016" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Beacon ID = 6016 Range-meter / LBL - Depth</curve>
+				<curve groupingValue="6017" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 6017 Range-meter / LBL - Depth</curve>
+				<curve groupingValue="6018" color="ff9bbb59" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff9bbb59" markerFillColor="ff9bbb59">Beacon ID = 6018 Range-meter / LBL - Depth</curve>
+				<curve groupingValue="6019" color="ff8064a2" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff8064a2" markerFillColor="ff8064a2">Beacon ID = 6019 Range-meter / LBL - Depth</curve>
+			</group>
+		</graphic>
+		<graphic type="measure" nature="unknown" height="150">
+			<verticalScale min="-0.264974358763531" max="3.22734975857557E-02"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl1DistOInnov</curve>
+		</graphic>
+		<graphic type="measure" nature="unknown" height="150">
+			<verticalScale min="-107.392614230218" max="56.0288198649027"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl2DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl2DistOInnov</curve>
+		</graphic>
+		<graphic type="measure" nature="unknown" height="150">
+			<verticalScale min="-34.7586138837709" max="7.88467556328651"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl3DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl3DistOInnov</curve>
+		</graphic>
+		<graphic type="measure" nature="unknown" height="150">
+			<verticalScale min="-3.79401107190553" max="6.75463468211071"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl4DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl4DistOInnov</curve>
+		</graphic>
+	</graphicSheet>
+	<graphicSheet title="time view 4" from="2492.9643813" to="3600.9441063" legend="right">
+		<graphic type="measure" nature="unknown" height="150">
+			<verticalScale min="-2.2595063562339" max="3.24066289350696"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl4DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl4DistOInnov</curve>
+		</graphic>
+		<graphic type="measure" nature="immersion" height="150">
+			<group dataFile="file03" channel="LBL" field="depth" groupingField="beaconId" scaleFactor="1">
+				<label>Range-meter / LBL - Depth</label>
+				<hide value="16"/>
+				<hide value="18"/>
+				<hide value="19"/>
+				<curve groupingValue="17" color="ffc0504d" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ffc0504d" markerFillColor="ffc0504d">Beacon ID = 17 Range-meter / LBL - Depth</curve>
+			</group>
+		</graphic>
+	</graphicSheet>
+	<instantValues>
+		<measure dataFile="file03" channel="LBL" field="depth" nature="immersion"/>
+		<measure dataFile="output" channel="RANGE_KAL_MEAS" field="lbl4DistOInnov" nature="unknown"/>
+	</instantValues>
+	<ins serialNumber="PH-2248">
+		<roughMisalignment>front-left-top</roughMisalignment>
+		<fineMisalignment heading="0.000 °" roll="0.000 °" pitch="0.000 °"/>
+		<dataSource path="file01.IMU"/>
+	</ins>
+	<gps label="gps1" location="vehicle" enabled="true">
+		<leverArm xv1="0.56 m" xv2="0 m" xv3="0 m"/>
+		<operatingMode mode="on"/>
+		<operatingMode from="1 s" mode="on"/>
+	</gps>
+	<rangeMeter label="anchor" location="vehicle" enabled="true">
+		<leverArm xv1="0.317 m" xv2="-0.383 m" xv3="0.6 m"/>
+		<dataSource path="file02.LBL"/>
+		<operatingMode mode="off"/>
+		<beacons>
+			<beacon id="16" latitude="85°00.879997 N" longitude="078°00.979996 E" depth="631.071 m" enabled="false"/>
+			<beacon id="17" latitude="10°05.905997 N" longitude="097°00.759999 E" depth="63.639 m" enabled="false"/>
+			<beacon id="18" latitude="76°00.321000 N" longitude="071°00.929997 E" depth="144.555 m" enabled="false"/>
+			<beacon id="19" latitude="82°00.613996 N" longitude="061°00.629999 E" depth="369.479 m" enabled="false"/>
+			<beacon id="6016" latitude="48°53.994899 N" longitude="002°03.888958 E" depth="-93.721 m" enabled="true"/>
+			<beacon id="6017" latitude="48°53.990297 N" longitude="002°03.923699 E" depth="-93.446 m" enabled="true"/>
+			<beacon id="6018" latitude="48°54.021498 N" longitude="002°03.853211 E" depth="-93.063 m" enabled="true"/>
+			<beacon id="6019" latitude="48°54.015096 N" longitude="002°03.834764 E" depth="-93.205 m" enabled="true"/>
+		</beacons>
+	</rangeMeter>
+	<rangeMeter label="dbm" location="vehicle" enabled="false">
+		<leverArm xv1="" xv2="" xv3=""/>
+		<dataSource path="file03.LBL"/>
+		<beacons>
+			<beacon id="16" latitude="85°00.879997 N" longitude="078°00.979996 E" depth="631.071 m" enabled="true"/>
+			<beacon id="17" latitude="10°05.905997 N" longitude="097°00.759999 E" depth="63.639 m" enabled="true"/>
+			<beacon id="18" latitude="76°00.321000 N" longitude="071°00.929997 E" depth="144.555 m" enabled="true"/>
+			<beacon id="19" latitude="82°00.613996 N" longitude="061°00.629999 E" depth="369.479 m" enabled="true"/>
+			<beacon id="6016" latitude="48°53.994899 N" longitude="002°03.888958 E" depth="-93.721 m" enabled="false"/>
+			<beacon id="6017" latitude="48°53.990297 N" longitude="002°03.923699 E" depth="-93.446 m" enabled="false"/>
+			<beacon id="6018" latitude="48°54.021498 N" longitude="002°03.853211 E" depth="-93.063 m" enabled="false"/>
+			<beacon id="6019" latitude="48°54.015096 N" longitude="002°03.834764 E" depth="-93.205 m" enabled="false"/>
+		</beacons>
+	</rangeMeter>
+	<insProcessing algorithm="basic" initialDirection="forward" system="land" gnssQualityFilter="62">
+		<initialConditions>
+			<position mode="automatic">
+				<latitude>4854.01278 N</latitude>
+				<longitude>00203.84278 E</longitude>
+				<altitude>92.43 m</altitude>
+			</position>
+			<attitude headingAccuracyOnAzimut="true">
+				<heading>200 °</heading>
+				<roll>1.4 °</roll>
+				<pitch>1.12 °</pitch>
+			</attitude>
+			<speed>
+				<north>0 m/s</north>
+				<east>0 m/s</east>
+				<up>0 m/s</up>
+			</speed>
+		</initialConditions>
+		<heaveCalculation>
+			<cogLeverArm xv1="0.000 m" xv2="0.000 m" xv3="0.000 m"/>
+		</heaveCalculation>
+		<currentModeling>
+			<sigma>1.000 m/s</sigma>
+			<time>10800.000 s</time>
+			<distance/>
+		</currentModeling>
+		<alZupt>
+			<leverArm xv1="0.000 m" xv2="0.000 m" xv3="0.000 m"/>
+		</alZupt>
+		<altitudeMode mode="live"/>
+		<positionPriority mode="none"/>
+	</insProcessing>
+	<gnssProcessing enabled="true" outputGnssPvt="true" ixgnss="true" ppp="false">
+		<rover path=".\07_03.obs">
+			<antenna/>
+		</rover>
+		<elevationMask>10.00 °</elevationMask>
+		<commands continueOnErrors="false"># This file can be used to store the additionnal commands that must be sent to the
+# GNSS post-processing engine.</commands>
+		<constellations names="GPS;GLONASS;GALILEO;BEIDOU;"/>
+		<ephemeris path=".\Rinex\COD22691.EPH_P"/>
+	</gnssProcessing>
+	<output label="primary" userSpeed="true" heave="off" altitudeReference="geoid">
+		<leverArm xv1="0.000 m" xv2="0.000 m" xv3="0.000 m"/>
+		<misalignment heading="0.000 °" roll="0.000 °" pitch="0.000 °"/>
+		<rate value="1.000 s" synchro="utc"/>
+	</output>
+	<advancedParameters/>
+</delphInsProject>

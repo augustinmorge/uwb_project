@@ -207,8 +207,8 @@
 			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl1DistOInnov</curve>
 		</graphic>
 	</graphicSheet>
-	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="18.000000" automaticProjection="true" mapLayer="osm">
-		<center easting="431477.796492" northing="5416789.768122" latitude="48.900262" longitude="2.065029"/>
+	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="19.000000" automaticProjection="true" mapLayer="osm">
+		<center easting="431431.192940" northing="5416761.268845" latitude="48.900000" longitude="2.064398"/>
 		<layer type="xpfTrack" visible="true" label="GPS #1 - 28_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf" dataFile="file01" channel="GPS_1" latitude="latitude" longitude="longitude" displayAsPoints="false">
 			<pen style="solid" color="ff4f81bd" width="3.000000"/>
 			<marker style="none" lineColor="ff4f81bd" fillColor="ff4f81bd" size="9.000000"/>
@@ -236,9 +236,28 @@
 			</group>
 		</graphic>
 	</graphicSheet>
+	<graphicSheet title="time view 3" from="0.01" to="5099.916" legend="right">
+		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
+			<title>Beacons output of sensor 'anchor' - Status</title>
+		</graphic>
+		<graphic type="measure" nature="unknown" height="150">
+			<verticalScale min="-1.94185432422821" max="2.67542014578374"/>
+			<curve dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1DistOInnov" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">RANGE_KAL_MEAS - lbl1DistOInnov</curve>
+		</graphic>
+	</graphicSheet>
+	<graphicSheet title="time view 4" from="0.01" to="5099.916" legend="right">
+		<graphic type="measure" nature="positionSd" height="150">
+			<curve dataFile="output" channel="primary-nav" field="northingSd" scaleFactor="1" color="ff4f81bd" lineStyle="solid" lineWidth="1" marker="none" markerSize="9" markerLineColor="ff4f81bd" markerFillColor="ff4f81bd">Navigation at 'primary' - Northing sd</curve>
+		</graphic>
+		<graphic type="enum" dataFile="output" channel="anchor-rmb" field="status" enum="status">
+			<title>Beacons output of sensor 'anchor' - Status</title>
+		</graphic>
+	</graphicSheet>
 	<instantValues>
 		<measure dataFile="output" channel="RANGE_KAL_MEAS" field="lbl1distance" nature="distance"/>
 		<measure dataFile="file02" channel="LBL" field="range" nature="range"/>
+		<enum dataFile="output" channel="anchor-rmb" field="status" enum="status"/>
+		<measure dataFile="output" channel="primary-nav" field="northingSd" nature="positionSd"/>
 	</instantValues>
 	<ins serialNumber="PH-2248">
 		<roughMisalignment>front-left-top</roughMisalignment>
@@ -254,20 +273,7 @@
 		<leverArm xv1="-0.698 m" xv2="0.2 m" xv3="1.170 m"/>
 		<dataSource path="file02.LBL"/>
 		<operatingMode mode="off"/>
-		<beacons>
-			<beacon id="16" latitude="76°00.505997 N" longitude="063°00.359997 E" depth="340.692 m" enabled="false"/>
-			<beacon id="17" latitude="00°00.000000 N" longitude="088°00.790000 E" depth="220.688 m" enabled="false"/>
-			<beacon id="18" latitude="10°03.250998 N" longitude="104°00.769997 E" depth="83.077 m" enabled="false"/>
-			<beacon id="19" latitude="89°00.464998 N" longitude="080°00.129999 E" depth="362.365 m" enabled="false"/>
-			<beacon id="6016" latitude="48°53.994899 N" longitude="002°03.888958 E" depth="-93.721 m" enabled="true"/>
-			<beacon id="6017" latitude="48°53.990297 N" longitude="002°03.923699 E" depth="-93.446 m" enabled="true"/>
-			<beacon id="6018" latitude="48°54.021498 N" longitude="002°03.853211 E" depth="-93.063 m" enabled="true"/>
-			<beacon id="6019" latitude="48°54.015096 N" longitude="002°03.834764 E" depth="-93.205 m" enabled="true"/>
-		</beacons>
-	</rangeMeter>
-	<rangeMeter label="dbm" location="vehicle" enabled="false">
-		<leverArm xv1="" xv2="" xv3=""/>
-		<dataSource path="file03.LBL"/>
+		<userSd mode="fixed" value="0.5 m"/>
 		<beacons>
 			<beacon id="16" latitude="76°00.505997 N" longitude="063°00.359997 E" depth="340.692 m" enabled="false"/>
 			<beacon id="17" latitude="00°00.000000 N" longitude="088°00.790000 E" depth="220.688 m" enabled="false"/>

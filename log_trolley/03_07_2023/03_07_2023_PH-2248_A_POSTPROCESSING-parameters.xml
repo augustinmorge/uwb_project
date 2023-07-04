@@ -1,0 +1,72 @@
+<?xml version="1.0" standalone="yes"?>
+<postproInsParameters>
+	<inputFile path=".\03_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf" id="file01" timeOffset="0.000000"/>
+	<inputFile path=".\anchor_03_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" id="file02" timeOffset="0.000000"/>
+	<inputFile path=".\dbm_03_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" id="file03" timeOffset="0.000000"/>
+	<outputFile id="output" path=".\03_07_2023_PH-2248_A_POSTPROCESSING-replay.xpf"/>
+	<ins>
+		<roughMisalignment>front-left-top</roughMisalignment>
+		<fineMisalignment heading="0" roll="0" pitch="0"/>
+		<dataSource path="file01.IMU"/>
+	</ins>
+	<gps label="gps1" enabled="yes">
+		<leverArm xv1="0.56" xv2="0" xv3="0"/>
+		<operatingMode mode="on"/>
+		<operatingMode from="1" mode="on"/>
+	</gps>
+	<rangeMeter label="anchor" enabled="yes">
+		<dataSource path="file02.LBL"/>
+		<leverArm xv1="0.317" xv2="-0.383" xv3="0.6"/>
+		<operatingMode mode="off"/>
+		<beacons>
+			<beacon id="6016" latitude="48.8999149833333" longitude="2.06481596666667" depth="-93.721" enabled="yes"/>
+			<beacon id="6017" latitude="48.8998382833333" longitude="2.06539498333333" depth="-93.446" enabled="yes"/>
+			<beacon id="6018" latitude="48.9003583" longitude="2.06422018333333" depth="-93.063" enabled="yes"/>
+			<beacon id="6019" latitude="48.9002516" longitude="2.06391273333333" depth="-93.205" enabled="yes"/>
+		</beacons>
+	</rangeMeter>
+	<insProcessing algorithm="basic" processingMode="navigation" initialDirection="forward" system="land" gnssQualityFilter="62" outOfStraightness="false">
+		<initialConditions>
+			<position mode="automatic"/>
+			<attitude>
+				<heading>200.000000</heading>
+				<roll>1.400000</roll>
+				<pitch>1.120000</pitch>
+			</attitude>
+			<speed>
+				<north>0.000000</north>
+				<east>0.000000</east>
+				<up>0.000000</up>
+			</speed>
+		</initialConditions>
+		<altitudeMode mode="live"/>
+		<positionPriority mode="none"/>
+	</insProcessing>
+	<gnssProcessing enabled="true" outputGnssPvt="false" ixgnss="true" ppp="false">
+		<rover path=".\07_03.obs">
+			<antenna/>
+		</rover>
+		<elevationMask>10</elevationMask>
+		<commands continueOnErrors="false"># This file can be used to store the additionnal commands that must be sent to the
+# GNSS post-processing engine.</commands>
+		<constellations names="GPS;GLONASS;GALILEO;BEIDOU;"/>
+		<ephemeris path=".\Rinex\COD22691.EPH_P"/>
+	</gnssProcessing>
+	<vehicleModels>
+		<virtualSensorsConfig>
+			<alZupt>
+				<leverArm xv1="0" xv2="0" xv3="0"/>
+			</alZupt>
+		</virtualSensorsConfig>
+	</vehicleModels>
+	<output label="primary" userSpeed="true" heave="off" altitudeReference="geoid">
+		<leverArm xv1="0" xv2="0" xv3="0"/>
+		<misalignment heading="0" roll="0" pitch="0"/>
+		<rate value="1" synchro="utc"/>
+	</output>
+	<advancedParameters/>
+<advancedOutputs enabled="true"> 
+   <output name="RANGE_KAL_MEAS" enabled="true"/> 
+   <output name="POS_KAL_MEAS" enabled="true"/> 
+</advancedOutputs> 
+</postproInsParameters> 

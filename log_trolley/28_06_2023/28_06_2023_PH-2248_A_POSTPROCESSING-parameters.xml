@@ -2,7 +2,6 @@
 <postproInsParameters>
 	<inputFile path=".\28_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf" id="file01" timeOffset="0.000000"/>
 	<inputFile path=".\anchor_28_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" id="file02" timeOffset="0.000000"/>
-	<inputFile path=".\dbm_28_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" id="file03" timeOffset="0.000000"/>
 	<outputFile id="output" path=".\28_06_2023_PH-2248_A_POSTPROCESSING-replay.xpf"/>
 	<ins>
 		<roughMisalignment>front-left-top</roughMisalignment>
@@ -18,6 +17,7 @@
 		<dataSource path="file02.LBL"/>
 		<leverArm xv1="-0.698" xv2="0.2" xv3="1.17"/>
 		<operatingMode mode="off"/>
+		<userSd mode="fixed" value="0.5"/>
 		<beacons>
 			<beacon id="6016" latitude="48.8999149833333" longitude="2.06481596666667" depth="-93.721" enabled="yes"/>
 			<beacon id="6017" latitude="48.8998382833333" longitude="2.06539498333333" depth="-93.446" enabled="yes"/>

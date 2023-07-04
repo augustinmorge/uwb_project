@@ -191,11 +191,16 @@
 		<jobAttribute id="software-name" name="Software name">Delph INS Research &amp; Development</jobAttribute>
 		<jobAttribute id="software-version" name="Software version">3.6.0</jobAttribute>
 	</jobContext>
-	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="19.000000" automaticProjection="true" mapLayer="osm">
-		<center easting="431447.468820" northing="5416754.316989" latitude="48.899939" longitude="2.064621"/>
+	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="21.000000" automaticProjection="true" mapLayer="osm">
+		<center easting="431456.253001" northing="5416760.990917" latitude="48.900000" longitude="2.064740"/>
 		<layer type="xpfTrack" visible="true" label="GPS #1 - 27_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf" dataFile="file01" channel="GPS_1" latitude="latitude" longitude="longitude" displayAsPoints="false">
 			<pen style="solid" color="ff4f81bd" width="3.000000"/>
 			<marker style="none" lineColor="ff4f81bd" fillColor="ff4f81bd" size="9.000000"/>
+			<colorMode mode="none" low="0.100000" high="0.300000"/>
+		</layer>
+		<layer type="xpfTrack" visible="true" label="INS real-time navigation - 27_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf" dataFile="file01" channel="INS_NAV" latitude="latitude" longitude="longitude" displayAsPoints="false">
+			<pen style="solid" color="ffc0504d" width="3.000000"/>
+			<marker style="none" lineColor="ffc0504d" fillColor="ffc0504d" size="9.000000"/>
 			<colorMode mode="none" low="0.100000" high="0.300000"/>
 		</layer>
 	</plan>

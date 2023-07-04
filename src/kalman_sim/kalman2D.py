@@ -171,9 +171,9 @@ def Kalman(xbar, P, u, y, Q, R, F, G, H):
 if __name__ == "__main__":
     global col
     col = []
-    display_bot = 0
-    UWB = 1
-    GNSS = 0
+    display_bot = 1
+    UWB = 0
+    GNSS = 1
     odometer = 0
 
     if display_bot:
