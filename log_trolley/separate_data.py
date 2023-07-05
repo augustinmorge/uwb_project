@@ -21,7 +21,7 @@ import numpy as np
 current_directory = os.path.dirname(__file__)
 
 # date = "03_07_2023"
-date = "28_06_2023"
+date = "05_07_2023"
 filename = f'{date}_PH-2248_A_POSTPROCESSING-ins.xpf.txt'
 file_name = f"{date}\\{filename}"
 print(file_name)
@@ -45,10 +45,10 @@ if filtered_data_anchor[0, 5].astype(float) > -100:
     print("old altititude: ", filtered_data_anchor[:, 5])
     filtered_data_anchor[:, 5] = (filtered_data_anchor[:, 5].astype(float) - 47.26).astype(str) # Conversion en chaînes de caractères
 print("new altitude : ", filtered_data_anchor[:, 5])
-filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6016), 7] = '0.1'
-filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6017), 7] = '0.1'
-filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6018), 7] = '0.1'
-filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6019), 7] = '0.1'
+filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6016), 7] = '0.2'
+filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6017), 7] = '0.2'
+filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6018), 7] = '0.2'
+filtered_data_anchor[np.where(filtered_data_anchor[:, 2].astype(float) == 6019), 7] = '0.2'
 np.savetxt(new_file_anchor_path, filtered_data_anchor, delimiter='\t', fmt='%s', newline='\n', header=header, comments='')
 
 

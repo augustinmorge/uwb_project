@@ -208,7 +208,7 @@
 		</graphic>
 	</graphicSheet>
 	<plan title="plan view 1" scale="left" positionPanel="left" positionType="projected" zoom="19.000000" automaticProjection="true" mapLayer="osm">
-		<center easting="431431.192940" northing="5416761.268845" latitude="48.900000" longitude="2.064398"/>
+		<center easting="431355.416195" northing="5416738.144704" latitude="48.899784" longitude="2.063368"/>
 		<layer type="xpfTrack" visible="true" label="GPS #1 - 28_06_2023_PH-2248_A_POSTPROCESSING-ins.xpf" dataFile="file01" channel="GPS_1" latitude="latitude" longitude="longitude" displayAsPoints="false">
 			<pen style="solid" color="ff4f81bd" width="3.000000"/>
 			<marker style="none" lineColor="ff4f81bd" fillColor="ff4f81bd" size="9.000000"/>
