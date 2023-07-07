@@ -39,7 +39,7 @@ def display_interp():
     figd2.suptitle("d_meas_xpf Histogramme")
 
     fig_h, axs_h = plt.subplots(2,2)
-    fig_h.suptitle("Error depending on direction")
+    fig_h.suptitle(f"Error depending on direction\n{test}")
 
     for id in anchor_id:
 
@@ -67,7 +67,7 @@ def display_interp():
 
         axd = axsd[nid//2, nid%2]
         axd.set_title(f"Distance {id}")
-        axd.plot(b['time'], d_lbl, label = 'distance')
+        axd.plot(b['time'], b['lbl_range'], label = 'distance')
         axd.set_ylabel("distance [m]")
         axd.set_xlabel("time [s]")
 
@@ -211,12 +211,13 @@ def display_interp():
         ### Display heading ###
         ax_h = axs_h[nid//2, nid%2]
         ax_h.scatter(sawtooth(np.arctan2((b["beacon_y"] - b["ins_y"]),(b["beacon_x"] - b["ins_x"])) - np.pi/2 - b["heading"]), b["Innov_o"], s=0.5)
-        ax_h.set_xlabel("Direction")
+        ax_h.set_xlabel("Direction [rad]")
         ax_h.set_ylabel("Innovation")
         ax_h.set_title(hex(int(id)))
         ax_h.set_ylim([-5,5])
 
-display_interp()
+if interpolate:
+    display_interp()
 
 
 # Convertir les coordonnées de l'gps en coordonnées cartésiennes

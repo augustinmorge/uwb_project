@@ -3,9 +3,15 @@ import numpy as np
 import pyproj
 from xpf2py.xpf2py import xpf2py
 
+# test = '28_06_2023'
+# test = '03_07_2023'
+test = '05_07_2023'
+
 interpolate = 1
 without_alignement = 1
-whithout_jump = 0
+whitout_jump = 0
+print(f"We interpolate data : {interpolate==1}")
+print(f"We compute with alignement : {without_alignement==0}")
 
 sawtooth = lambda theta : (2*np.arctan(np.tan(theta/2)))
 # Créer un objet de projection cartésienne
@@ -20,9 +26,7 @@ current_directory = os.path.dirname(__file__)
 # test = '06_06_2023\chariot_3roues'
 # file_name = f"{test}\chariot_3roues_PH-2248_R_PHINS_STANDARD.log"
 
-# test = '28_06_2023'
-# test = '03_07_2023'
-# test = '05_07_2023'
+
 file_name = f"{current_directory}\\{test}\\{test}_PH-2248_R_PHINS_STANDARD.log"
 
 # file_path = os.path.join(current_directory, file_name)
@@ -82,7 +86,7 @@ time_dbm_s = np.array(list(map(lambda t: sum(float(x) * coef for x, coef in zip(
                               + float(t.split(':')[-1]) / 1000, time_dbm_s)))
 
 
-if whithout_jump:
+if whitout_jump:
     window_size = 50
     idx_start = np.where(time_s > (time_s[0] + 15*60))[0][0] #Les minutes d'alignement
     print(time_s[idx_start])
@@ -146,6 +150,8 @@ d_meas_xpf = {6016 : xpf_content["data"]['RANGE_KAL_MEAS']["lbl3distance"].astyp
             6019 : xpf_content["data"]['RANGE_KAL_MEAS']["lbl2distance"].astype(float).squeeze()}
 
 heading = xpf_content["data"]["primary_nav"]["heading"].squeeze()*np.pi/180
+if (float(test.split("_")[0])+float(test.split("_")[1])*365/12) < (3 + 7*365/12): 
+    heading += np.pi
 time_ins_s = (xpf_content["data"]["primary_nav"]["date"].astype(float)/10**7 + utc_offset).squeeze()
 
 ins_latitude = (xpf_content["data"]["primary_nav"]["latitude"]).astype(float).squeeze()
@@ -159,6 +165,7 @@ def debug(args_s, args):
         print(args_s[i] + " : ", args[i])
 
 
+WA_idx = {}
 if interpolate:
     from scipy.interpolate import interp1d
 
@@ -253,34 +260,36 @@ if interpolate:
                     end_idx = i
                     break
 
-            mask_start = np.concatenate((np.array([False] * start_idx), np.array([True] * (diff_values.shape[0] - start_idx + 1))))
-            mask_end = np.concatenate((np.array([True] * end_idx), np.array([False] * (diff_values.shape[0] - end_idx + 1))))
-            mask = mask_start & mask_end
-        else:
-            mask = np.array([True]*time_interp.shape[0])
+            WA_idx[id] = [start_idx, end_idx]
+
+        #     mask_start = np.concatenate((np.array([False] * start_idx), np.array([True] * (diff_values.shape[0] - start_idx + 1))))
+        #     mask_end = np.concatenate((np.array([True] * end_idx), np.array([False] * (diff_values.shape[0] - end_idx + 1))))
+        #     mask = mask_start & mask_end
+        # else:
+        #     mask = np.array([True]*time_interp.shape[0])
 
 
         anchor_interp_data[id] = {
-            'time': time_interp[mask],
-            'gps_latitude': gps_latitude_interp[mask],
-            'gps_longitude': gps_longitude_interp[mask],
-            'gps_altitude': gps_altitude_interp[mask],
-            'beacon_latitudes': beacon_latitudes_interp[mask],
-            'beacon_longitudes': beacon_longitudes_interp[mask],
-            'beacon_depths': beacon_depths_interp[mask],
-            'lbl_range': lbl_range_interp[mask],
-            'ins_x' : ins_x_interp[mask],
-            'ins_y' : ins_y_interp[mask],
-            'ins_z' : ins_altitude_interp[mask],
-            'beacon_x' : beacon_x_interp[mask],
-            'beacon_y' : beacon_y_interp[mask],
-            'RXPower_FPPower': RXPower_FPPower_interp[mask],
-            'RXPower': RXPower_interp[mask],
-            'FPPower': FPPower_interp[mask],
-            'Quality': Quality_interp[mask],
-            'Innov_o' : Innov_o[mask],
-            "d_meas_xpf" : d_meas_xpf_id[mask],
-            "heading" : heading_interp[mask],
+            'time': time_interp,
+            'gps_latitude': gps_latitude_interp,
+            'gps_longitude': gps_longitude_interp,
+            'gps_altitude': gps_altitude_interp,
+            'beacon_latitudes': beacon_latitudes_interp,
+            'beacon_longitudes': beacon_longitudes_interp,
+            'beacon_depths': beacon_depths_interp,
+            'lbl_range': lbl_range_interp,
+            'ins_x' : ins_x_interp,
+            'ins_y' : ins_y_interp,
+            'ins_z' : ins_altitude_interp,
+            'beacon_x' : beacon_x_interp,
+            'beacon_y' : beacon_y_interp,
+            'RXPower_FPPower': RXPower_FPPower_interp,
+            'RXPower': RXPower_interp,
+            'FPPower': FPPower_interp,
+            'Quality': Quality_interp,
+            'Innov_o' : Innov_o,
+            "d_meas_xpf" : d_meas_xpf_id,
+            "heading" : heading_interp,
         }
 
         
@@ -291,3 +300,16 @@ if interpolate:
             print("\n /!\ No data for interpolation /!\ ")
             import sys
             sys.exit()
+    if without_alignement:
+        values = np.array(list(WA_idx.values()))
+        start_idx = np.max(values[:, 0])
+        end_idx = np.min(values[:, 1])
+
+        
+        for id in anchor_id:
+            mask_start = np.concatenate((np.array([False] * start_idx), np.array([True] * (anchor_interp_data[id]["time"].shape[0] - start_idx))))
+            mask_end = np.concatenate((np.array([True] * end_idx), np.array([False] * (anchor_interp_data[id]["time"].shape[0] - end_idx))))
+            mask = mask_start & mask_end
+            for key in anchor_interp_data[id].keys():
+                anchor_interp_data[id][key] = anchor_interp_data[id][key][mask]
+
