@@ -1,0 +1,54 @@
+<?xml version="1.0" standalone="yes"?>
+<postproInsParameters>
+	<inputFile path=".\26_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf" id="file01" timeOffset="0.000000"/>
+	<inputFile path=".\anchor_26_07_2023_PH-2248_A_POSTPROCESSING-ins.xpf.xpf" id="file02" timeOffset="0.000000"/>
+	<outputFile id="output" path=".\26_07_2023_PH-2248_A_POSTPROCESSING-replay.xpf"/>
+	<ins>
+		<roughMisalignment>front-left-top</roughMisalignment>
+		<fineMisalignment heading="0" roll="0" pitch="0"/>
+		<dataSource path="file01.IMU"/>
+	</ins>
+	<gps label="gps1" enabled="yes">
+		<leverArm xv1="-0.546" xv2="0" xv3="0"/>
+		<operatingMode mode="on"/>
+		<operatingMode from="1080" to="3600" mode="off"/>
+	</gps>
+	<rangeMeter label="anchor" enabled="yes">
+		<dataSource path="file02.LBL"/>
+		<leverArm xv1="-0.317" xv2="0.383" xv3="0.6"/>
+		<operatingMode mode="on"/>
+		<beacons>
+			<beacon id="16" latitude="85.00506665" longitude="64.0068333" depth="247.088" enabled="yes"/>
+			<beacon id="17" latitude="84.0077499333333" longitude="80.01449995" depth="481" enabled="yes"/>
+			<beacon id="18" latitude="0" longitude="100.00683325" depth="118.544" enabled="yes"/>
+			<beacon id="19" latitude="0" longitude="88.0099999833333" depth="367.977" enabled="yes"/>
+			<beacon id="6016" latitude="48.8999149833333" longitude="2.06481596666667" depth="-93.721" enabled="yes"/>
+			<beacon id="6017" latitude="48.8998382833333" longitude="2.06539498333333" depth="-93.446" enabled="yes"/>
+			<beacon id="6018" latitude="48.9003583" longitude="2.06422018333333" depth="-93.063" enabled="yes"/>
+			<beacon id="6019" latitude="48.9002516" longitude="2.06391273333333" depth="-93.205" enabled="yes"/>
+		</beacons>
+	</rangeMeter>
+	<insProcessing algorithm="basic" processingMode="navigation" initialDirection="forward" system="maritime" gnssQualityFilter="62" outOfStraightness="false">
+		<initialConditions>
+			<position mode="automatic"/>
+		</initialConditions>
+		<positionPriority mode="none"/>
+	</insProcessing>
+	<vehicleModels>
+		<virtualSensorsConfig>
+			<alZupt>
+				<leverArm xv1="0" xv2="0" xv3="0"/>
+			</alZupt>
+		</virtualSensorsConfig>
+	</vehicleModels>
+	<output label="primary" userSpeed="true" heave="off" altitudeReference="geoid">
+		<leverArm xv1="0" xv2="0" xv3="0"/>
+		<misalignment heading="0" roll="0" pitch="0"/>
+		<rate value="1" synchro="utc"/>
+	</output>
+	<advancedParameters/>
+<advancedOutputs enabled="true"> 
+   <output name="RANGE_KAL_MEAS" enabled="true"/> 
+   <output name="ACCEL_ROT" enabled="true"/> 
+</advancedOutputs> 
+</postproInsParameters> 

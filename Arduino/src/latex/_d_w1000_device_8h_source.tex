@@ -1,0 +1,116 @@
+\doxysection{DW1000\+Device.\+h}
+\hypertarget{_d_w1000_device_8h_source}{}\label{_d_w1000_device_8h_source}\mbox{\hyperlink{_d_w1000_device_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2015\ by\ Thomas\ Trojer\ <thomas@trojer.net>\ and\ Leopold\ Sayous\ <leosayous@gmail.com>}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ Decawave\ DW1000\ library\ for\ arduino.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ @file\ DW1000Device.h}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ Arduino\ global\ library\ (header\ file)\ working\ with\ the\ DW1000\ library}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ for\ the\ Decawave\ DW1000\ UWB\ transceiver\ IC.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *\ @todo\ complete\ this\ class}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ INACTIVITY\_TIME\ 1000}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#ifndef\ \_DW1000Device\_H\_INCLUDED}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ \_DW1000Device\_H\_INCLUDED}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_w1000_time_8h}{DW1000Time.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_w1000_mac_8h}{DW1000Mac.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_d_w1000_mac}{DW1000Mac}};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}\ \{}
+\DoxyCodeLine{00038\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{//Constructor\ and\ destructor}}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_device_ababd3c54aa268a33607e449562a45cca}{DW1000Device}}();}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_device_ababd3c54aa268a33607e449562a45cca}{DW1000Device}}(\textcolor{keywordtype}{byte}\ address[],\ \textcolor{keywordtype}{byte}\ shortAddress[]);}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_device_ababd3c54aa268a33607e449562a45cca}{DW1000Device}}(\textcolor{keywordtype}{byte}\ address[],\ \textcolor{keywordtype}{boolean}\ shortOne\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_device_aa37aa8ca3489768968cb1934b6762eb6}{\string~DW1000Device}}();}
+\DoxyCodeLine{00044\ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//setters:}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_a3b640d58a7952fc32961dd0e6a7a2687}{setReplyTime}}(uint16\_t\ replyDelayTimeUs);}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_a6ba7b56ee475dbccb470224485b38d4e}{setAddress}}(\textcolor{keywordtype}{char}\ address[]);}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_a6ba7b56ee475dbccb470224485b38d4e}{setAddress}}(\textcolor{keywordtype}{byte}*\ address);}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_a54b45f385966bc25023097f057cc2603}{setShortAddress}}(\textcolor{keywordtype}{byte}\ address[]);}
+\DoxyCodeLine{00050\ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_ab7db0a45cd983a73f2811930f962ae6a}{setRange}}(\textcolor{keywordtype}{float}\ range);}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_a4f01103bf4e1d403ffcc4a1fff80d57d}{setRXPower}}(\textcolor{keywordtype}{float}\ power);}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_ad8ac19327a2965792b710c6c150e594e}{setFPPower}}(\textcolor{keywordtype}{float}\ power);}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_a0edb0966d402001bc20204e61598c5f6}{setQuality}}(\textcolor{keywordtype}{float}\ quality);}
+\DoxyCodeLine{00055\ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_a6e959f9181baaec933864cc95c24e15a}{setReplyDelayTime}}(uint16\_t\ time)\ \{\ \_replyDelayTimeUS\ =\ time;\ \}}
+\DoxyCodeLine{00057\ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_device_aa2932f3eae74376d11c7605d9dbf16a6}{setIndex}}(int8\_t\ index)\ \{\ \_index\ =\ index;\ \}}
+\DoxyCodeLine{00059\ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{comment}{//getters}}
+\DoxyCodeLine{00061\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_d_w1000_device_aa653cf4e32c22e30f55d98559723d686}{getReplyTime}}()\ \{\ \textcolor{keywordflow}{return}\ \_replyDelayTimeUS;\ \}}
+\DoxyCodeLine{00062\ \ \ \ \ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{byte}*\ \mbox{\hyperlink{class_d_w1000_device_afd7d7608ddb0f611544d019fd3c7b763}{getByteAddress}}();}
+\DoxyCodeLine{00064\ \ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ int8\_t\ \mbox{\hyperlink{class_d_w1000_device_a587e1aa9c4daa0372852bc37c63baeb7}{getIndex}}()\ \{\ \textcolor{keywordflow}{return}\ \_index;\ \}}
+\DoxyCodeLine{00066\ \ \ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{//String\ getAddress();}}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{byte}*\ \mbox{\hyperlink{class_d_w1000_device_a9ed096db8d7c183de95ddeba01826eab}{getByteShortAddress}}();}
+\DoxyCodeLine{00069\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_d_w1000_device_a11171d13f73a34c8799e24da51afc6c5}{getShortAddress}}();}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{comment}{//String\ getShortAddress();}}
+\DoxyCodeLine{00071\ \ \ \ \ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_device_a265c1bddef2ed497f3a37c5d297ef83b}{getRange}}();}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_device_afcb8a4cb291f2ca196de3f0f0a81cf7a}{getRXPower}}();}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_device_a3d785edd12ff914568c26c15059fed7c}{getFPPower}}();}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_device_a4bb94b5bb56cbd39b211b05f19b1f424}{getQuality}}();}
+\DoxyCodeLine{00076\ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{class_d_w1000_device_a656f661e77b03f24cffb2ead5f5a654f}{isAddressEqual}}(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ device);}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{class_d_w1000_device_af379125714a9909490d996bca9282ed6}{isShortAddressEqual}}(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ device);}
+\DoxyCodeLine{00079\ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{comment}{//functions\ which\ contains\ the\ date:\ (easier\ to\ put\ as\ public)}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{comment}{//\ timestamps\ to\ remember}}
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_device_ae92d859f7b77f76bec87b78ffe6ffe23}{timePollSent}};}
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_device_abe772b132acd7e279d91ed6c2135f3f6}{timePollReceived}};}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_device_acefb45ac39b889777dc39f20af677df6}{timePollAckSent}};}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_device_a491a9e78618fb8e925fa57571ceebacd}{timePollAckReceived}};}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_device_a8fff2061324140585f5caa90fe95bbcd}{timeRangeSent}};}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_device_a42be0fee2b84798cf39f2a33f01f8aae}{timeRangeReceived}};}
+\DoxyCodeLine{00088\ \ \ \ \ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{class_d_w1000_device_a962fa4af102779c68414c9a9ad1ddf99}{noteActivity}}();}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{class_d_w1000_device_a7b9ef119d9ed502afe3e0c2bf2d417e5}{isInactive}}();}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{comment}{//device\ ID}}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{byte}\ \ \ \ \ \ \ \ \ \_ownAddress[8];}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{byte}\ \ \ \ \ \ \ \ \ \_shortAddress[2];}
+\DoxyCodeLine{00097\ \ \ \ \ int32\_t\ \ \ \ \ \ \_activity;}
+\DoxyCodeLine{00098\ \ \ \ \ uint16\_t\ \ \ \ \ \_replyDelayTimeUS;}
+\DoxyCodeLine{00099\ \ \ \ \ int8\_t\ \ \ \ \ \ \ \_index;\ \textcolor{comment}{//\ not\ used}}
+\DoxyCodeLine{00100\ \ \ \ \ }
+\DoxyCodeLine{00101\ \ \ \ \ int16\_t\ \_range;}
+\DoxyCodeLine{00102\ \ \ \ \ int16\_t\ \_RXPower;}
+\DoxyCodeLine{00103\ \ \ \ \ int16\_t\ \_FPPower;}
+\DoxyCodeLine{00104\ \ \ \ \ int16\_t\ \_quality;}
+\DoxyCodeLine{00105\ \ \ \ \ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ randomShortAddress();}
+\DoxyCodeLine{00107\ \ \ \ \ }
+\DoxyCodeLine{00108\ \};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

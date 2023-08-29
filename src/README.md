@@ -4,18 +4,7 @@
 Dans un premier temps il faut calibrer les cartes UWB.
 
 Pour cela il faut répéter cette simple méthodologie :
-    * On place un récepteur à une position fixe
-    * On fait varier l'émetteur en distance (ici tous les 50 cm) et on mesure sa distance
-
-Pour cela on peut utiliser le code `calibration.py`.
-
-Cela nous donne le résulat suivant :
-
-<div style="text-align:center">
-<p align="center">
-  <img src="https://github.com/augustinmorge/uwb_project/blob/main/src/logs/log_cali/Test_on_2023_03_30_09_35_46.png" width="750" title="Résultat de la calibration">
-</p>
-</div>
+    * On place un récepteur à une position fixe de 7.94m pour le channel 5 (cf doc dans biblio) et on exécute le code d'autocalibration dans le dossier Arduino (../)
 
 ## Simulation du Kalman
 Pour estimer la position, un filtre de Kalman est utilisé.
@@ -29,8 +18,13 @@ La fonction "g" est la fonction de mesure du système, qui prend en entrée les 
 
 Le code définit également une liste de points de passage (Wps), qui est utilisée par les fonctions de contrôle et de mesure pour diriger le robot vers les points de passage et déterminer s'il est proche d'un point de passage donné. Enfin, le code utilise la bibliothèque matplotlib pour tracer les trajectoires du robot et les points de passage.
 
-## Test en réel 
-TODO
+## Dataset
+On a :
+  * logs : contient différents dataset qui ont été récupréré par différents moyens : UDP/serial pour tester l'erreur en statique ou en absolu en comparant la distance réelle avec la distance mesurée.
+  * logs_trolley : contient les datasets faits sur le parking par le chariot
 
-## Caractérisation des erreurs
-TODO
+<div style="text-align:center">
+<p align="center">
+  <img src="https://git.exail.com/users/augustin.morge_exail.com/repos/uwb_project/raw/imgs/setup.jpg?at=refs%2Fheads%2Fmain" width="750" title="Résultat de la calibration">
+</p>
+</div>

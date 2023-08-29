@@ -1,0 +1,5 @@
+<advancedOutputs enabled="true"> 
+   <output name="RANGE_KAL_MEAS" enabled="true"/> 
+   <output name="POS_KAL_MEAS" enabled="true"/> 
+</advancedOutputs> 
+</postproInsParameters> 

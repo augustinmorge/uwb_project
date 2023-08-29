@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gdtReport xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <baseStation id="IXSG" path=".\SBF\ixsg198ij.23_" label="iXBlue-Site de St-Germain">
+    <position crf="RGF93">
+      <latitude>48.899393892</latitude>
+      <longitude>2.0639988</longitude>
+      <height>153.534</height>
+    </position>
+    <constellation>GPS GLONASS</constellation>
+    <interval>1</interval>
+    <server>IGN_1</server>
+    <status>Success</status>
+  </baseStation>
+  <logs>13:41:43||Info|Searching stations...
+13:41:44||Success|1 station(s) found. Loading map, please wait...
+13:41:44||Info|Search complete
+13:41:59||Info|Downloading Rinex Files
+13:42:06||Info|Downloading station IXSG : complete
+13:42:06||Info|Downloading Ephemeris Files
+13:42:14||Info|Downloading Ephemeris ephe : failed
+13:42:14||Info|Downloading Ephemeris ephe : complete
+13:42:14||Info|Downloading GPS Files
+13:42:15||Info|Downloading GPS brdc : complete
+13:42:15||Info|Downloading Glonass Files
+13:42:16||Info|Downloading Glonass brdc : complete
+13:42:16||Info|Decompressing files
+13:42:18||Success|Decompressing complete
+13:42:18||Info|Cleaning temporary Files
+13:42:19||Success|The structure of the Rinex file : C:\Users\augustin.morge\Documents\uwb_project\src\log_trolley\17_07_2023_2\Rinex\ixsg198i.23o is correct
+13:42:19||Success|The structure of the Rinex file : C:\Users\augustin.morge\Documents\uwb_project\src\log_trolley\17_07_2023_2\Rinex\ixsg198j.23o is correct
+13:42:19||Info|Creation of the SBF files
+13:42:21||Success|SBF file : IXSG -&gt; creation complete
+</logs>
+</gdtReport>

@@ -1,0 +1,216 @@
+\doxysection{C\+:/\+Users/augustin.\+morge/\+Documents/\+Arduino/libraries/\+DW1000/src/\+DW1000\+Time.\+cpp}
+\hypertarget{_c_1_2_users_2augustin_8morge_2_documents_2_arduino_2libraries_2_d_w1000_2src_2_d_w1000_time_8cpp-example}{}\label{_c_1_2_users_2augustin_8morge_2_documents_2_arduino_2libraries_2_d_w1000_2src_2_d_w1000_time_8cpp-example}Converts negative values due overflow of one node to correct value
+
+Maximum timesamp is 1000. Node N1 sends 999 as timesamp. N2 recieves and sends delayed and increased timestamp back. Delay is 10, so timestamp would be 1009, but due overflow 009 is sent back. Now calculate TOF\+: 009 -\/ 999 = -\/990 -\/\texorpdfstring{$>$}{>} not correct time, so wrap() Wrap calculation\+: -\/990 + 1000 = 10 -\/\texorpdfstring{$>$}{>} correct time \begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+\begin{DoxyCodeInclude}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_w1000_time_8h}{DW1000Time.h}}"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time::DW1000Time}}()\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ =\ 0;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time::DW1000Time}}(int64\_t\ time)\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{setTimestamp}}(time);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time::DW1000Time}}(\textcolor{keywordtype}{byte}\ data[])\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{setTimestamp}}(data);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time::DW1000Time}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ copy)\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{setTimestamp}}(copy);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time::DW1000Time}}(\textcolor{keywordtype}{float}\ timeUs)\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a743897a44c46369ca749bd52ca259db7}{setTime}}(timeUs);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time::DW1000Time}}(int32\_t\ value,\ \textcolor{keywordtype}{float}\ factorUs)\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a743897a44c46369ca749bd52ca259db7}{setTime}}(value,\ factorUs);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time_a1036123abf02ee429b9e5e5a557413c5}{DW1000Time::\string~DW1000Time}}()\ \{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{DW1000Time::setTimestamp}}(int64\_t\ value)\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ =\ value;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{DW1000Time::setTimestamp}}(\textcolor{keywordtype}{byte}\ data[])\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ =\ 0;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}(uint8\_t\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_d_w1000_time_a15e78e2eb3d7c30e118bc88dcf2ba296}{LENGTH\_TIMESTAMP}};\ i++)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \_timestamp\ |=\ ((int64\_t)data[i]\ <<\ (i*8));}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{DW1000Time::setTimestamp}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ copy)\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ =\ copy.\mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}();}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a743897a44c46369ca749bd52ca259db7}{DW1000Time::setTime}}(\textcolor{keywordtype}{float}\ timeUs)\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ =\ (int64\_t)(timeUs*\mbox{\hyperlink{class_d_w1000_time_a4b49d5a5c5f3f126dc4f89e2258c6d64}{TIME\_RES\_INV}});}
+\DoxyCodeLine{\textcolor{comment}{//\ \ \_timestamp\ \%=\ TIME\_OVERFLOW;\ //\ clean\ overflow}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a743897a44c46369ca749bd52ca259db7}{DW1000Time::setTime}}(int32\_t\ value,\ \textcolor{keywordtype}{float}\ factorUs)\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//float\ tsValue\ =\ value*factorUs;}}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//tsValue\ =\ fmod(tsValue,\ TIME\_OVERFLOW);}}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//setTime(tsValue);}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a743897a44c46369ca749bd52ca259db7}{setTime}}(value*factorUs);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{int64\_t\ \mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{DW1000Time::getTimestamp}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \_timestamp;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{DW1000Time::getTimestamp}}(\textcolor{keywordtype}{byte}\ data[])\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ memset(data,\ 0,\ \mbox{\hyperlink{class_d_w1000_time_a15e78e2eb3d7c30e118bc88dcf2ba296}{LENGTH\_TIMESTAMP}});}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}(uint8\_t\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_d_w1000_time_a15e78e2eb3d7c30e118bc88dcf2ba296}{LENGTH\_TIMESTAMP}};\ i++)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ data[i]\ =\ (byte)((\_timestamp\ >>\ (i*8))\ \&\ 0xFF);}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_a818f1f37d5f128a94cfeb7aab76d735c}{DW1000Time::getAsFloat}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//return\ fmod((float)\_timestamp,\ TIME\_OVERFLOW)*TIME\_RES;}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_d_w1000_time_ae98c4a4e22cef4936e6a01f826d5625b}{getAsMicroSeconds}}();}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_ae98c4a4e22cef4936e6a01f826d5625b}{DW1000Time::getAsMicroSeconds}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ (\_timestamp\%\mbox{\hyperlink{class_d_w1000_time_ab43d5f800f01805692108ed71474658a}{TIME\_OVERFLOW}})*\mbox{\hyperlink{class_d_w1000_time_a2ca1fba08fbe1371ee9391d378fcd50a}{TIME\_RES}};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_a0b36b35078bf12848b410627abb944eb}{DW1000Time::getAsMeters}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//return\ fmod((float)\_timestamp,\ TIME\_OVERFLOW)*DISTANCE\_OF\_RADIO;}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ (\_timestamp\%\mbox{\hyperlink{class_d_w1000_time_ab43d5f800f01805692108ed71474658a}{TIME\_OVERFLOW}})*\mbox{\hyperlink{class_d_w1000_time_abdadbe4f3ec45d1dba5db8576ac7afa9}{DISTANCE\_OF\_RADIO}};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_a2715e87a8ac5a7bb3bc100b9e33392a8}{DW1000Time::wrap}}()\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(\_timestamp\ <\ 0)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \_timestamp\ +=\ \mbox{\hyperlink{class_d_w1000_time_ab43d5f800f01805692108ed71474658a}{TIME\_OVERFLOW}};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_d_w1000_time_ab3a5ca26a1667be0a146d43e50ffd144}{DW1000Time::isValidTimestamp}}()\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ (0\ <=\ \_timestamp\ \&\&\ \_timestamp\ <=\ \mbox{\hyperlink{class_d_w1000_time_a245f8939b391ce9ef0e16ff40b778cef}{TIME\_MAX}});}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ assign}}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_ac43e0dd01a13ec7470029f12402ded2d}{DW1000Time::operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ assign)\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(\textcolor{keyword}{this}\ ==\ \&assign)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ =\ assign.\mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}();}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ add}}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_a126d890f0d990cd709263120adbacaa7}{DW1000Time::operator+=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ add)\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ +=\ add.\mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}();}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_time_a149b16a0533bc324b18cf193fae2d88c}{DW1000Time::operator+}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ add)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(*\textcolor{keyword}{this})\ +=\ add;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ subtract}}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_ac913f1cc477518c809ea385503d0a112}{DW1000Time::operator-\/=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ sub)\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ -\/=\ sub.\mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}();}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_time_ad1a51c37c1a852c15de872034ff05954}{DW1000Time::operator-\/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ sub)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(*\textcolor{keyword}{this})\ -\/=\ sub;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ multiply}}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_ac3562b57ab3d0c479b66c26a3fd0a7f3}{DW1000Time::operator*=}}(\textcolor{keywordtype}{float}\ factor)\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//float\ tsValue\ =\ (float)\_timestamp*factor;}}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\_timestamp\ =\ (int64\_t)tsValue;}}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ *=\ factor;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_time_a95fd2f8b7359565ba32cd85b52767cd4}{DW1000Time::operator*}}(\textcolor{keywordtype}{float}\ factor)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(*\textcolor{keyword}{this})\ *=\ factor;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_ac3562b57ab3d0c479b66c26a3fd0a7f3}{DW1000Time::operator*=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ factor)\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ *=\ factor.\mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}();}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_time_a95fd2f8b7359565ba32cd85b52767cd4}{DW1000Time::operator*}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ factor)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(*\textcolor{keyword}{this})\ *=\ factor;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ divide}}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_a62a21be8dbf1efa8ee449db63472be95}{DW1000Time::operator/=}}(\textcolor{keywordtype}{float}\ factor)\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\_timestamp\ *=\ (1.0f/factor);}}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ /=\ factor;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_time_a43272bf896b13f0548bd57988e455fe4}{DW1000Time::operator/}}(\textcolor{keywordtype}{float}\ factor)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(*\textcolor{keyword}{this})\ /=\ factor;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_a62a21be8dbf1efa8ee449db63472be95}{DW1000Time::operator/=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ factor)\ \{}
+\DoxyCodeLine{\ \ \ \ \_timestamp\ /=\ factor.\mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}();}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \mbox{\hyperlink{class_d_w1000_time_a43272bf896b13f0548bd57988e455fe4}{DW1000Time::operator/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ factor)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(*\textcolor{keyword}{this})\ /=\ factor;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ compare}}
+\DoxyCodeLine{\textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{class_d_w1000_time_ad76a44562e4b26a49f59982df743377f}{DW1000Time::operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ cmp)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \_timestamp\ ==\ cmp.\mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}();}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{class_d_w1000_time_a29fb4901790622f3b5a9d4de21df4a99}{DW1000Time::operator!=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ cmp)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//return\ !(*this\ ==\ cmp);\ //\ seems\ not\ as\ intended}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \_timestamp\ !=\ cmp.\mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}();}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#ifdef\ DW1000TIME\_H\_PRINTABLE}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a68f5442f59786bb254af5c27bb8276ab}{DW1000Time::print}}()\ \{}
+\DoxyCodeLine{\ \ \ \ Serial.print(*\textcolor{keyword}{this});}
+\DoxyCodeLine{\ \ \ \ Serial.println();}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_d_w1000_time_a6285b3bf98df35cd8ba8740542a0689a}{DW1000Time::printTo}}(Print\&\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ int64\_t\ \ \ \ \ \ \ number\ \ =\ \_timestamp;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ buf[21];}
+\DoxyCodeLine{\ \ \ \ uint8\_t\ \ \ \ \ \ \ i\ \ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{\ \ \ \ uint8\_t\ \ \ \ \ \ \ printed\ =\ 0;}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ printf\ for\ arduino\ avr\ do\ not\ support\ int64,\ so\ we\ have\ to\ calculate}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(number\ ==\ 0)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ p.print((\textcolor{keywordtype}{char})\textcolor{charliteral}{'0'});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(number\ <\ 0)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ p.print((\textcolor{keywordtype}{char})\textcolor{charliteral}{'-\/'});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ number\ =\ -\/number;\ \textcolor{comment}{//\ make\ positive}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ printed++;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{while}(number\ >\ 0)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ int64\_t\ q\ =\ number/10;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ buf[i++]\ =\ number-\/q*10;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ number\ =\ q;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ printed\ +=\ i;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}(;\ i\ >\ 0;\ i-\/-\/)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ p.print((\textcolor{keywordtype}{char})(buf[i-\/1]\ <\ 10\ ?\ \textcolor{charliteral}{'0'}+buf[i-\/1]\ :\ \textcolor{stringliteral}{'A'}+buf[i-\/1]-\/10));}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ printed;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ DW1000Time\_H\_PRINTABLE}}
+
+\end{DoxyCodeInclude}
+ 

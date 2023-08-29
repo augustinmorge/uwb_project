@@ -1,6 +1,11 @@
 Resources
+.trash
 src/.trash
-src/logs/log_ino/17_05_2023_15_35_29_log-all-with-time.csv
+src/__pycache__
+*.trash
+*__pycache__
+drawio
+kalman_thalia.py
 
 # Ignore les fichiers volumineux
 *.tar

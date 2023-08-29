@@ -1,0 +1,215 @@
+\doxysection{DW1000\+Ranging.\+h}
+\hypertarget{_d_w1000_ranging_8h_source}{}\label{_d_w1000_ranging_8h_source}\mbox{\hyperlink{_d_w1000_ranging_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2015\ by\ Thomas\ Trojer\ <thomas@trojer.net>\ and\ Leopold\ Sayous\ <leosayous@gmail.com>}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ Decawave\ DW1000\ library\ for\ arduino.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ @file\ DW1000Ranging.h}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ Arduino\ global\ library\ (header\ file)\ working\ with\ the\ DW1000\ library}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ for\ the\ Decawave\ DW1000\ UWB\ transceiver\ IC.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *\ @TODO}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ -\/\ remove\ or\ debugmode\ for\ Serial.print}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *\ -\/\ move\ strings\ to\ flash\ to\ reduce\ ram\ usage}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *\ -\/\ do\ not\ safe\ duplicate\ of\ pin\ settings}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *\ -\/\ maybe\ other\ object\ structure}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *\ -\/\ use\ enums\ instead\ of\ preprocessor\ constants}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_w1000_8h}{DW1000.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_w1000_time_8h}{DW1000Time.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_w1000_device_8h}{DW1000Device.h}}"{}}\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_w1000_mac_8h}{DW1000Mac.h}}"{}}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ messages\ used\ in\ the\ ranging\ protocol}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ POLL\ 0}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ POLL\_ACK\ 1}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ RANGE\ 2}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ RANGE\_REPORT\ 3}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ RANGE\_FAILED\ 255}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ BLINK\ 4}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ RANGING\_INIT\ 5}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ LEN\_DATA\ 90}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{comment}{//Max\ devices\ we\ put\ in\ the\ networkDevices\ array\ !\ Each\ DW1000Device\ is\ 74\ Bytes\ in\ SRAM\ memory\ for\ now.}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ MAX\_DEVICES\ 4}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{comment}{//Default\ Pin\ for\ module:}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ DEFAULT\_RST\_PIN\ 9}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ DEFAULT\_SPI\_SS\_PIN\ 10}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{comment}{//Default\ value}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//in\ ms}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ DEFAULT\_RESET\_PERIOD\ 200}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//in\ us}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ DEFAULT\_REPLY\_DELAY\_TIME\ 7000}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{comment}{//sketch\ type\ (anchor\ or\ tag)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ TAG\ 0}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ ANCHOR\ 1}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{comment}{//default\ timer\ delay}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ DEFAULT\_TIMER\_DELAY\ 80}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{comment}{//debug\ mode}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#ifndef\ DEBUG}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ DEBUG\ false}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_d_w1000_ranging_class}{DW1000RangingClass}}\ \{}
+\DoxyCodeLine{00072\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{//variables}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{comment}{//\ data\ buffer}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a10ed6e8a6303bc71000fe15ca28e71b5}{data}}[\mbox{\hyperlink{_d_w1000_ranging_8h_a20e49049e1f8257c69c633f2781b2f03}{LEN\_DATA}}];}
+\DoxyCodeLine{00076\ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{comment}{//initialisation}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{class_d_w1000_ranging_class_a2cda101272c6b30c7dc684c819fe0517}{initCommunication}}(uint8\_t\ myRST\ =\ \mbox{\hyperlink{_d_w1000_ranging_8h_a20243a347c78f90547b2759e8061c60e}{DEFAULT\_RST\_PIN}},\ uint8\_t\ mySS\ =\ \mbox{\hyperlink{_d_w1000_ranging_8h_a7f51f457e4bffd56632c8e25b9d0d8fd}{DEFAULT\_SPI\_SS\_PIN}},\ uint8\_t\ myIRQ\ =\ 2);}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{class_d_w1000_ranging_class_a8d52b5dadd722c169e960a3ccb0850f2}{configureNetwork}}(uint16\_t\ deviceAddress,\ uint16\_t\ networkId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{byte}\ mode[]);}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{class_d_w1000_ranging_class_a81019e2311f5aa6a33f006beae8aadd7}{generalStart}}();}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{class_d_w1000_ranging_class_afa94ffdfcd78b53e271b98eb6bad8368}{startAsAnchor}}(\textcolor{keywordtype}{char}\ address[],\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{byte}\ mode[],\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ randomShortAddress\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{class_d_w1000_ranging_class_a9068f9887db35c9e683329bd4bbae684}{startAsTag}}(\textcolor{keywordtype}{char}\ address[],\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{byte}\ mode[],\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ randomShortAddress\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a0cb09f33a796ca2ad43ecba79807550b}{addNetworkDevices}}(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ device,\ \textcolor{keywordtype}{boolean}\ shortAddress);}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a0cb09f33a796ca2ad43ecba79807550b}{addNetworkDevices}}(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ device);}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{class_d_w1000_ranging_class_a128cddf7de3c75d0bf498efcfbe86f60}{removeNetworkDevices}}(int16\_t\ index);}
+\DoxyCodeLine{00086\ \ \ \ \ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{comment}{//setters}}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a895a08a3785d9dd07da389df9527cdc9}{setReplyTime}}(uint16\_t\ replyDelayTimeUs);}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a8f2b5435e9c83dacf456949c85e96c8f}{setResetPeriod}}(uint32\_t\ resetPeriod);}
+\DoxyCodeLine{00090\ \ \ \ \ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{comment}{//getters}}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}*\ \mbox{\hyperlink{class_d_w1000_ranging_class_a6eaa568b981d00ca13db4b9ca98dedcd}{getCurrentAddress}}()\ \{\ \textcolor{keywordflow}{return}\ \_currentAddress;\ \};}
+\DoxyCodeLine{00093\ \ \ \ \ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}*\ \mbox{\hyperlink{class_d_w1000_ranging_class_aa76d16da2d708155d82f76ad8951ffd6}{getCurrentShortAddress}}()\ \{\ \textcolor{keywordflow}{return}\ \_currentShortAddress;\ \};}
+\DoxyCodeLine{00095\ \ \ \ \ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ \mbox{\hyperlink{class_d_w1000_ranging_class_ae95b4f1afddb1e609cfd317cfa0b203c}{getNetworkDevicesNumber}}()\ \{\ \textcolor{keywordflow}{return}\ \_networkDevicesNumber;\ \};}
+\DoxyCodeLine{00097\ \ \ \ \ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{comment}{//ranging\ functions}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{static}\ int16\_t\ \mbox{\hyperlink{class_d_w1000_ranging_class_a94956e427dffcf4f0912c499e5c2f1e8}{detectMessageType}}(\textcolor{keywordtype}{byte}\ datas[]);\ \textcolor{comment}{//\ TODO\ check\ return\ type}}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a83198e3e37c142c42128e81bb9bd0aea}{loop}}();}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_af5de16473d8f33165bcf097428535121}{useRangeFilter}}(\textcolor{keywordtype}{boolean}\ enabled);}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{comment}{//\ Used\ for\ the\ smoothing\ algorithm\ (Exponential\ Moving\ Average).\ newValue\ must\ be\ >=\ 2.\ Default\ 15.}}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a786bd925f8ddf584c6d235d97c17eba8}{setRangeFilterValue}}(uint16\_t\ newValue);}
+\DoxyCodeLine{00104\ \ \ \ \ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{comment}{//Handlers:}}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a00c302964eac2a7f2facbe21171f9bee}{attachNewRange}}(\textcolor{keywordtype}{void}\ (*\ handleNewRange)(\textcolor{keywordtype}{void}))\ \{\ \_handleNewRange\ =\ handleNewRange;\ \};}
+\DoxyCodeLine{00107\ \ \ \ \ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_ae096e46b2dcb9d1241aeb2ae0abd96e6}{attachBlinkDevice}}(\textcolor{keywordtype}{void}\ (*\ handleBlinkDevice)(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*))\ \{\ \_handleBlinkDevice\ =\ handleBlinkDevice;\ \};}
+\DoxyCodeLine{00109\ \ \ \ \ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_aa02ebfce7ab83fe8a28721812488bc19}{attachNewDevice}}(\textcolor{keywordtype}{void}\ (*\ handleNewDevice)(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*))\ \{\ \_handleNewDevice\ =\ handleNewDevice;\ \};}
+\DoxyCodeLine{00111\ \ \ \ \ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a3c4789ea6f21876f362ceff5bdcfeba1}{attachInactiveDevice}}(\textcolor{keywordtype}{void}\ (*\ handleInactiveDevice)(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*))\ \{\ \_handleInactiveDevice\ =\ handleInactiveDevice;\ \};}
+\DoxyCodeLine{00113\ \ \ \ \ }
+\DoxyCodeLine{00114\ \ \ \ \ }
+\DoxyCodeLine{00115\ \ \ \ \ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ \mbox{\hyperlink{class_d_w1000_ranging_class_a31207724e79f95d116ba401ce5b21f75}{getDistantDevice}}();}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ \mbox{\hyperlink{class_d_w1000_ranging_class_a7a1c36a51d4e73c8a0d2c9a1e360df53}{searchDistantDevice}}(\textcolor{keywordtype}{byte}\ shortAddress[]);}
+\DoxyCodeLine{00118\ \ \ \ \ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{comment}{//FOR\ DEBUGGING}}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_ranging_class_a071e8133596fb737c751c67e1e62ed28}{visualizeDatas}}(\textcolor{keywordtype}{byte}\ datas[]);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{comment}{//other\ devices\ in\ the\ network}}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}\ \_networkDevices[\mbox{\hyperlink{_d_w1000_ranging_8h_a4e132cfaa78353e3af1474a86b2dd535}{MAX\_DEVICES}}];}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ \_networkDevicesNumber;}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{static}\ int16\_t\ \ \ \ \ \ \_lastDistantDevice;}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ \ \ \ \ \ \ \ \ \_currentAddress[8];}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ \ \ \ \ \ \ \ \ \_currentShortAddress[2];}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ \ \ \ \ \ \ \ \ \_lastSentToShortAddress[2];}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_d_w1000_mac}{DW1000Mac}}\ \ \ \ \_globalMac;}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keyword}{static}\ int32\_t\ \ \ \ \ \ timer;}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{static}\ int16\_t\ \ \ \ \ \ counterForBlink;}
+\DoxyCodeLine{00134\ \ \ \ \ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{comment}{//Handlers:}}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{static}\ void\ (*\ \_handleNewRange)(void);}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keyword}{static}\ void\ (*\ \_handleBlinkDevice)(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*);}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keyword}{static}\ void\ (*\ \_handleNewDevice)(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*);}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keyword}{static}\ void\ (*\ \_handleInactiveDevice)(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*);}
+\DoxyCodeLine{00140\ \ \ \ \ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{comment}{//sketch\ type\ (tag\ or\ anchor)}}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keyword}{static}\ int16\_t\ \ \ \ \ \ \ \ \ \ \_type;\ \textcolor{comment}{//0\ for\ tag\ and\ 1\ for\ anchor}}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{comment}{//\ TODO\ check\ type,\ maybe\ enum?}}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{comment}{//\ message\ flow\ state}}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{byte}\ \ \ \ \_expectedMsgId;}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{comment}{//\ message\ sent/received\ state}}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{boolean}\ \_sentAck;}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{boolean}\ \_receivedAck;}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{comment}{//\ protocol\ error\ state}}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{boolean}\ \ \ \ \ \ \ \ \ \ \_protocolFailed;}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{comment}{//\ reset\ line\ to\ the\ chip}}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ \ \ \ \ \_RST;}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ \ \ \ \ \_SS;}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{comment}{//\ watchdog\ and\ reset\ period}}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keyword}{static}\ uint32\_t\ \ \ \ \_lastActivity;}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keyword}{static}\ uint32\_t\ \ \ \ \_resetPeriod;}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{comment}{//\ reply\ times\ (same\ on\ both\ sides\ for\ symm.\ ranging)}}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keyword}{static}\ uint16\_t\ \ \ \ \ \_replyDelayTimeUS;}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{comment}{//timer\ Tick\ delay}}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{static}\ uint16\_t\ \ \ \ \ \_timerDelay;}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{comment}{//\ ranging\ counter\ (per\ second)}}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{static}\ uint16\_t\ \ \ \ \ \_successRangingCount;}
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keyword}{static}\ uint32\_t\ \ \ \ \_rangingCountPeriod;}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{comment}{//ranging\ filter}}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{boolean}\ \_useRangeFilter;}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keyword}{static}\ uint16\_t\ \ \ \ \ \ \ \ \ \_rangeFilterValue;}
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{comment}{//\_bias\ correction}}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char}\ \ \_bias\_RSL[17];\ \textcolor{comment}{//\ TODO\ remove\ or\ use}}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{comment}{//17*2=34\ bytes\ in\ SRAM}}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{static}\ int16\_t\ \_bias\_PRF\_16[17];\ \textcolor{comment}{//\ TODO\ remove\ or\ use}}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{comment}{//17\ bytes\ in\ SRAM}}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char}\ \ \_bias\_PRF\_64[17];\ \textcolor{comment}{//\ TODO\ remove\ or\ use}}
+\DoxyCodeLine{00173\ \ \ \ \ }
+\DoxyCodeLine{00174\ \ \ \ \ }
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{comment}{//methods}}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ handleSent();}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ handleReceived();}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ noteActivity();}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ resetInactive();}
+\DoxyCodeLine{00180\ \ \ \ \ }
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{comment}{//global\ functions:}}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ checkForReset();}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ checkForInactiveDevices();}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ copyShortAddress(\textcolor{keywordtype}{byte}\ address1[],\ \textcolor{keywordtype}{byte}\ address2[]);}
+\DoxyCodeLine{00185\ \ \ \ \ }
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{comment}{//for\ ranging\ protocole\ (ANCHOR)}}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmitInit();}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmit(\textcolor{keywordtype}{byte}\ datas[]);}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmit(\textcolor{keywordtype}{byte}\ datas[],\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ time);}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmitBlink();}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmitRangingInit(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ myDistantDevice);}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmitPollAck(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ myDistantDevice);}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmitRangeReport(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ myDistantDevice);}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmitRangeFailed(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ myDistantDevice);}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ receiver();}
+\DoxyCodeLine{00196\ \ \ \ \ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{comment}{//for\ ranging\ protocole\ (TAG)}}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmitPoll(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ myDistantDevice);}
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ transmitRange(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ myDistantDevice);}
+\DoxyCodeLine{00200\ \ \ \ \ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{comment}{//methods\ for\ range\ computation}}
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ computeRangeAsymmetric(\mbox{\hyperlink{class_d_w1000_device}{DW1000Device}}*\ myDistantDevice,\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}*\ myTOF);}
+\DoxyCodeLine{00203\ \ \ \ \ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ timerTick();}
+\DoxyCodeLine{00205\ \ \ \ \ }
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{comment}{//Utils}}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ filterValue(\textcolor{keywordtype}{float}\ value,\ \textcolor{keywordtype}{float}\ previousValue,\ uint16\_t\ numberOfElements);}
+\DoxyCodeLine{00208\ \};}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{class_d_w1000_ranging_class}{DW1000RangingClass}}\ \mbox{\hyperlink{_d_w1000_ranging_8h_ab57327c978e98522ccdfbb8f22ffde14}{DW1000Ranging}};}
+
+\end{DoxyCode}

@@ -1,0 +1,147 @@
+\doxysection{DW1000\+Mac Class Reference}
+\hypertarget{class_d_w1000_mac}{}\label{class_d_w1000_mac}\index{DW1000Mac@{DW1000Mac}}
+
+
+{\ttfamily \#include $<$DW1000\+Mac.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_d_w1000_mac_a2ce231562de0be4a18ec7612cc8c7055}{DW1000\+Mac}} (\mbox{\hyperlink{class_d_w1000_device}{DW1000\+Device}} \texorpdfstring{$\ast$}{*}parent)
+\item 
+\mbox{\hyperlink{class_d_w1000_mac_a909721404f8104f11f6d742109f737db}{DW1000\+Mac}} ()
+\item 
+\mbox{\hyperlink{class_d_w1000_mac_a293da3de13fab424c05bf7a03f0fb644}{\texorpdfstring{$\sim$}{\string~}\+DW1000\+Mac}} ()
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_a43d5a523f597d2ba864a7ad22992705d}{set\+Destination\+Address}} (byte \texorpdfstring{$\ast$}{*}destination\+Address)
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_a91c708d29ac3af102d3286f1b0567743}{set\+Destination\+Address\+Short}} (byte \texorpdfstring{$\ast$}{*}short\+Destination\+Address)
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_ac70032280e060369c529893cedaba329}{set\+Source\+Address}} (byte \texorpdfstring{$\ast$}{*}source\+Address)
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_aecf242f46fed339168cab8138d030647}{set\+Source\+Address\+Short}} (byte \texorpdfstring{$\ast$}{*}short\+Source\+Address)
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_a437fa0efccbef6bc0a0b627e01bd7631}{generate\+Blink\+Frame}} (byte frame\mbox{[}$\,$\mbox{]}, byte source\+Address\mbox{[}$\,$\mbox{]}, byte source\+Short\+Address\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_a9f71c8982e0b95e126d2e6fd97c7f686}{generate\+Short\+MACFrame}} (byte frame\mbox{[}$\,$\mbox{]}, byte source\+Short\+Address\mbox{[}$\,$\mbox{]}, byte destination\+Short\+Address\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_a9aa586d9a2f32948c6bdb32fd8060317}{generate\+Long\+MACFrame}} (byte frame\mbox{[}$\,$\mbox{]}, byte source\+Short\+Address\mbox{[}$\,$\mbox{]}, byte destination\+Address\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_a2f463c08db2db3c66a1c78cc939b2068}{decode\+Blink\+Frame}} (byte frame\mbox{[}$\,$\mbox{]}, byte address\mbox{[}$\,$\mbox{]}, byte short\+Address\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_a7858e613a82b01bc30faa4d65ec86970}{decode\+Short\+MACFrame}} (byte frame\mbox{[}$\,$\mbox{]}, byte address\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_ad52462fa07f4130dceccdaa8edb96ebf}{decode\+Long\+MACFrame}} (byte frame\mbox{[}$\,$\mbox{]}, byte address\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{class_d_w1000_mac_a20763a3a40fa1c9e652486a4ba48c9af}{increment\+Seq\+Number}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_d_w1000_mac_a2ce231562de0be4a18ec7612cc8c7055}\label{class_d_w1000_mac_a2ce231562de0be4a18ec7612cc8c7055} 
+\index{DW1000Mac@{DW1000Mac}!DW1000Mac@{DW1000Mac}}
+\index{DW1000Mac@{DW1000Mac}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{DW1000Mac()}{DW1000Mac()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily DW1000\+Mac\+::\+DW1000\+Mac (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_d_w1000_device}{DW1000\+Device}} \texorpdfstring{$\ast$}{*}}]{parent }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_mac_a909721404f8104f11f6d742109f737db}\label{class_d_w1000_mac_a909721404f8104f11f6d742109f737db} 
+\index{DW1000Mac@{DW1000Mac}!DW1000Mac@{DW1000Mac}}
+\index{DW1000Mac@{DW1000Mac}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{DW1000Mac()}{DW1000Mac()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily DW1000\+Mac\+::\+DW1000\+Mac (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_mac_a293da3de13fab424c05bf7a03f0fb644}\label{class_d_w1000_mac_a293da3de13fab424c05bf7a03f0fb644} 
+\index{DW1000Mac@{DW1000Mac}!````~DW1000Mac@{\texorpdfstring{$\sim$}{\string~}DW1000Mac}}
+\index{````~DW1000Mac@{\texorpdfstring{$\sim$}{\string~}DW1000Mac}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}DW1000Mac()}{\string~DW1000Mac()}}
+{\footnotesize\ttfamily DW1000\+Mac\+::\texorpdfstring{$\sim$}{\string~}\+DW1000\+Mac (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_d_w1000_mac_a2f463c08db2db3c66a1c78cc939b2068}\label{class_d_w1000_mac_a2f463c08db2db3c66a1c78cc939b2068} 
+\index{DW1000Mac@{DW1000Mac}!decodeBlinkFrame@{decodeBlinkFrame}}
+\index{decodeBlinkFrame@{decodeBlinkFrame}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{decodeBlinkFrame()}{decodeBlinkFrame()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::decode\+Blink\+Frame (\begin{DoxyParamCaption}\item[{byte}]{frame\mbox{[}$\,$\mbox{]},  }\item[{byte}]{address\mbox{[}$\,$\mbox{]},  }\item[{byte}]{short\+Address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 0
+\Hypertarget{class_d_w1000_mac_ad52462fa07f4130dceccdaa8edb96ebf}\label{class_d_w1000_mac_ad52462fa07f4130dceccdaa8edb96ebf} 
+\index{DW1000Mac@{DW1000Mac}!decodeLongMACFrame@{decodeLongMACFrame}}
+\index{decodeLongMACFrame@{decodeLongMACFrame}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{decodeLongMACFrame()}{decodeLongMACFrame()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::decode\+Long\+MACFrame (\begin{DoxyParamCaption}\item[{byte}]{frame\mbox{[}$\,$\mbox{]},  }\item[{byte}]{address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 1
+\Hypertarget{class_d_w1000_mac_a7858e613a82b01bc30faa4d65ec86970}\label{class_d_w1000_mac_a7858e613a82b01bc30faa4d65ec86970} 
+\index{DW1000Mac@{DW1000Mac}!decodeShortMACFrame@{decodeShortMACFrame}}
+\index{decodeShortMACFrame@{decodeShortMACFrame}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{decodeShortMACFrame()}{decodeShortMACFrame()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::decode\+Short\+MACFrame (\begin{DoxyParamCaption}\item[{byte}]{frame\mbox{[}$\,$\mbox{]},  }\item[{byte}]{address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 2
+\Hypertarget{class_d_w1000_mac_a437fa0efccbef6bc0a0b627e01bd7631}\label{class_d_w1000_mac_a437fa0efccbef6bc0a0b627e01bd7631} 
+\index{DW1000Mac@{DW1000Mac}!generateBlinkFrame@{generateBlinkFrame}}
+\index{generateBlinkFrame@{generateBlinkFrame}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{generateBlinkFrame()}{generateBlinkFrame()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::generate\+Blink\+Frame (\begin{DoxyParamCaption}\item[{byte}]{frame\mbox{[}$\,$\mbox{]},  }\item[{byte}]{source\+Address\mbox{[}$\,$\mbox{]},  }\item[{byte}]{source\+Short\+Address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 3
+\Hypertarget{class_d_w1000_mac_a9aa586d9a2f32948c6bdb32fd8060317}\label{class_d_w1000_mac_a9aa586d9a2f32948c6bdb32fd8060317} 
+\index{DW1000Mac@{DW1000Mac}!generateLongMACFrame@{generateLongMACFrame}}
+\index{generateLongMACFrame@{generateLongMACFrame}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{generateLongMACFrame()}{generateLongMACFrame()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::generate\+Long\+MACFrame (\begin{DoxyParamCaption}\item[{byte}]{frame\mbox{[}$\,$\mbox{]},  }\item[{byte}]{source\+Short\+Address\mbox{[}$\,$\mbox{]},  }\item[{byte}]{destination\+Address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 4
+\Hypertarget{class_d_w1000_mac_a9f71c8982e0b95e126d2e6fd97c7f686}\label{class_d_w1000_mac_a9f71c8982e0b95e126d2e6fd97c7f686} 
+\index{DW1000Mac@{DW1000Mac}!generateShortMACFrame@{generateShortMACFrame}}
+\index{generateShortMACFrame@{generateShortMACFrame}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{generateShortMACFrame()}{generateShortMACFrame()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::generate\+Short\+MACFrame (\begin{DoxyParamCaption}\item[{byte}]{frame\mbox{[}$\,$\mbox{]},  }\item[{byte}]{source\+Short\+Address\mbox{[}$\,$\mbox{]},  }\item[{byte}]{destination\+Short\+Address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 5
+\Hypertarget{class_d_w1000_mac_a20763a3a40fa1c9e652486a4ba48c9af}\label{class_d_w1000_mac_a20763a3a40fa1c9e652486a4ba48c9af} 
+\index{DW1000Mac@{DW1000Mac}!incrementSeqNumber@{incrementSeqNumber}}
+\index{incrementSeqNumber@{incrementSeqNumber}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{incrementSeqNumber()}{incrementSeqNumber()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::increment\+Seq\+Number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 6
+\Hypertarget{class_d_w1000_mac_a43d5a523f597d2ba864a7ad22992705d}\label{class_d_w1000_mac_a43d5a523f597d2ba864a7ad22992705d} 
+\index{DW1000Mac@{DW1000Mac}!setDestinationAddress@{setDestinationAddress}}
+\index{setDestinationAddress@{setDestinationAddress}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{setDestinationAddress()}{setDestinationAddress()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::set\+Destination\+Address (\begin{DoxyParamCaption}\item[{byte \texorpdfstring{$\ast$}{*}}]{destination\+Address }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_mac_a91c708d29ac3af102d3286f1b0567743}\label{class_d_w1000_mac_a91c708d29ac3af102d3286f1b0567743} 
+\index{DW1000Mac@{DW1000Mac}!setDestinationAddressShort@{setDestinationAddressShort}}
+\index{setDestinationAddressShort@{setDestinationAddressShort}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{setDestinationAddressShort()}{setDestinationAddressShort()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::set\+Destination\+Address\+Short (\begin{DoxyParamCaption}\item[{byte \texorpdfstring{$\ast$}{*}}]{short\+Destination\+Address }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_mac_ac70032280e060369c529893cedaba329}\label{class_d_w1000_mac_ac70032280e060369c529893cedaba329} 
+\index{DW1000Mac@{DW1000Mac}!setSourceAddress@{setSourceAddress}}
+\index{setSourceAddress@{setSourceAddress}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{setSourceAddress()}{setSourceAddress()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::set\+Source\+Address (\begin{DoxyParamCaption}\item[{byte \texorpdfstring{$\ast$}{*}}]{source\+Address }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_mac_aecf242f46fed339168cab8138d030647}\label{class_d_w1000_mac_aecf242f46fed339168cab8138d030647} 
+\index{DW1000Mac@{DW1000Mac}!setSourceAddressShort@{setSourceAddressShort}}
+\index{setSourceAddressShort@{setSourceAddressShort}!DW1000Mac@{DW1000Mac}}
+\doxysubsubsection{\texorpdfstring{setSourceAddressShort()}{setSourceAddressShort()}}
+{\footnotesize\ttfamily void DW1000\+Mac\+::set\+Source\+Address\+Short (\begin{DoxyParamCaption}\item[{byte \texorpdfstring{$\ast$}{*}}]{short\+Source\+Address }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_d_w1000_mac_8h}{DW1000\+Mac.\+h}}\item 
+\mbox{\hyperlink{_d_w1000_mac_8cpp}{DW1000\+Mac.\+cpp}}\end{DoxyCompactItemize}

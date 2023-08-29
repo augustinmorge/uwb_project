@@ -1,0 +1,17 @@
+digraph "DW1000Class::receivePermanently"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="DW1000Class::receivePermanently",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="DW1000Class::setReceiver\lAutoReenable",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_d_w1000_class.html#a53e17fac6b38319d6caca584c5ab34ca",tooltip=" "];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="DW1000Class::setBit",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_d_w1000_class.html#a14b341e885a725909445c2a28b1efdfa",tooltip=" "];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="DW1000Class::writeSystem\lConfigurationRegister",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_d_w1000_class.html#ac5ff65d716216fa71853c3df3efa3853",tooltip=" "];
+  Node4 -> Node5 [id="edge4_Node000004_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="DW1000Class::writeBytes",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_d_w1000_class.html#a0772ea0dca8931657f4cca4570cf000d",tooltip=" "];
+}

@@ -1,0 +1,329 @@
+\doxysection{DW1000\+Device Class Reference}
+\hypertarget{class_d_w1000_device}{}\label{class_d_w1000_device}\index{DW1000Device@{DW1000Device}}
+
+
+{\ttfamily \#include $<$DW1000\+Device.\+h$>$}
+
+
+
+Collaboration diagram for DW1000\+Device\+:
+% FIG 0
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_d_w1000_device_ababd3c54aa268a33607e449562a45cca}{DW1000\+Device}} ()
+\item 
+\mbox{\hyperlink{class_d_w1000_device_a96b99626cad1d86fbd169159461034f8}{DW1000\+Device}} (byte address\mbox{[}$\,$\mbox{]}, byte short\+Address\mbox{[}$\,$\mbox{]})
+\item 
+\mbox{\hyperlink{class_d_w1000_device_a224123ad97f1baa7c38302b25aa3506d}{DW1000\+Device}} (byte address\mbox{[}$\,$\mbox{]}, boolean short\+One=false)
+\item 
+\mbox{\hyperlink{class_d_w1000_device_aa37aa8ca3489768968cb1934b6762eb6}{\texorpdfstring{$\sim$}{\string~}\+DW1000\+Device}} ()
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_a3b640d58a7952fc32961dd0e6a7a2687}{set\+Reply\+Time}} (uint16\+\_\+t reply\+Delay\+Time\+Us)
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_a6ba7b56ee475dbccb470224485b38d4e}{set\+Address}} (char address\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_a4e06426369d5d820d93904c6b1fd2a77}{set\+Address}} (byte \texorpdfstring{$\ast$}{*}address)
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_a54b45f385966bc25023097f057cc2603}{set\+Short\+Address}} (byte address\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_ab7db0a45cd983a73f2811930f962ae6a}{set\+Range}} (float range)
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_a4f01103bf4e1d403ffcc4a1fff80d57d}{set\+RXPower}} (float power)
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_ad8ac19327a2965792b710c6c150e594e}{set\+FPPower}} (float power)
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_a0edb0966d402001bc20204e61598c5f6}{set\+Quality}} (float quality)
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_a6e959f9181baaec933864cc95c24e15a}{set\+Reply\+Delay\+Time}} (uint16\+\_\+t time)
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_aa2932f3eae74376d11c7605d9dbf16a6}{set\+Index}} (int8\+\_\+t index)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{class_d_w1000_device_aa653cf4e32c22e30f55d98559723d686}{get\+Reply\+Time}} ()
+\item 
+byte \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_d_w1000_device_afd7d7608ddb0f611544d019fd3c7b763}{get\+Byte\+Address}} ()
+\item 
+int8\+\_\+t \mbox{\hyperlink{class_d_w1000_device_a587e1aa9c4daa0372852bc37c63baeb7}{get\+Index}} ()
+\item 
+byte \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_d_w1000_device_a9ed096db8d7c183de95ddeba01826eab}{get\+Byte\+Short\+Address}} ()
+\item 
+uint16\+\_\+t \mbox{\hyperlink{class_d_w1000_device_a11171d13f73a34c8799e24da51afc6c5}{get\+Short\+Address}} ()
+\item 
+float \mbox{\hyperlink{class_d_w1000_device_a265c1bddef2ed497f3a37c5d297ef83b}{get\+Range}} ()
+\item 
+float \mbox{\hyperlink{class_d_w1000_device_afcb8a4cb291f2ca196de3f0f0a81cf7a}{get\+RXPower}} ()
+\item 
+float \mbox{\hyperlink{class_d_w1000_device_a3d785edd12ff914568c26c15059fed7c}{get\+FPPower}} ()
+\item 
+float \mbox{\hyperlink{class_d_w1000_device_a4bb94b5bb56cbd39b211b05f19b1f424}{get\+Quality}} ()
+\item 
+boolean \mbox{\hyperlink{class_d_w1000_device_a656f661e77b03f24cffb2ead5f5a654f}{is\+Address\+Equal}} (\mbox{\hyperlink{class_d_w1000_device}{DW1000\+Device}} \texorpdfstring{$\ast$}{*}device)
+\item 
+boolean \mbox{\hyperlink{class_d_w1000_device_af379125714a9909490d996bca9282ed6}{is\+Short\+Address\+Equal}} (\mbox{\hyperlink{class_d_w1000_device}{DW1000\+Device}} \texorpdfstring{$\ast$}{*}device)
+\item 
+void \mbox{\hyperlink{class_d_w1000_device_a962fa4af102779c68414c9a9ad1ddf99}{note\+Activity}} ()
+\item 
+boolean \mbox{\hyperlink{class_d_w1000_device_a7b9ef119d9ed502afe3e0c2bf2d417e5}{is\+Inactive}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} \mbox{\hyperlink{class_d_w1000_device_ae92d859f7b77f76bec87b78ffe6ffe23}{time\+Poll\+Sent}}
+\item 
+\mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} \mbox{\hyperlink{class_d_w1000_device_abe772b132acd7e279d91ed6c2135f3f6}{time\+Poll\+Received}}
+\item 
+\mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} \mbox{\hyperlink{class_d_w1000_device_acefb45ac39b889777dc39f20af677df6}{time\+Poll\+Ack\+Sent}}
+\item 
+\mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} \mbox{\hyperlink{class_d_w1000_device_a491a9e78618fb8e925fa57571ceebacd}{time\+Poll\+Ack\+Received}}
+\item 
+\mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} \mbox{\hyperlink{class_d_w1000_device_a8fff2061324140585f5caa90fe95bbcd}{time\+Range\+Sent}}
+\item 
+\mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} \mbox{\hyperlink{class_d_w1000_device_a42be0fee2b84798cf39f2a33f01f8aae}{time\+Range\+Received}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_d_w1000_device_ababd3c54aa268a33607e449562a45cca}\label{class_d_w1000_device_ababd3c54aa268a33607e449562a45cca} 
+\index{DW1000Device@{DW1000Device}!DW1000Device@{DW1000Device}}
+\index{DW1000Device@{DW1000Device}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{DW1000Device()}{DW1000Device()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily DW1000\+Device\+::\+DW1000\+Device (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_device_a96b99626cad1d86fbd169159461034f8}\label{class_d_w1000_device_a96b99626cad1d86fbd169159461034f8} 
+\index{DW1000Device@{DW1000Device}!DW1000Device@{DW1000Device}}
+\index{DW1000Device@{DW1000Device}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{DW1000Device()}{DW1000Device()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily DW1000\+Device\+::\+DW1000\+Device (\begin{DoxyParamCaption}\item[{byte}]{address\mbox{[}$\,$\mbox{]},  }\item[{byte}]{short\+Address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 1
+\Hypertarget{class_d_w1000_device_a224123ad97f1baa7c38302b25aa3506d}\label{class_d_w1000_device_a224123ad97f1baa7c38302b25aa3506d} 
+\index{DW1000Device@{DW1000Device}!DW1000Device@{DW1000Device}}
+\index{DW1000Device@{DW1000Device}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{DW1000Device()}{DW1000Device()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily DW1000\+Device\+::\+DW1000\+Device (\begin{DoxyParamCaption}\item[{byte}]{address\mbox{[}$\,$\mbox{]},  }\item[{boolean}]{short\+One = {\ttfamily false} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 2
+\Hypertarget{class_d_w1000_device_aa37aa8ca3489768968cb1934b6762eb6}\label{class_d_w1000_device_aa37aa8ca3489768968cb1934b6762eb6} 
+\index{DW1000Device@{DW1000Device}!````~DW1000Device@{\texorpdfstring{$\sim$}{\string~}DW1000Device}}
+\index{````~DW1000Device@{\texorpdfstring{$\sim$}{\string~}DW1000Device}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}DW1000Device()}{\string~DW1000Device()}}
+{\footnotesize\ttfamily DW1000\+Device\+::\texorpdfstring{$\sim$}{\string~}\+DW1000\+Device (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_d_w1000_device_afd7d7608ddb0f611544d019fd3c7b763}\label{class_d_w1000_device_afd7d7608ddb0f611544d019fd3c7b763} 
+\index{DW1000Device@{DW1000Device}!getByteAddress@{getByteAddress}}
+\index{getByteAddress@{getByteAddress}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getByteAddress()}{getByteAddress()}}
+{\footnotesize\ttfamily byte \texorpdfstring{$\ast$}{*} DW1000\+Device\+::get\+Byte\+Address (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 3
+\Hypertarget{class_d_w1000_device_a9ed096db8d7c183de95ddeba01826eab}\label{class_d_w1000_device_a9ed096db8d7c183de95ddeba01826eab} 
+\index{DW1000Device@{DW1000Device}!getByteShortAddress@{getByteShortAddress}}
+\index{getByteShortAddress@{getByteShortAddress}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getByteShortAddress()}{getByteShortAddress()}}
+{\footnotesize\ttfamily byte \texorpdfstring{$\ast$}{*} DW1000\+Device\+::get\+Byte\+Short\+Address (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 4
+\Hypertarget{class_d_w1000_device_a3d785edd12ff914568c26c15059fed7c}\label{class_d_w1000_device_a3d785edd12ff914568c26c15059fed7c} 
+\index{DW1000Device@{DW1000Device}!getFPPower@{getFPPower}}
+\index{getFPPower@{getFPPower}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getFPPower()}{getFPPower()}}
+{\footnotesize\ttfamily float DW1000\+Device\+::get\+FPPower (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_device_a587e1aa9c4daa0372852bc37c63baeb7}\label{class_d_w1000_device_a587e1aa9c4daa0372852bc37c63baeb7} 
+\index{DW1000Device@{DW1000Device}!getIndex@{getIndex}}
+\index{getIndex@{getIndex}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getIndex()}{getIndex()}}
+{\footnotesize\ttfamily int8\+\_\+t DW1000\+Device\+::get\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+% FIG 5
+\Hypertarget{class_d_w1000_device_a4bb94b5bb56cbd39b211b05f19b1f424}\label{class_d_w1000_device_a4bb94b5bb56cbd39b211b05f19b1f424} 
+\index{DW1000Device@{DW1000Device}!getQuality@{getQuality}}
+\index{getQuality@{getQuality}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getQuality()}{getQuality()}}
+{\footnotesize\ttfamily float DW1000\+Device\+::get\+Quality (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_device_a265c1bddef2ed497f3a37c5d297ef83b}\label{class_d_w1000_device_a265c1bddef2ed497f3a37c5d297ef83b} 
+\index{DW1000Device@{DW1000Device}!getRange@{getRange}}
+\index{getRange@{getRange}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getRange()}{getRange()}}
+{\footnotesize\ttfamily float DW1000\+Device\+::get\+Range (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 6
+\Hypertarget{class_d_w1000_device_aa653cf4e32c22e30f55d98559723d686}\label{class_d_w1000_device_aa653cf4e32c22e30f55d98559723d686} 
+\index{DW1000Device@{DW1000Device}!getReplyTime@{getReplyTime}}
+\index{getReplyTime@{getReplyTime}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getReplyTime()}{getReplyTime()}}
+{\footnotesize\ttfamily uint16\+\_\+t DW1000\+Device\+::get\+Reply\+Time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_d_w1000_device_afcb8a4cb291f2ca196de3f0f0a81cf7a}\label{class_d_w1000_device_afcb8a4cb291f2ca196de3f0f0a81cf7a} 
+\index{DW1000Device@{DW1000Device}!getRXPower@{getRXPower}}
+\index{getRXPower@{getRXPower}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getRXPower()}{getRXPower()}}
+{\footnotesize\ttfamily float DW1000\+Device\+::get\+RXPower (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_device_a11171d13f73a34c8799e24da51afc6c5}\label{class_d_w1000_device_a11171d13f73a34c8799e24da51afc6c5} 
+\index{DW1000Device@{DW1000Device}!getShortAddress@{getShortAddress}}
+\index{getShortAddress@{getShortAddress}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{getShortAddress()}{getShortAddress()}}
+{\footnotesize\ttfamily uint16\+\_\+t DW1000\+Device\+::get\+Short\+Address (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_device_a656f661e77b03f24cffb2ead5f5a654f}\label{class_d_w1000_device_a656f661e77b03f24cffb2ead5f5a654f} 
+\index{DW1000Device@{DW1000Device}!isAddressEqual@{isAddressEqual}}
+\index{isAddressEqual@{isAddressEqual}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{isAddressEqual()}{isAddressEqual()}}
+{\footnotesize\ttfamily boolean DW1000\+Device\+::is\+Address\+Equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_d_w1000_device}{DW1000\+Device}} \texorpdfstring{$\ast$}{*}}]{device }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 7
+\Hypertarget{class_d_w1000_device_a7b9ef119d9ed502afe3e0c2bf2d417e5}\label{class_d_w1000_device_a7b9ef119d9ed502afe3e0c2bf2d417e5} 
+\index{DW1000Device@{DW1000Device}!isInactive@{isInactive}}
+\index{isInactive@{isInactive}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{isInactive()}{isInactive()}}
+{\footnotesize\ttfamily boolean DW1000\+Device\+::is\+Inactive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_device_af379125714a9909490d996bca9282ed6}\label{class_d_w1000_device_af379125714a9909490d996bca9282ed6} 
+\index{DW1000Device@{DW1000Device}!isShortAddressEqual@{isShortAddressEqual}}
+\index{isShortAddressEqual@{isShortAddressEqual}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{isShortAddressEqual()}{isShortAddressEqual()}}
+{\footnotesize\ttfamily boolean DW1000\+Device\+::is\+Short\+Address\+Equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_d_w1000_device}{DW1000\+Device}} \texorpdfstring{$\ast$}{*}}]{device }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 8
+\Hypertarget{class_d_w1000_device_a962fa4af102779c68414c9a9ad1ddf99}\label{class_d_w1000_device_a962fa4af102779c68414c9a9ad1ddf99} 
+\index{DW1000Device@{DW1000Device}!noteActivity@{noteActivity}}
+\index{noteActivity@{noteActivity}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{noteActivity()}{noteActivity()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::note\+Activity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 9
+\Hypertarget{class_d_w1000_device_a4e06426369d5d820d93904c6b1fd2a77}\label{class_d_w1000_device_a4e06426369d5d820d93904c6b1fd2a77} 
+\index{DW1000Device@{DW1000Device}!setAddress@{setAddress}}
+\index{setAddress@{setAddress}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setAddress()}{setAddress()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+Address (\begin{DoxyParamCaption}\item[{byte \texorpdfstring{$\ast$}{*}}]{address }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_device_a6ba7b56ee475dbccb470224485b38d4e}\label{class_d_w1000_device_a6ba7b56ee475dbccb470224485b38d4e} 
+\index{DW1000Device@{DW1000Device}!setAddress@{setAddress}}
+\index{setAddress@{setAddress}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setAddress()}{setAddress()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+Address (\begin{DoxyParamCaption}\item[{char}]{address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+% FIG 10
+Here is the caller graph for this function\+:
+% FIG 11
+\Hypertarget{class_d_w1000_device_ad8ac19327a2965792b710c6c150e594e}\label{class_d_w1000_device_ad8ac19327a2965792b710c6c150e594e} 
+\index{DW1000Device@{DW1000Device}!setFPPower@{setFPPower}}
+\index{setFPPower@{setFPPower}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setFPPower()}{setFPPower()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+FPPower (\begin{DoxyParamCaption}\item[{float}]{power }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 12
+\Hypertarget{class_d_w1000_device_aa2932f3eae74376d11c7605d9dbf16a6}\label{class_d_w1000_device_aa2932f3eae74376d11c7605d9dbf16a6} 
+\index{DW1000Device@{DW1000Device}!setIndex@{setIndex}}
+\index{setIndex@{setIndex}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setIndex()}{setIndex()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+Index (\begin{DoxyParamCaption}\item[{int8\+\_\+t}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+% FIG 13
+\Hypertarget{class_d_w1000_device_a0edb0966d402001bc20204e61598c5f6}\label{class_d_w1000_device_a0edb0966d402001bc20204e61598c5f6} 
+\index{DW1000Device@{DW1000Device}!setQuality@{setQuality}}
+\index{setQuality@{setQuality}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setQuality()}{setQuality()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+Quality (\begin{DoxyParamCaption}\item[{float}]{quality }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 14
+\Hypertarget{class_d_w1000_device_ab7db0a45cd983a73f2811930f962ae6a}\label{class_d_w1000_device_ab7db0a45cd983a73f2811930f962ae6a} 
+\index{DW1000Device@{DW1000Device}!setRange@{setRange}}
+\index{setRange@{setRange}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setRange()}{setRange()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+Range (\begin{DoxyParamCaption}\item[{float}]{range }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 15
+\Hypertarget{class_d_w1000_device_a6e959f9181baaec933864cc95c24e15a}\label{class_d_w1000_device_a6e959f9181baaec933864cc95c24e15a} 
+\index{DW1000Device@{DW1000Device}!setReplyDelayTime@{setReplyDelayTime}}
+\index{setReplyDelayTime@{setReplyDelayTime}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setReplyDelayTime()}{setReplyDelayTime()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+Reply\+Delay\+Time (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_d_w1000_device_a3b640d58a7952fc32961dd0e6a7a2687}\label{class_d_w1000_device_a3b640d58a7952fc32961dd0e6a7a2687} 
+\index{DW1000Device@{DW1000Device}!setReplyTime@{setReplyTime}}
+\index{setReplyTime@{setReplyTime}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setReplyTime()}{setReplyTime()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+Reply\+Time (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{reply\+Delay\+Time\+Us }\end{DoxyParamCaption})}
+
+\Hypertarget{class_d_w1000_device_a4f01103bf4e1d403ffcc4a1fff80d57d}\label{class_d_w1000_device_a4f01103bf4e1d403ffcc4a1fff80d57d} 
+\index{DW1000Device@{DW1000Device}!setRXPower@{setRXPower}}
+\index{setRXPower@{setRXPower}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setRXPower()}{setRXPower()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+RXPower (\begin{DoxyParamCaption}\item[{float}]{power }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 16
+\Hypertarget{class_d_w1000_device_a54b45f385966bc25023097f057cc2603}\label{class_d_w1000_device_a54b45f385966bc25023097f057cc2603} 
+\index{DW1000Device@{DW1000Device}!setShortAddress@{setShortAddress}}
+\index{setShortAddress@{setShortAddress}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{setShortAddress()}{setShortAddress()}}
+{\footnotesize\ttfamily void DW1000\+Device\+::set\+Short\+Address (\begin{DoxyParamCaption}\item[{byte}]{address\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+% FIG 17
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_d_w1000_device_a491a9e78618fb8e925fa57571ceebacd}\label{class_d_w1000_device_a491a9e78618fb8e925fa57571ceebacd} 
+\index{DW1000Device@{DW1000Device}!timePollAckReceived@{timePollAckReceived}}
+\index{timePollAckReceived@{timePollAckReceived}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{timePollAckReceived}{timePollAckReceived}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} DW1000\+Device\+::time\+Poll\+Ack\+Received}
+
+\Hypertarget{class_d_w1000_device_acefb45ac39b889777dc39f20af677df6}\label{class_d_w1000_device_acefb45ac39b889777dc39f20af677df6} 
+\index{DW1000Device@{DW1000Device}!timePollAckSent@{timePollAckSent}}
+\index{timePollAckSent@{timePollAckSent}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{timePollAckSent}{timePollAckSent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} DW1000\+Device\+::time\+Poll\+Ack\+Sent}
+
+\Hypertarget{class_d_w1000_device_abe772b132acd7e279d91ed6c2135f3f6}\label{class_d_w1000_device_abe772b132acd7e279d91ed6c2135f3f6} 
+\index{DW1000Device@{DW1000Device}!timePollReceived@{timePollReceived}}
+\index{timePollReceived@{timePollReceived}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{timePollReceived}{timePollReceived}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} DW1000\+Device\+::time\+Poll\+Received}
+
+\Hypertarget{class_d_w1000_device_ae92d859f7b77f76bec87b78ffe6ffe23}\label{class_d_w1000_device_ae92d859f7b77f76bec87b78ffe6ffe23} 
+\index{DW1000Device@{DW1000Device}!timePollSent@{timePollSent}}
+\index{timePollSent@{timePollSent}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{timePollSent}{timePollSent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} DW1000\+Device\+::time\+Poll\+Sent}
+
+\Hypertarget{class_d_w1000_device_a42be0fee2b84798cf39f2a33f01f8aae}\label{class_d_w1000_device_a42be0fee2b84798cf39f2a33f01f8aae} 
+\index{DW1000Device@{DW1000Device}!timeRangeReceived@{timeRangeReceived}}
+\index{timeRangeReceived@{timeRangeReceived}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{timeRangeReceived}{timeRangeReceived}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} DW1000\+Device\+::time\+Range\+Received}
+
+\Hypertarget{class_d_w1000_device_a8fff2061324140585f5caa90fe95bbcd}\label{class_d_w1000_device_a8fff2061324140585f5caa90fe95bbcd} 
+\index{DW1000Device@{DW1000Device}!timeRangeSent@{timeRangeSent}}
+\index{timeRangeSent@{timeRangeSent}!DW1000Device@{DW1000Device}}
+\doxysubsubsection{\texorpdfstring{timeRangeSent}{timeRangeSent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_d_w1000_time}{DW1000\+Time}} DW1000\+Device\+::time\+Range\+Sent}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_d_w1000_device_8h}{DW1000\+Device.\+h}}\item 
+\mbox{\hyperlink{_d_w1000_device_8cpp}{DW1000\+Device.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,301 @@
+\doxysection{DW1000\+Constants.\+h}
+\hypertarget{_d_w1000_constants_8h_source}{}\label{_d_w1000_constants_8h_source}\mbox{\hyperlink{_d_w1000_constants_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2015\ by\ Thomas\ Trojer\ <thomas@trojer.net>}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ Decawave\ DW1000\ library\ for\ arduino.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ @file\ DW1000Constants.h}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ Arduino\ driver\ library\ (header\ file)\ for\ the\ Decawave\ DW1000\ UWB\ transceiver\ IC.}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifndef\ \_DW1000CONSTANTS\_H\_INCLUDED}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ \_DW1000CONSTANTS\_H\_INCLUDED}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ time\ stamp\ byte\ length}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ LEN\_STAMP\ 5}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ enum\ to\ determine\ RX\ or\ TX\ mode\ of\ device}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ IDLE\_MODE\ 0x00}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ RX\_MODE\ 0x01}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ TX\_MODE\ 0x02}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ used\ for\ SPI\ ready\ w/o\ actual\ writes}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ JUNK\ 0x00}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ no\ sub-\/address\ for\ register\ write}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ NO\_SUB\ 0xFF}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ device\ id\ register}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ DEV\_ID\ 0x00}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ LEN\_DEV\_ID\ 4}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ extended\ unique\ identifier\ register}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ EUI\ 0x01}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ LEN\_EUI\ 8}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ PAN\ identifier,\ short\ address\ register}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ PANADR\ 0x03}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ LEN\_PANADR\ 4}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ device\ configuration\ register}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ SYS\_CFG\ 0x04}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ LEN\_SYS\_CFG\ 4}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ FFEN\_BIT\ 0}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ FFBC\_BIT\ 1}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ FFAB\_BIT\ 2}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ FFAD\_BIT\ 3}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ FFAA\_BIT\ 4}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ FFAM\_BIT\ 5}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ FFAR\_BIT\ 6}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ DIS\_DRXB\_BIT\ 12}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ DIS\_STXP\_BIT\ 18}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ HIRQ\_POL\_BIT\ 9}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ RXAUTR\_BIT\ 29}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ PHR\_MODE\_SUB\ 16}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ LEN\_PHR\_MODE\_SUB\ 2}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ RXM110K\_BIT\ 22}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{comment}{//\ device\ control\ register}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ SYS\_CTRL\ 0x0D}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ LEN\_SYS\_CTRL\ 4}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ SFCST\_BIT\ 0}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ TXSTRT\_BIT\ 1}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ TXDLYS\_BIT\ 2}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ TRXOFF\_BIT\ 6}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ WAIT4RESP\_BIT\ 7}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ RXENAB\_BIT\ 8}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ RXDLYS\_BIT\ 9}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{comment}{//\ system\ event\ status\ register}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ SYS\_STATUS\ 0x0F}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ LEN\_SYS\_STATUS\ 5}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ CPLOCK\_BIT\ 1}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ AAT\_BIT\ 3}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ TXFRB\_BIT\ 4}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ TXPRS\_BIT\ 5}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ TXPHS\_BIT\ 6}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ TXFRS\_BIT\ 7}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ LDEDONE\_BIT\ 10}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ RXPHE\_BIT\ 12}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ RXDFR\_BIT\ 13}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ RXFCG\_BIT\ 14}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ RXFCE\_BIT\ 15}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ RXRFSL\_BIT\ 16}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ RXRFTO\_BIT\ 17}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ RXPTO\_BIT\ 21}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ RXSFDTO\_BIT\ 26}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ LDEERR\_BIT\ 18}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ RFPLL\_LL\_BIT\ 24}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ CLKPLL\_LL\_BIT\ 25}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{comment}{//\ system\ event\ mask\ register}}
+\DoxyCodeLine{00102\ \textcolor{comment}{//\ NOTE:\ uses\ the\ bit\ definitions\ of\ SYS\_STATUS\ (below\ 32)}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ SYS\_MASK\ 0x0E}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ LEN\_SYS\_MASK\ 4}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{comment}{//\ system\ time\ counter}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ SYS\_TIME\ 0x06}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ LEN\_SYS\_TIME\ LEN\_STAMP}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{comment}{//\ RX\ timestamp\ register}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ RX\_TIME\ 0x15}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ LEN\_RX\_TIME\ 14}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ RX\_STAMP\_SUB\ 0x00}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ FP\_AMPL1\_SUB\ 0x07}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ LEN\_RX\_STAMP\ LEN\_STAMP}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ LEN\_FP\_AMPL1\ 2}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{comment}{//\ RX\ frame\ quality}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ RX\_FQUAL\ 0x12}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ LEN\_RX\_FQUAL\ 8}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ STD\_NOISE\_SUB\ 0x00}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ FP\_AMPL2\_SUB\ 0x02}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ FP\_AMPL3\_SUB\ 0x04}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ CIR\_PWR\_SUB\ 0x06}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ LEN\_STD\_NOISE\ 2}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ LEN\_FP\_AMPL2\ 2}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ LEN\_FP\_AMPL3\ 2}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ LEN\_CIR\_PWR\ 2}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{comment}{//\ TX\ timestamp\ register}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ TX\_TIME\ 0x17}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ LEN\_TX\_TIME\ 10}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ TX\_STAMP\_SUB\ 0}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ LEN\_TX\_STAMP\ LEN\_STAMP}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{comment}{//\ timing\ register\ (for\ delayed\ RX/TX)}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ DX\_TIME\ 0x0A}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ LEN\_DX\_TIME\ LEN\_STAMP}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{comment}{//\ transmit\ data\ buffer}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ TX\_BUFFER\ 0x09}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ LEN\_TX\_BUFFER\ 1024}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ LEN\_UWB\_FRAMES\ 127}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ LEN\_EXT\_UWB\_FRAMES\ 1023}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{comment}{//\ RX\ frame\ info}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ RX\_FINFO\ 0x10}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ LEN\_RX\_FINFO\ 4}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \textcolor{comment}{//\ receive\ data\ buffer}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ RX\_BUFFER\ 0x11}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ LEN\_RX\_BUFFER\ 1024}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{comment}{//\ transmit\ control}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ TX\_FCTRL\ 0x08}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ LEN\_TX\_FCTRL\ 5}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{comment}{//\ channel\ control}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#define\ CHAN\_CTRL\ 0x1F}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ LEN\_CHAN\_CTRL\ 4}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#define\ DWSFD\_BIT\ 17}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#define\ TNSSFD\_BIT\ 20}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ RNSSFD\_BIT\ 21}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \textcolor{comment}{//\ user-\/defined\ SFD}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ USR\_SFD\ 0x21}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ LEN\_USR\_SFD\ 41}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ SFD\_LENGTH\_SUB\ 0x00}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ LEN\_SFD\_LENGTH\ 1}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \textcolor{comment}{//\ OTP\ control\ (for\ LDE\ micro\ code\ loading\ only)}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ OTP\_IF\ 0x2D}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ OTP\_ADDR\_SUB\ 0x04}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ OTP\_CTRL\_SUB\ 0x06}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ OTP\_RDAT\_SUB\ 0x0A}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ LEN\_OTP\_ADDR\ 2}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#define\ LEN\_OTP\_CTRL\ 2}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#define\ LEN\_OTP\_RDAT\ 4}}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \textcolor{comment}{//\ AGC\_TUNE1/2\ (for\ re-\/tuning\ only)}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ AGC\_TUNE\ 0x23}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ AGC\_TUNE1\_SUB\ 0x04}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ AGC\_TUNE2\_SUB\ 0x0C}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#define\ AGC\_TUNE3\_SUB\ 0x12}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#define\ LEN\_AGC\_TUNE1\ 2}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ LEN\_AGC\_TUNE2\ 4}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ LEN\_AGC\_TUNE3\ 2}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{comment}{//\ DRX\_TUNE2\ (for\ re-\/tuning\ only)}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ DRX\_TUNE\ 0x27}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ DRX\_TUNE0b\_SUB\ 0x02}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ DRX\_TUNE1a\_SUB\ 0x04}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#define\ DRX\_TUNE1b\_SUB\ 0x06}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#define\ DRX\_TUNE2\_SUB\ 0x08}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#define\ DRX\_TUNE4H\_SUB\ 0x26}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#define\ LEN\_DRX\_TUNE0b\ 2}}
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#define\ LEN\_DRX\_TUNE1a\ 2}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#define\ LEN\_DRX\_TUNE1b\ 2}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ LEN\_DRX\_TUNE2\ 4}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#define\ LEN\_DRX\_TUNE4H\ 2}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \textcolor{comment}{//\ LDE\_CFG1\ (for\ re-\/tuning\ only)}}
+\DoxyCodeLine{00203\ \textcolor{preprocessor}{\#define\ LDE\_IF\ 0x2E}}
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#define\ LDE\_CFG1\_SUB\ 0x0806}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#define\ LDE\_RXANTD\_SUB\ 0x1804}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#define\ LDE\_CFG2\_SUB\ 0x1806}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#define\ LDE\_REPC\_SUB\ 0x2804}}
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#define\ LEN\_LDE\_CFG1\ 1}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#define\ LEN\_LDE\_CFG2\ 2}}
+\DoxyCodeLine{00210\ \textcolor{preprocessor}{\#define\ LEN\_LDE\_REPC\ 2}}
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\#define\ LEN\_LDE\_RXANTD\ 2}}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \textcolor{comment}{//\ TX\_POWER\ (for\ re-\/tuning\ only)}}
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\#define\ TX\_POWER\ 0x1E}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#define\ LEN\_TX\_POWER\ 4}}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \textcolor{comment}{//\ RF\_CONF\ (for\ re-\/tuning\ only)}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#define\ RF\_CONF\ 0x28}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#define\ RF\_RXCTRLH\_SUB\ 0x0B}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ RF\_TXCTRL\_SUB\ 0x0C}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#define\ LEN\_RF\_RXCTRLH\ 1}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#define\ LEN\_RF\_TXCTRL\ 4}}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \textcolor{comment}{//\ TX\_CAL\ (for\ re-\/tuning\ only)}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#define\ TX\_CAL\ 0x2A}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#define\ TC\_PGDELAY\_SUB\ 0x0B}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#define\ LEN\_TC\_PGDELAY\ 1}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ TC\_SARC\ 0x00}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#define\ TC\_SARL\ 0x03}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \textcolor{comment}{//\ FS\_CTRL\ (for\ re-\/tuning\ only)}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#define\ FS\_CTRL\ 0x2B}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\#define\ FS\_PLLCFG\_SUB\ 0x07}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#define\ FS\_PLLTUNE\_SUB\ 0x0B}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#define\ FS\_XTALT\_SUB\ 0x0E}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\#define\ LEN\_FS\_PLLCFG\ 4}}
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\#define\ LEN\_FS\_PLLTUNE\ 1}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\#define\ LEN\_FS\_XTALT\ 1}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \textcolor{comment}{//\ AON}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#define\ AON\ 0x2C}}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#define\ AON\_WCFG\_SUB\ 0x00}}
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#define\ LEN\_AON\_WCFG\ 2}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#define\ ONW\_LDC\_BIT\ 6}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\#define\ ONW\_LDD0\_BIT\ 12}}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#define\ AON\_CTRL\_SUB\ 0x02}}
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\#define\ LEN\_AON\_CTRL\ 1}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#define\ RESTORE\_BIT\ 0}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#define\ SAVE\_BIT\ 1}}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#define\ UPL\_CFG\_BIT\ 2}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\#define\ AON\_CFG0\_SUB\ 0x06}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\#define\ LEN\_AON\_CFG0\ 4}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#define\ SLEEP\_EN\_BIT\ 0}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#define\ WAKE\_PIN\_BIT\ 1}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#define\ WAKE\_SPI\_BIT\ 2}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#define\ WAKE\_CNT\_BIT\ 3}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \textcolor{comment}{//\ PMSC}}
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#define\ PMSC\ 0x36}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#define\ PMSC\_CTRL0\_SUB\ 0x00}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#define\ PMSC\_CTRL1\_SUB\ 0x04}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\#define\ PMSC\_LEDC\_SUB\ 0x28}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#define\ LEN\_PMSC\_CTRL0\ 4}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\#define\ LEN\_PMSC\_CTRL1\ 4}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#define\ LEN\_PMSC\_LEDC\ 4}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ GPDCE\_BIT\ 18}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#define\ KHZCLKEN\_BIT\ 23}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#define\ BLNKEN\ 8}}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \textcolor{preprocessor}{\#define\ ATXSLP\_BIT\ 11}}
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ ARXSLP\_BIT\ 12}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \textcolor{comment}{//\ TX\_ANTD\ Antenna\ delays}}
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\#define\ TX\_ANTD\ 0x18}}
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\#define\ LEN\_TX\_ANTD\ 2}}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{comment}{//\ GPIO}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#define\ GPIO\_CTRL\ 0x26}}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#define\ GPIO\_MODE\_SUB\ 0x00}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#define\ LEN\_GPIO\_MODE\ 4}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\#define\ MSGP0\ 6}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#define\ MSGP1\ 8}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\#define\ MSGP2\ 10}}
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\#define\ MSGP3\ 12}}
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#define\ MSGP4\ 14}}
+\DoxyCodeLine{00288\ \textcolor{preprocessor}{\#define\ MSGP5\ 16}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#define\ MSGP6\ 18}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#define\ MSGP7\ 20}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#define\ MSGP8\ 22}}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#define\ GPIO\_MODE\ 0}}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#define\ LED\_MODE\ 1}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

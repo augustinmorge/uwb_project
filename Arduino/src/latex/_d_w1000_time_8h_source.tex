@@ -1,0 +1,121 @@
+\doxysection{DW1000\+Time.\+h}
+\hypertarget{_d_w1000_time_8h_source}{}\label{_d_w1000_time_8h_source}\mbox{\hyperlink{_d_w1000_time_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#ifndef\ DW1000TIME\_H}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ DW1000TIME\_H}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_w1000_compile_options_8h}{DW1000CompileOptions.h}}"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{deprecated_8h}{deprecated.h}}"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{require__cpp11_8h}{require\_cpp11.h}}"{}}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#if\ DW1000TIME\_H\_PRINTABLE}}
+\DoxyCodeLine{00041\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ :\ \textcolor{keyword}{public}\ Printable\ \{}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ \{}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ DW1000Time\_H\_PRINTABLE}}
+\DoxyCodeLine{00045\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{comment}{//\ Time\ resolution\ in\ micro-\/seconds\ of\ time\ based\ registers/values.}}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{comment}{//\ Each\ bit\ in\ a\ timestamp\ counts\ for\ a\ period\ of\ approx.\ 15.65ps}}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_a2ca1fba08fbe1371ee9391d378fcd50a}{TIME\_RES}}\ \ \ \ \ =\ 0.000015650040064103f;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_a4b49d5a5c5f3f126dc4f89e2258c6d64}{TIME\_RES\_INV}}\ =\ 63897.6f;}
+\DoxyCodeLine{00050\ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ Speed\ of\ radio\ waves\ [m/s]\ *\ timestamp\ resolution\ [\string~15.65ps]\ of\ DW1000}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_abdadbe4f3ec45d1dba5db8576ac7afa9}{DISTANCE\_OF\_RADIO}}\ \ \ \ \ =\ 0.0046917639786159f;}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_ac714c7d18b0ded83d25c5b02954a4770}{DISTANCE\_OF\_RADIO\_INV}}\ =\ 213.139451293f;}
+\DoxyCodeLine{00054\ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{comment}{//\ timestamp\ byte\ length\ -\/\ 40\ bit\ -\/>\ 5\ byte}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ uint8\_t\ \mbox{\hyperlink{class_d_w1000_time_a15e78e2eb3d7c30e118bc88dcf2ba296}{LENGTH\_TIMESTAMP}}\ =\ 5;}
+\DoxyCodeLine{00057\ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//\ timer/counter\ overflow\ (40\ bits)\ -\/>\ 4overflow\ approx.\ every\ 17.2\ seconds}}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ int64\_t\ \mbox{\hyperlink{class_d_w1000_time_ab43d5f800f01805692108ed71474658a}{TIME\_OVERFLOW}}\ =\ 0x10000000000;\ \textcolor{comment}{//1099511627776LL}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ int64\_t\ \mbox{\hyperlink{class_d_w1000_time_a245f8939b391ce9ef0e16ff40b778cef}{TIME\_MAX}}\ \ \ \ \ \ =\ 0xffffffffff;}
+\DoxyCodeLine{00061\ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{comment}{//\ time\ factors\ (relative\ to\ [us])\ for\ setting\ delayed\ transceive}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{//\ TODO\ use\ non\ float}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_a542450a114c48b3974ba50babfe2ce14}{SECONDS}}\ \ \ \ \ \ =\ 1e6;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_a256fdb9e477c2aac43a7f747036a8069}{MILLISECONDS}}\ =\ 1e3;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_af6113e457b55261503b8cb21dbfca747}{MICROSECONDS}}\ =\ 1;}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_a8cd30bfcbbfdf49b61d5786a75aa8ac7}{NANOSECONDS}}\ \ =\ 1e-\/3;}
+\DoxyCodeLine{00068\ \ \ \ \ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ constructor}}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}();}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(int64\_t\ time);}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(\textcolor{keywordtype}{byte}\ data[]);}
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ copy);}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(\textcolor{keywordtype}{float}\ timeUs);}
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a6d9648e0fea1899def84dc09556bd29d}{DW1000Time}}(int32\_t\ value,\ \textcolor{keywordtype}{float}\ factorUs);}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a1036123abf02ee429b9e5e5a557413c5}{\string~DW1000Time}}();}
+\DoxyCodeLine{00077\ \ \ \ \ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{comment}{//\ setter}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{comment}{//\ dw1000\ timestamp,\ increase\ of\ +1\ approx\ approx.\ 15.65ps\ real\ time}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{setTimestamp}}(int64\_t\ value);}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{setTimestamp}}(\textcolor{keywordtype}{byte}\ data[]);}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a62dcd395c3fc6819d4c1994dad06db78}{setTimestamp}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ copy);}
+\DoxyCodeLine{00083\ \ \ \ \ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{comment}{//\ real\ time\ in\ us}}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a743897a44c46369ca749bd52ca259db7}{setTime}}(\textcolor{keywordtype}{float}\ timeUs);}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_d_w1000_time_a743897a44c46369ca749bd52ca259db7}{setTime}}(int32\_t\ value,\ \textcolor{keywordtype}{float}\ factorUs);}
+\DoxyCodeLine{00087\ \ \ \ \ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{comment}{//\ getter}}
+\DoxyCodeLine{00089\ \ \ \ \ int64\_t\ \mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{class_d_w1000_time_a4bbc27fdfe2276aeb8d985d26f566086}{getTimestamp}}(\textcolor{keywordtype}{byte}\ data[])\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00091\ \ \ \ \ }
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{deprecated_8h_acf5fe7b5c4b0f8918b44f5b3f3916ba2}{DEPRECATED\_MSG}}(\textcolor{stringliteral}{"{}use\ getAsMicroSeconds()"{}})}
+\DoxyCodeLine{00093\ \ \ \ \ float\ \mbox{\hyperlink{class_d_w1000_time_a818f1f37d5f128a94cfeb7aab76d735c}{getAsFloat}}()\ const;}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{comment}{//\ getter,\ convert\ the\ timestamp\ to\ usual\ units}}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_ae98c4a4e22cef4936e6a01f826d5625b}{getAsMicroSeconds}}()\ const;}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{comment}{//void\ getAsBytes(byte\ data[])\ const;\ //\ TODO\ check\ why\ it\ is\ here,\ is\ it\ old\ version\ of\ getTimestamp(byte)\ ?}}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_d_w1000_time_a0b36b35078bf12848b410627abb944eb}{getAsMeters}}()\ const;}
+\DoxyCodeLine{00098\ \ \ \ \ }
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ \mbox{\hyperlink{class_d_w1000_time_a2715e87a8ac5a7bb3bc100b9e33392a8}{wrap}}();}
+\DoxyCodeLine{00100\ \ \ \ \ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{comment}{//\ self\ test}}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_d_w1000_time_ab3a5ca26a1667be0a146d43e50ffd144}{isValidTimestamp}}();}
+\DoxyCodeLine{00103\ \ \ \ \ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{comment}{//\ assign}}
+\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ operator=(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ assign);}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{comment}{//\ add}}
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ operator+=(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ add);}
+\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ operator+(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ add)\ const;}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{comment}{//\ subtract}}
+\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ operator-\/=(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ sub);}
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ operator-\/(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ sub)\ const;}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{comment}{//\ multiply}}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{comment}{//\ multiply\ with\ float\ cause\ lost\ in\ accuracy,\ because\ float\ calculates\ only\ with\ 23bit\ matise}}
+\DoxyCodeLine{00114\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ operator*=(\textcolor{keywordtype}{float}\ factor);}
+\DoxyCodeLine{00115\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ operator*(\textcolor{keywordtype}{float}\ factor)\ const;}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{comment}{//\ no\ accuracy\ lost}}
+\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ operator*=(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ factor);}
+\DoxyCodeLine{00118\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ operator*(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ factor)\ const;}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{comment}{//\ divide}}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{comment}{//\ divide\ with\ float\ cause\ lost\ in\ accuracy,\ because\ float\ calculates\ only\ with\ 23bit\ matise}}
+\DoxyCodeLine{00121\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ operator/=(\textcolor{keywordtype}{float}\ factor);}
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ operator/(\textcolor{keywordtype}{float}\ factor)\ const;}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{comment}{//\ no\ accuracy\ lost}}
+\DoxyCodeLine{00124\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ operator/=(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ factor);}
+\DoxyCodeLine{00125\ \ \ \ \ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\ operator/(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ factor)\ const;}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{comment}{//\ compare}}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{boolean}\ operator==(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ cmp)\ const;}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{boolean}\ operator!=(const\ \mbox{\hyperlink{class_d_w1000_time}{DW1000Time}}\&\ cmp)\ const;}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#ifdef\ DW1000TIME\_H\_PRINTABLE}}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{comment}{//\ print\ to\ serial\ for\ debug}}
+\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{deprecated_8h_acf5fe7b5c4b0f8918b44f5b3f3916ba2}{DEPRECATED\_MSG}}(\textcolor{stringliteral}{"{}use\ Serial.print(object)"{}})}
+\DoxyCodeLine{00133\ \ \ \ \ void\ \mbox{\hyperlink{class_d_w1000_time_a68f5442f59786bb254af5c27bb8276ab}{print}}();}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{comment}{//\ for\ usage\ with\ e.g.\ Serial.print()}}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_d_w1000_time_a6285b3bf98df35cd8ba8740542a0689a}{printTo}}(Print\&\ p)\ const;}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ DW1000Time\_H\_PRINTABLE}}
+\DoxyCodeLine{00137\ \ \ \ \ }
+\DoxyCodeLine{00138\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{comment}{//\ timestamp\ size\ from\ dw1000\ is\ 40bit,\ maximum\ number\ 1099511627775}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{comment}{//\ signed\ because\ you\ can\ calculate\ with\ DW1000Time;\ negative\ values\ are\ possible\ errors}}
+\DoxyCodeLine{00141\ \ \ \ \ int64\_t\ \_timestamp\ =\ 0;}
+\DoxyCodeLine{00142\ \};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ DW1000Time\_H}}
+
+\end{DoxyCode}
